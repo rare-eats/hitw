@@ -10,6 +10,9 @@ end
 package "wget"
 package "ntp"
 package "apache2"
+package "unzip"
+package "php"
+package "postgresql"
 
 cookbook_file "ntp.conf" do
   path "/etc/ntp.conf"
@@ -18,6 +21,9 @@ execute 'ntp_restart' do
   command 'service ntp restart'
 end
 
-# execute 'apache_restart' do
-#   command 'service apache2 restart'
-# end
+cookbook_file "apache2.conf" do
+  path "/etc/apache2/apache2.conf"
+end
+execute 'apache2_restart' do
+  command 'service apache2 restart'
+end
