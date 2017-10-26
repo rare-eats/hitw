@@ -9,9 +9,15 @@ end
 # Base configuration recipe in Chef.
 package "wget"
 package "ntp"
+package "apache2"
+
 cookbook_file "ntp.conf" do
   path "/etc/ntp.conf"
 end
 execute 'ntp_restart' do
   command 'service ntp restart'
 end
+
+# execute 'apache_restart' do
+#   command 'service apache2 restart'
+# end
