@@ -9,10 +9,13 @@ end
 # Base configuration recipe in Chef.
 package "wget"
 package "ntp"
-package "apache2"
 package "unzip"
+package "apache2"
 package "php"
+package "libapache2-mod-php"
 package "postgresql"
+package "php-pgsql"
+
 
 cookbook_file "ntp.conf" do
   path "/etc/ntp.conf"
@@ -23,6 +26,9 @@ end
 
 cookbook_file "apache2.conf" do
   path "/etc/apache2/apache2.conf"
+end
+cookbook_file "000-default.conf" do
+	path "/etc/apache2/sites-available/000-default.conf"
 end
 execute 'apache2_restart' do
   command 'service apache2 restart'
