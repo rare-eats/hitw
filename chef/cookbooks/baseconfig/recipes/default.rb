@@ -30,6 +30,9 @@ end
 cookbook_file "000-default.conf" do
 	path "/etc/apache2/sites-available/000-default.conf"
 end
+execute 'enable_enmod' do
+	command 'a2enmod rewrite'
+end
 execute 'apache2_restart' do
   command 'service apache2 restart'
 end
