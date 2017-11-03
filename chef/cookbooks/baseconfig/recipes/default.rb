@@ -33,3 +33,7 @@ end
 execute 'apache2_restart' do
   command 'service apache2 restart'
 end
+
+execute 'postgres_setup' do
+	command 'echo "CREATE DATABASE webbase; CREATE USER webuser WITH PASSWORD \'password\'; GRANT ALL PRIVILEGES ON DATABASE webbase TO webuser;" | sudo -u postgres psql'
+end
