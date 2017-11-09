@@ -43,20 +43,29 @@
 			{
 				$name = $v->name;
 				$location = $v->location;
+				$categories = $v->categories;
+				$lat = $v->location->lat;
+				$lng = $v->location->lng;
 				$address = "";
-				?>
-				<p><?=$name?>,
-				<?php
+				$tags = "";
 				foreach ($location->formattedAddress as $line)
 				{
+					#This is how you concatenate in php.
 					$address .= $line;
 				}
+				foreach ($categories as $cat)
+				{
+					#Extract each tag name for this restaurant.
+					$tags .= $cat->shortName;
+				}
+				
 				?>
-				<?=$address?> <br/>
+				<p><?=$name?>, <?=$address?>, <?=$tags?> <br/></p>
+				
 				<?php
 			}
 			?>
-			</p>
+			
 			
 			
 		</div>
