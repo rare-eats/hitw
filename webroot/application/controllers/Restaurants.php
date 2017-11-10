@@ -77,14 +77,6 @@ class Restaurants extends CI_Controller {
 		}
 
 		# Check for proper authentication first
-		$this->_delete($id);
-	}
-
-	private function _delete($id = NULL) {
-		if (empty($id)) {
-			show_404();
-		}
-
 		$this->restaurants_model->delete_restaurant($id);
 		redirect(base_url());
 	}
