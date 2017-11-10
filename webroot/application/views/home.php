@@ -44,15 +44,24 @@
 				$name = $v->name;
 				$location = $v->location;
 				$categories = $v->categories;
-				$lat = $v->location->lat;
-				$lng = $v->location->lng;
+				$lat = $location->lat;
+				$lng = $location->lng;
+				
+				$apiID = $v->id;
+				$streetAddress = $location->address;
+				$city = $location->city;
+				$prvCode = $location->state;
+				$country = $location->country;
+				$postalCode = "";
+				if (!empty($location->postalCode)){
+					$postalCode = ", " . $location->postalCode;
+				}
 				$address = "";
 				$tags = "";
-				foreach ($location->formattedAddress as $line)
-				{
-					#This is how you concatenate in php.
-					$address .= $line;
-				}
+				
+				$address .= $streetAddress . ", " . $city . ", " . $prvCode . $postalCode;
+				
+				
 				foreach ($categories as $cat)
 				{
 					#Extract each tag name for this restaurant.
