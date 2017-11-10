@@ -14,6 +14,9 @@
 			<li class="nav-item">
 				<a class="nav-link" href="#">Recommended</a>
 			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="<?php echo site_url('restaurants/create'); ?>">Add a 	Restaurant</a>
+			</li>
 		</ul>
 		<span class="navbar-text">
 			Eat how you feel
