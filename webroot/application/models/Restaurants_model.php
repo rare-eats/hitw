@@ -17,12 +17,14 @@ class Restaurants_model extends CI_Model {
 		);
 
 		if ($id === FALSE) {
-			return $this->db->insert('restaurants', $data);
+			$this->db->insert('restaurants', $data);
+			return $this->db->insert_id();
 		}
 		else
 		{
 			$this->db->where('id', $id);
-			return $this->db->update('restaurants', $data);
+			$this->db->update('restaurants', $data);
+			return $id;
 		}
 	}
 
@@ -87,6 +89,6 @@ class Restaurants_model extends CI_Model {
 		}
 
 		$this->db->where('id', $id);
-		return $this->db->delete('restaurants')
+		return $this->db->delete('restaurants');
 	}
 }

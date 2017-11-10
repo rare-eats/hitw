@@ -14,7 +14,7 @@ class Restaurants extends CI_Controller {
 			show_404();
 		}
 
-		$data['title'] = $data['name'];
+		$data['title'] = $data['restaurant']['name'];
 
 		$this->load->view('partials/header', $data);
 		$this->load->view('restaurants/view', $data);
@@ -38,9 +38,9 @@ class Restaurants extends CI_Controller {
 		}
 		else 
 		{
-			$this->restaurants_model->set_restaurant();
+			$query = $this->restaurants_model->set_restaurant();
 
-			$this->load->view('restaurants/success', $data);
+			redirect('/restaurants/'.$query);
 		}
 	}
 
@@ -61,16 +61,23 @@ class Restaurants extends CI_Controller {
 
 		if ($this->form_validation->run() === FALSE) {
 			$this->load->view('partials/header', $data);
-			$this->load->view('restaurants/create', $data);
+			$this->load->view('restaurants/edit', $data);
 			$this->load->view('partials/footer');
 		}
 		else 
 		{
 			$this->restaurants_model->set_restaurant($id);
-			$this->load->view('partials/header', $data);
-			$this->load->view('restaurants/success', $data);
-			$this->load->view('partials/footer');
+			redirect('/restaurants/'.$restaurant['id']);
 		}
+	}
+
+	public function delete($id = NULL) {
+		if (empty($id)) {
+			show_404();
+		}
+
+		# Check for proper authentication first
+		$this->_delete($id);
 	}
 
 	private function _delete($id = NULL) {
