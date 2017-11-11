@@ -9,7 +9,7 @@
 	$response = $parsedJson->response;
 	$venues = $response->venues;
 	
-	var_dump($venues);
+	#var_dump($venues);
 	?>
 
 <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-primary">
