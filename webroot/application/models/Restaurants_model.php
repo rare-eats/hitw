@@ -4,6 +4,84 @@ class Restaurants_model extends CI_Model {
 		$this->load->database();
 	}
 
+	public function add_tags_to_restaurant($restaurant_id, $tag_ids){
+		if ( !isset($restaurant_id) || !isset($tag_ids) || empty($tag_ids)) {
+			return FALSE; // Not enough data
+		}
+
+		foreach ($tag_ids as $tag)
+		{
+			// Check if this association is already in the database
+			$this->db->where("restaurant_id", $restuarant_id);
+			$this->db->where("tag_id", $tag_id);
+
+			$query = $this->db->get();
+			if ($query->num_rows() <= 0)
+			{
+				$data = [
+					'restaurant_id' => $restaurant_id,
+					'tag_id'		=> $tag
+				];
+				$this->db->insert("restaurant_tags", $data);
+				$id = $this->db->insert_id();
+				return $id;
+			}
+			else
+			{
+				$row = $query->row();
+				if (isset($row))
+				{
+					return $row['id'];
+				}
+				else
+				{
+					return -1;
+				}
+			}
+		}
+	}
+
+	public function add_restaurant_tag($tagName) {
+		if( !isset($tagname) )
+		{
+			return FALSE; // Not enough data
+		}
+
+		$data = [
+			'name' => $tagName
+		];
+
+		$this->db->insert('restaurant_tags', $data);
+		$id = $this->db->insert_id();
+		return $id;
+	}
+
+	public function delete_restaurant_tag($id)
+	{
+		if (!isset($tagname))
+		{
+			return FALSE; // Not enough data
+		}
+
+		// Remove this tag from all associations
+		$this->db->where('tag_id', $id);
+		$this->db->delete('restaurant_tags');
+
+		// Remove the tag
+		$this->db->where('id', $id);
+		$this->db->delete('restaurant_tags');
+	}
+
+	public function get_restaurant_tags($restaurant_id)
+	{
+		if (isset($restaurant_id))
+		{
+			$this->db->where("restaurant_id", $restaurant_id);
+		}
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
 	# Create or update restaurant (update if id is provided)
 	public function set_restaurant($id = FALSE) {
 		$data = array(
