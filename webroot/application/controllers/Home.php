@@ -2,11 +2,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Home extends CI_Controller {
+	
 	public function __construct() {
 		parent::__construct();
+		$this->load->model('restaurants_model');
 		$this->load->helper('url_helper');
 	}
-
+	
 	public function index()
 	{
 		$this->load->library('migration');
@@ -108,11 +110,5 @@ class Home extends CI_Controller {
 				#Here is the insert.
 				#$this->db->insert('restaurants', )
 			}
-	}
-}
-
-class Restaurant{
-	function __construct($apiId, $tags, $streetAddress, $city, $prvCode){
-		
 	}
 }

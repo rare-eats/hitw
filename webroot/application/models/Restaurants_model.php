@@ -3,6 +3,22 @@ class Restaurants_model extends CI_Model {
 	public function __construct() {
 		$this->load->database();
 	}
+	
+	public function load_restaurant($tag, $name, $addr1, $city, $prv, $country, $addr2 = ""){
+		$data = array(
+			'restaurant_type' => $tag,
+			'name' => $name,
+			'addr_1' => $addr1,
+			'addr_2' => $addr2,
+			'city' => $city,
+			'state_prov_code' => $prv,
+			'country' => $country
+		);
+		
+		#should have some sort of try/catch here.
+		$this->db->insert('restaurants', $data);
+		return $this->db->insert_id();
+	}
 
 	# Create or update restaurant (update if id is provided)
 	public function set_restaurant($id = FALSE) {
