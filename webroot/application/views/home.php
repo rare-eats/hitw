@@ -15,9 +15,10 @@
 				<a class="nav-link" href="#">Recommended</a>
 			</li>
 		</ul>
-		<span class="navbar-text">
+		<!-- <span class="navbar-text">
 			Eat how you feel
-		</span>
+		</span> -->
+		<a class="navbar-text" href="users/login">Login</a>
 	</div>
 </nav>
 <div class="container-fluid">
