@@ -36,6 +36,16 @@ class Users_model extends CI_Model {
         $this->db->update('users', $data);
     }
 
+    public function get_first_name($id) {
+        $this->db->select('first_name');
+        $query = $this->db->get_where('users', ['id' => $id]);
+        if ($query !== False) {
+            return $query->result_array();
+        } else {
+            return FALSE;
+        }
+    }
+
         /*
      * get rows from the users table
      */

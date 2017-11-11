@@ -9,9 +9,6 @@ class Users extends CI_Controller {
 
         // Load form validation library
         $this->load->library('form_validation');
-
-        // Load session library
-        $this->load->library('session');
     }
 
 
@@ -206,7 +203,7 @@ class Users extends CI_Controller {
                 if($checkLogin) {
                     $this->session->set_userdata('isUserLoggedIn',TRUE);
                     $this->session->set_userdata('id',$checkLogin['id']);
-                    redirect('users/view/'.$checkLogin['id']);
+                    redirect('/');
                 } else {
                     $data['error_msg'] = 'Wrong email or password, please try again.';
                 }
