@@ -14,6 +14,9 @@
 			<li class="nav-item">
 				<a class="nav-link" href="#">Recommended</a>
 			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="<?php echo site_url('restaurants/create'); ?>">Add a 	Restaurant</a>
+			</li>
 		</ul>
 		<?php if($this->session->has_userdata('id')): ?>
 			<a class="navbar-text" href="users/logout">Logout</a>
