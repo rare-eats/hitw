@@ -102,7 +102,6 @@ class Restaurants_model extends CI_Model {
 			'restaurant_type' => $this->input->post('restaurant_type'),
 			'name' => $this->input->post('name'),
 			'addr_1' => $this->input->post('addr_1'),
-			'addr_2' => $this->input->post('addr_2'),
 			'city' => $this->input->post('city'),
 			'state_prov_code' => $this->input->post('state_prov_code'),
 			'country' => $this->input->post('country')

@@ -27,12 +27,21 @@ end
 cookbook_file "apache2.conf" do
   path "/etc/apache2/apache2.conf"
 end
-cookbook_file "000-default.conf" do
-	path "/etc/apache2/sites-available/000-default.conf"
+cookbook_file "rareeats.conf" do
+	path "/etc/apache2/sites-available/rareeats.conf"
 end
+
+execute 'disable_default_site' do
+	command 'a2dissite 000-default'
+end
+execute 'enable_rare_eats_site' do
+	command 'a2ensite rareeats.conf'
+end
+
 execute 'enable_enmod' do
 	command 'a2enmod rewrite'
 end
+
 execute 'apache2_restart' do
   command 'service apache2 restart'
 end

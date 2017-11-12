@@ -20,9 +20,11 @@
 				<a class="nav-link" href="#">Recommended</a>
 			</li>
 		</ul>
-		<span class="navbar-text">
-			Eat how you feel
-		</span>
+		<?php if($this->session->has_userdata('id')): ?>
+			<a class="navbar-text" href="users/logout">Logout</a>
+		<?php else: ?>
+			<a class="navbar-text" href="users/login">Login</a>
+		<?php endif ?>
 	</div>
 </nav>
 <div class="container-fluid">
