@@ -6,6 +6,10 @@ class Restaurants_model extends CI_Model {
 		$this->load->database();
 	}
 	
+	public function load_food_categories(){
+		#$scJson = 
+	}
+	
 	//TODO: make this call the api at a static URL.
 		//THEN ->> Modify the api call to be modular.
 	public function make_restaurants_api_call(){
