@@ -11,6 +11,18 @@ class Users extends CI_Controller {
         $this->load->library('form_validation');
     }
 
+    public function search() {
+        $results = $this->input->post('search');
+        $return = [];
+        if ($results) {
+            $return['users'] = $this->users_model->get_users_by_email($results);
+        } else {
+            $return = 'User not found';
+        }
+        $this->load->view('partials/header');
+        $this->load->view('users/search', $return);
+        $this->load->view('partials/footer');
+    }
 
     public function index() {
         // Need to figure out pagination. Not a good idea to list

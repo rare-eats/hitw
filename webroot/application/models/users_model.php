@@ -46,6 +46,15 @@ class Users_model extends CI_Model {
         }
     }
 
+    public function get_users_by_email($email) {
+        $this->db->select('first_name, last_name, email');
+        $query = $this->db->get_where('users', ['email' => $email]);
+        if ($query !== False) {
+            return $query->result_array();
+        } else {
+            return FALSE;
+        }
+    }
         /*
      * get rows from the users table
      */

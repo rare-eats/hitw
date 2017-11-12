@@ -1,3 +1,12 @@
+<div>
+    <?php echo form_open('users/search', ['class' => 'inline-form']); ?>
+    <div class="form-group">
+        <input type="text" name="search" placeholder="Find Friends"/>
+    </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
+
 <div class="container col-md-6">
     <table class="table">
         <tr>
@@ -18,3 +27,4 @@
         <a href="" type="button" class="btn btn-danger">Delete</a>
     <?php endif ?>
 </div>
+
