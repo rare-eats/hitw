@@ -7,7 +7,35 @@ class Restaurants_model extends CI_Model {
 	}
 	
 	public function load_food_categories(){
-		#$scJson = 
+		$client_id = "WCJXKICZZ3FVGLCCQNJQ3XL3WXDCX5GVFRF5E1PYLQ5MUEMI";
+		$client_secret = "WQU20OQPUUCLSTZUFNL5C3DH52JZ3AHFT1XQ1WYIRZM3QTMH";
+		
+		#This is all venue categories.
+		$fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/categories?client_id=" . $client_id .
+										"&client_secret=" . $client_secret . "&v=20171111");
+		$this->parse_categories($fourSearch);
+	}
+	
+	public function parse_categories($srJson){
+		#Some json data taken from foursquare.  This should be taken on an api request.
+		
+		try{
+			$parsedJson = json_decode($srJson);
+			$response = $parsedJson->response;
+			$categories = $response->categories;
+			$foodCat = "";
+			
+			#Iterate through top level categories until we find the one labeled as Food.
+			foreach ($categories as $cat){
+				if ($cat->name == 'Food' || $cat->name == 'food'){
+					$foodCat = $cat;
+					continue;
+				}
+			}
+			#Now we want to grab all food categories from the food... category.
+			var_dump($foodCat);
+		}catch(Exception $e){
+		}
 	}
 	
 	//TODO: make this call the api at a static URL.
@@ -80,12 +108,11 @@ class Restaurants_model extends CI_Model {
 		}
 	}
 	
-	public function load_restaurant($tag, $name, $addr1, $city, $prv, $country, $addr2 = ""){
+	public function load_restaurant($tag, $name, $addr1, $city, $prv, $country){
 		$data = array(
 			'restaurant_type' => $tag,
 			'name' => $name,
 			'addr_1' => $addr1,
-			'addr_2' => $addr2,
 			'city' => $city,
 			'state_prov_code' => $prv,
 			'country' => $country
