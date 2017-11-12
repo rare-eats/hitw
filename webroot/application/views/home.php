@@ -1,6 +1,5 @@
 <?php
-	#Call the dummy data load.
-	#$data = $this->restaurants_model->preload_restaurants();
+	
 	$this->restaurants_model->make_restaurants_api_call();
 ?>
 
