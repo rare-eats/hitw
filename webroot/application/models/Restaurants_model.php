@@ -36,8 +36,19 @@ class Restaurants_model extends CI_Model {
 			#A CSV List of category names and IDs.
             $listOfNames = $this->get_subcategories($foodCat);
 
-            var_dump($listOfNames);
-			#Now we want to grab all food subcategories from the food... category.
+            $catNameIdArray = explode(",", $listOfNames);
+            $catIds = array();
+            $catNames = array();
+            foreach ($catNameIdArray as $entry){
+                if (!empty($entry)) {
+                    $split = explode(':', $entry);
+                    array_push($catNames, $split[0]);
+                    array_push($catIds, $split[1]);
+                }
+            }
+
+            #we now have all IDs and all category shortNames, and these can be written to the database.
+            #The only other relevant data here is an icon url which feels not relevant enough for our purposes.
 
 		}catch(Exception $e){
 		}
@@ -47,14 +58,14 @@ class Restaurants_model extends CI_Model {
 	public function get_subcategories($srJson){
 	    if (sizeof($srJson->categories) <= 0){
 	        #end recursion.
-            return $srJson->name . ", ";
+            return $srJson->shortName . ":" . $srJson->id . ",";
         }
         else {
             $listOfNames = "";
             foreach ($srJson->categories as $subcat) {
                 $listOfNames .= $this->get_subcategories($subcat);
             }
-            return $srJson->name . ", " . $listOfNames;
+            return $srJson->shortName . ":" . $srJson->id .  "," . $listOfNames;
         }
     }
 
