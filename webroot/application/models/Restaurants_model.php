@@ -32,11 +32,32 @@ class Restaurants_model extends CI_Model {
 					continue;
 				}
 			}
-			#Now we want to grab all food categories from the food... category.
-			var_dump($foodCat);
+
+			#A CSV List of category names and IDs.
+            $listOfNames = $this->get_subcategories($foodCat);
+
+            var_dump($listOfNames);
+			#Now we want to grab all food subcategories from the food... category.
+
 		}catch(Exception $e){
 		}
 	}
+
+	#Yey Recursion, get dem category names.
+	public function get_subcategories($srJson){
+	    if (sizeof($srJson->categories) <= 0){
+	        #end recursion.
+            return $srJson->name . ", ";
+        }
+        else {
+            $listOfNames = "";
+            foreach ($srJson->categories as $subcat) {
+                $listOfNames .= $this->get_subcategories($subcat);
+            }
+            return $srJson->name . ", " . $listOfNames;
+        }
+    }
+
 	
 	//TODO: make this call the api at a static URL.
 		//THEN ->> Modify the api call to be modular.
