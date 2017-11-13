@@ -4,6 +4,50 @@ class Restaurants_model extends CI_Model {
 		$this->load->database();
 	}
 
+	// TODO: add_tags_by_name_to_restaurant($restaurant_id, $tag_names, $create_if_needed = FALSE)
+
+	// WIP
+	public function add_tags_to_restaurant($restaurant_id, $tag_ids){
+		if ( !isset($restaurant_id) || !isset($tag_ids) || empty($tag_ids)) {
+			return FALSE; // Not enough data
+		}
+
+		$ids = [];
+
+		foreach ($tag_ids as $tag)
+		{
+			// Check if this association is already in the database
+			$this->db->where("restaurant_id", $restuarant_id);
+			$this->db->where("tag_id", $tag_id);
+
+			$query = $this->db->get("restaurant_tags");
+			if ($query->num_rows() <= 0)
+			{
+				$data = [
+					'restaurant_id' => $restaurant_id,
+					'tag_id'		=> $tag
+				];
+				$this->db->insert("restaurant_tags", $data);
+				$id = $this->db->insert_id();
+				array_push($ids, $id);
+			}
+			else
+			{
+				$row = $query->row();
+				if (isset($row))
+				{
+					array_push($ids, $row['id']);
+				}
+				else
+				{
+					array_push($ids, -1);
+				}
+			}
+		}
+
+		return $ids;
+	}
+
 	# Create or update restaurant (update if id is provided)
 	public function set_restaurant($id = FALSE) {
 		$data = array(
