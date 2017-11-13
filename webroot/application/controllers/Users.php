@@ -4,10 +4,8 @@ class Users extends CI_Controller {
     public function __construct() {
         parent::__construct();
 
-        // Load form helper library
         $this->load->helper(['form', 'url']);
 
-        // Load form validation library
         $this->load->library('form_validation');
     }
 
@@ -32,14 +30,6 @@ class Users extends CI_Controller {
         $this->load->view('users/index', $data);
         $this->load->view('partials/footer');
     }
-
-    // public function login() {
-
-    //     $data = [];
-    //     $this->load->view('partials/header');
-    //     $this->load->view('users/index', $data);
-    //     $this->load->view('partials/footer');
-    // }
 
     public function view($id = null) {
 
@@ -114,7 +104,7 @@ class Users extends CI_Controller {
             if ($id) {
                 $this->session->set_userdata(
                     'success_msg',
-                    'Welcome!. Your account has been successfully created'
+                    'Welcome! Your account has been successfully created'
                 );
                 redirect('users/login');
             } else{
@@ -183,8 +173,6 @@ class Users extends CI_Controller {
             ];
 
             $this->users_model->edit_user($id ,$save_data);
-            //Figure out a way to confirm to users their account has been created
-            //without duplicating the view or
             redirect('users/view/'.$id);
 
         }
@@ -207,14 +195,14 @@ class Users extends CI_Controller {
             if ($this->form_validation->run() === True) {
                 $con['returnType'] = 'single';
                 $con['conditions'] = [
-                    'email'     =>$this->input->post('email'),
-                    'password'  => md5($this->input->post('password'))
+                    'email'      => $this->input->post('email'),
+                    'password'   => md5($this->input->post('password'))
                 ];
                 $checkLogin = $this->users_model->getRows($con);
                 if($checkLogin) {
                     $this->session->set_userdata('isUserLoggedIn',TRUE);
                     $this->session->set_userdata('id',$checkLogin['id']);
-                    redirect('/');
+                    redirect();
                 } else {
                     $data['error_msg'] = 'Wrong email or password, please try again.';
                 }
@@ -230,7 +218,25 @@ class Users extends CI_Controller {
         $this->session->unset_userdata('isUserLoggedIn');
         $this->session->unset_userdata('id');
         $this->session->sess_destroy();
-        redirect('users/login/');
+        redirect();
+    }
+
+    public function delete($id = null) {
+
+        if ($id === null) {
+            redirect();
+        }
+
+        // confirmation done in view page through a modal
+        // TODO: work on putting the confirmation in the controller
+        // or at least the delete view
+
+        $this->session->unset_userdata('isUserLoggedIn');
+        $this->session->unset_userdata('id');
+        $this->session->sess_destroy();
+        $this->users_model->remove_user($id);
+        redirect();
+
     }
 
 }
