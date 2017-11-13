@@ -15,6 +15,10 @@ class Users_model extends CI_Model {
         }
     }
 
+    public function remove_user($id) {
+        $this->db->delete('users', ['id' => $id]);
+    }
+
     public function get_user($id) {
         $query = $this->db->get_where('users', ['id' => $id]);
         if ($query !== False) {
