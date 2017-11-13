@@ -4,7 +4,7 @@ class Tags_model extends CI_Model {
 		$this->load->database();
 	}
 
-	public function add_restaurant_tag($data) 
+	public function add_tag($data) 
 	{
 		if( !isset($data) )
 		{
@@ -24,7 +24,7 @@ class Tags_model extends CI_Model {
 		];
 	}
 
-	public function delete_restaurant_tag($data)
+	public function delete_tag($data)
 	{
 		if (!isset($data))
 		{
@@ -49,7 +49,7 @@ class Tags_model extends CI_Model {
 		];
 	}
 
-	public function get_restaurant_tags($restaurant_id = NULL)
+	public function get_tags($restaurant_id = NULL)
 	{
 		if (isset($restaurant_id))
 		{
