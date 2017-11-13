@@ -18,10 +18,6 @@
 			<input type="text" id="addr_1" name="addr_1" class="form-control" value="<?php echo $restaurant['addr_1']; ?>">
 		</div>
 		<div class="form-group">
-			<label for="addr_2">Address 2</label>
-			<input type="text" id="addr_2" name="addr_2" class="form-control" value="<?php echo $restaurant['addr_2']; ?>">
-		</div>
-		<div class="form-group">
 			<label for="city">City</label>
 			<input type="text" id="city" name="city" class="form-control" value="<?php echo $restaurant['city']; ?>" required>
 		</div>
