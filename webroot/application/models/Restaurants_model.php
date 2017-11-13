@@ -4,10 +4,15 @@ class Restaurants_model extends CI_Model {
 		$this->load->database();
 	}
 
+	// TODO: add_tags_by_name_to_restaurant($restaurant_id, $tag_names, $create_if_needed = FALSE)
+
+	// WIP
 	public function add_tags_to_restaurant($restaurant_id, $tag_ids){
 		if ( !isset($restaurant_id) || !isset($tag_ids) || empty($tag_ids)) {
 			return FALSE; // Not enough data
 		}
+
+		$ids = [];
 
 		foreach ($tag_ids as $tag)
 		{
@@ -15,7 +20,7 @@ class Restaurants_model extends CI_Model {
 			$this->db->where("restaurant_id", $restuarant_id);
 			$this->db->where("tag_id", $tag_id);
 
-			$query = $this->db->get();
+			$query = $this->db->get("restaurant_tags");
 			if ($query->num_rows() <= 0)
 			{
 				$data = [
@@ -24,62 +29,23 @@ class Restaurants_model extends CI_Model {
 				];
 				$this->db->insert("restaurant_tags", $data);
 				$id = $this->db->insert_id();
-				return $id;
+				array_push($ids, $id);
 			}
 			else
 			{
 				$row = $query->row();
 				if (isset($row))
 				{
-					return $row['id'];
+					array_push($ids, $row['id']);
 				}
 				else
 				{
-					return -1;
+					array_push($ids, -1);
 				}
 			}
 		}
-	}
 
-	public function add_restaurant_tag($tagName) {
-		if( !isset($tagname) )
-		{
-			return FALSE; // Not enough data
-		}
-
-		$data = [
-			'name' => $tagName
-		];
-
-		$this->db->insert('restaurant_tags', $data);
-		$id = $this->db->insert_id();
-		return $id;
-	}
-
-	public function delete_restaurant_tag($id)
-	{
-		if (!isset($tagname))
-		{
-			return FALSE; // Not enough data
-		}
-
-		// Remove this tag from all associations
-		$this->db->where('tag_id', $id);
-		$this->db->delete('restaurant_tags');
-
-		// Remove the tag
-		$this->db->where('id', $id);
-		$this->db->delete('restaurant_tags');
-	}
-
-	public function get_restaurant_tags($restaurant_id)
-	{
-		if (isset($restaurant_id))
-		{
-			$this->db->where("restaurant_id", $restaurant_id);
-		}
-		$query = $this->db->get();
-		return $query->result_array();
+		return $ids;
 	}
 
 	# Create or update restaurant (update if id is provided)
