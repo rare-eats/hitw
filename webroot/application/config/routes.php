@@ -53,7 +53,10 @@ $route['default_controller'] = 'home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['restaurants/tags'] = 'restaurant_tags';
+
+$route['restaurants/tags']['PUT'] = 'restaurant_tags/add_tag';
+$route['restaurants/tags']['DELETE'] = 'restaurant_tags/remove_tag';
+$route['restaurants/tags']['GET'] = 'restaurant_tags';
 
 $route['restaurants/create'] = 'restaurants/create';
 #$route['restaurants/edit'] = 'restaurants/create';
