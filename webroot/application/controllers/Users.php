@@ -94,7 +94,8 @@ class Users extends CI_Controller {
                 'first_name' => $this->input->post('first_name'),
                 'last_name'  => $this->input->post('last_name'),
                 'password'   => md5($this->input->post('password')),
-                'email'      => $this->input->post('email')
+                'email'      => $this->input->post('email'),
+                'permissions' => 'user'
             ];
 
             $id = $this->users_model->create_user($save_data);
@@ -191,8 +192,10 @@ class Users extends CI_Controller {
             $this->session->unset_userdata('error_msg');
         }
         if($this->input->post('loginSubmit')) {
+
             $this->form_validation->set_rules('email', 'Email', 'required');
             $this->form_validation->set_rules('password', 'password', 'required');
+
             if ($this->form_validation->run() === True) {
                 $con['returnType'] = 'single';
                 $con['conditions'] = [
@@ -201,8 +204,9 @@ class Users extends CI_Controller {
                 ];
                 $checkLogin = $this->users_model->getRows($con);
                 if($checkLogin) {
-                    $this->session->set_userdata('isUserLoggedIn',TRUE);
-                    $this->session->set_userdata('id',$checkLogin['id']);
+                    $this->session->set_userdata('isUserLoggedIn', TRUE);
+                    $this->session->set_userdata('id', $checkLogin['id']);
+                    $this->session->set_userdata('permissions', $checkLogin['permissions']);
                     redirect('/');
                 } else {
                     $data['error_msg'] = 'Wrong email or password, please try again.';
