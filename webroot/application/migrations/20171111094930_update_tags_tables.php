@@ -11,7 +11,13 @@ class Migration_update_tags_tables extends CI_Migration {
 			'name' => array(
 				'type' => 'VARCHAR',
 				'constraint' => 255
-			)
+			),
+            'api_id' => array(
+                'type' => 'VARCHAR',
+                'constraint' => 24,
+                'unique' => TRUE,
+                'null' => TRUE
+            )
 		);
 		$this->dbforge->add_column('tags', $fields);
 	}

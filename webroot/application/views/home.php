@@ -1,6 +1,7 @@
 <?php
-	
-	$this->restaurants_model->load_food_categories();
+	#$this->restaurants_model->load_food_categories();
+    $this->restaurants_model->make_restaurants_api_call();
+    $this->tags_model->make_tags_api_call();
 ?>
 
 <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-primary">	

@@ -5,76 +5,21 @@ class Restaurants_model extends CI_Model {
 	public function __construct() {
 		$this->load->database();
 	}
-	
-	public function load_food_categories(){
-		$client_id = "WCJXKICZZ3FVGLCCQNJQ3XL3WXDCX5GVFRF5E1PYLQ5MUEMI";
-		$client_secret = "WQU20OQPUUCLSTZUFNL5C3DH52JZ3AHFT1XQ1WYIRZM3QTMH";
-		
-		#This is all venue categories.
-		$fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/categories?client_id=" . $client_id .
-										"&client_secret=" . $client_secret . "&v=20171111");
-		$this->parse_categories($fourSearch);
-	}
-	
-	public function parse_categories($srJson){
-		#Some json data taken from foursquare.  This should be taken on an api request.
-		
-		try{
-			$parsedJson = json_decode($srJson);
-			$response = $parsedJson->response;
-			$categories = $response->categories;
-			$foodCat = "";
-			
-			#Iterate through top level categories until we find the one labeled as Food.
-			foreach ($categories as $cat){
-				if ($cat->name == 'Food' || $cat->name == 'food'){
-					$foodCat = $cat;
-					continue;
-				}
-			}
 
-			#A CSV List of category names and IDs.
-            $listOfNames = $this->get_subcategories($foodCat);
-
-            $catNameIdArray = explode(",", $listOfNames);
-            $catIds = array();
-            $catNames = array();
-            foreach ($catNameIdArray as $entry){
-                if (!empty($entry)) {
-                    $split = explode(':', $entry);
-                    array_push($catNames, $split[0]);
-                    array_push($catIds, $split[1]);
-                }
-            }
-
-            #we now have all IDs and all category shortNames, and these can be written to the database.
-            #The only other relevant data here is an icon url which feels not relevant enough for our purposes.
-
-            var_dump($catNames);
-
-		}catch(Exception $e){
-		}
-	}
-
-	#Yey Recursion, get dem category names.
-	public function get_subcategories($srJson){
-	    if (sizeof($srJson->categories) <= 0){
-	        #end recursion.
-            return $srJson->shortName . ":" . $srJson->id . ",";
-        }
-        else {
-            $listOfNames = "";
-            foreach ($srJson->categories as $subcat) {
-                $listOfNames .= $this->get_subcategories($subcat);
-            }
-            return $srJson->shortName . ":" . $srJson->id .  "," . $listOfNames;
-        }
+	public function check_if_loaded(){
+	    $query = $this->db->get('restaurants');
+	    if (sizeof($query->result()) > 5) return true;
+	    return false;
     }
 
-	
 	//TODO: make this call the api at a static URL.
 		//THEN ->> Modify the api call to be modular.
 	public function make_restaurants_api_call(){
+	    #check if we should load.
+        if ($this->check_if_loaded()){
+            return true;
+        }
+
 		$client_id = "WCJXKICZZ3FVGLCCQNJQ3XL3WXDCX5GVFRF5E1PYLQ5MUEMI";
 		$client_secret = "WQU20OQPUUCLSTZUFNL5C3DH52JZ3AHFT1XQ1WYIRZM3QTMH";
 		
@@ -109,11 +54,11 @@ class Restaurants_model extends CI_Model {
 			try{
 				$name = $v->name;
 				$location = $v->location;
-				$categories = $v->categories;
+				$category_id = $v->categories[0]->id;
 				$lat = $location->lat;
 				$lng = $location->lng;
 				
-				$apiID = $v->id;
+				$api_id = $v->id;
 				$streetAddress = $location->address;
 				$city = $location->city;
 				$prvCode = $location->state;
@@ -126,15 +71,17 @@ class Restaurants_model extends CI_Model {
 				$tags = "";
 				
 				$address .= $streetAddress . ", " . $city . ", " . $prvCode . $postalCode;
-				
-				
-				foreach ($categories as $cat)
-				{
+
+				#foreach ($categories as $cat)
+				#{
 					#Extract each tag name for this restaurant.
-					$tags .= $cat->shortName;
-				}
+					#$tags .= $cat->shortName;
+				#}
+
+                #Instead of this, just grab the first category listed.  Most only have 1 anyways.
+
 				
-				$this->load_restaurant($tags, $name, $streetAddress, $city, $prvCode, $country);
+				$this->load_restaurant($tags, $name, $streetAddress, $city, $prvCode, $country, $api_id, $category_id);
 			}
 			catch(Exception $e){
 				#Some value above was null.
@@ -142,14 +89,16 @@ class Restaurants_model extends CI_Model {
 		}
 	}
 	
-	public function load_restaurant($tag, $name, $addr1, $city, $prv, $country){
+	public function load_restaurant($tag, $name, $addr1, $city, $prv, $country, $api_id, $category_id){
 		$data = array(
 			'restaurant_type' => $tag,
 			'name' => $name,
 			'addr_1' => $addr1,
 			'city' => $city,
 			'state_prov_code' => $prv,
-			'country' => $country
+			'country' => $country,
+            'api_id' => $api_id
+            #category id goes here once migrated in.
 		);
 		
 		#should have some sort of try/catch here.
