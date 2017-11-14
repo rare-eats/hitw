@@ -20,6 +20,8 @@ class Restaurant_tags extends CI_Controller {
 			$data['tags'] = [];
 		}
 
+		$data['javascript'] = ["/script/restaurant_tags"];
+
 		$this->load->view("partials/header", $data);
 		$this->load->view("restaurants/tags", $data);
 		$this->load->view("partials/footer", $data);
