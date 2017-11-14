@@ -4,8 +4,6 @@
     <list default="true" id="49b1eead-e2de-47d2-af8a-e59528e4548b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/application/models/Restaurants_model.php" afterPath="$PROJECT_DIR$/webroot/application/models/Restaurants_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/application/models/Tags_model.php" afterPath="$PROJECT_DIR$/webroot/application/models/Tags_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/application/views/home.php" afterPath="$PROJECT_DIR$/webroot/application/views/home.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -43,7 +41,7 @@
         <entry file="file://$PROJECT_DIR$/webroot/application/controllers/Home.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -52,8 +50,8 @@
       <file leaf-file-name="Restaurants_model.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/webroot/application/models/Restaurants_model.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="117">
-              <caret line="88" column="68" lean-forward="false" selection-start-line="88" selection-start-column="68" selection-end-line="88" selection-end-column="68" />
+            <state relative-caret-position="34">
+              <caret line="100" column="10" lean-forward="true" selection-start-line="100" selection-start-column="10" selection-end-line="100" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -72,8 +70,18 @@
       <file leaf-file-name="20171111163224_restaurant_api_field.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/webroot/application/migrations/20171111163224_restaurant_api_field.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="344">
-              <caret line="22" column="13" lean-forward="true" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+            <state relative-caret-position="276">
+              <caret line="35" column="1" lean-forward="true" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="20171104231625_restaurant_info.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/webroot/application/migrations/20171104231625_restaurant_info.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="18" column="35" lean-forward="true" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -121,6 +129,7 @@
       <find>category</find>
       <find>5</find>
       <find>load_restaurant</find>
+      <find>load_restaurant_tag</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -135,8 +144,8 @@
         <option value="$PROJECT_DIR$/webroot/application/models/Tags_model.php" />
         <option value="$PROJECT_DIR$/webroot/application/controllers/Restaurants.php" />
         <option value="$PROJECT_DIR$/webroot/application/views/home.php" />
-        <option value="$PROJECT_DIR$/webroot/application/migrations/20171111163224_restaurant_api_field.php" />
         <option value="$PROJECT_DIR$/webroot/application/migrations/20171102155434_initial_database_structure.php" />
+        <option value="$PROJECT_DIR$/webroot/application/migrations/20171111163224_restaurant_api_field.php" />
         <option value="$PROJECT_DIR$/webroot/application/models/Restaurants_model.php" />
       </list>
     </option>
@@ -281,12 +290,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1510537507298</updated>
-      <workItem from="1510537513222" duration="21449000" />
+      <workItem from="1510537513222" duration="23094000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21449000" />
+    <option name="totallyTimeSpent" value="23094000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -389,7 +398,7 @@
     <entry file="file://$PROJECT_DIR$/webroot/application/controllers/Home.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -412,16 +421,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/webroot/application/migrations/20171111163224_restaurant_api_field.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="344">
-          <caret line="22" column="13" lean-forward="true" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+        <state relative-caret-position="276">
+          <caret line="35" column="1" lean-forward="true" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webroot/application/migrations/20171104231625_restaurant_info.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="35" lean-forward="true" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/webroot/application/models/Restaurants_model.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="117">
-          <caret line="88" column="68" lean-forward="false" selection-start-line="88" selection-start-column="68" selection-end-line="88" selection-end-column="68" />
+        <state relative-caret-position="34">
+          <caret line="100" column="10" lean-forward="true" selection-start-line="100" selection-start-column="10" selection-end-line="100" selection-end-column="10" />
           <folding />
         </state>
       </provider>

@@ -57,6 +57,7 @@ class Restaurants_model extends CI_Model {
 				$name = $v->name;
 				$location = $v->location;
 				$category_id = $v->categories[0]->id;
+				$restaurant_type = $v->categories[0]->id;
 				$lat = $location->lat;
 				$lng = $location->lng;
 				
@@ -70,7 +71,6 @@ class Restaurants_model extends CI_Model {
 					$postalCode = ", " . $location->postalCode;
 				}
 				$address = "";
-				$tags = "";
 				
 				$address .= $streetAddress . ", " . $city . ", " . $prvCode . $postalCode;
 
@@ -84,7 +84,7 @@ class Restaurants_model extends CI_Model {
 
 
                 #once the restaurant is loaded, load the association table between restaurants and tags.
-				$this->load_restaurant($tags, $name, $streetAddress, $city, $prvCode, $country, $api_id);
+				$this->load_restaurant($restaurant_type, $name, $streetAddress, $city, $prvCode, $country, $api_id);
 
 				#for when we have restaurant to tag linking working.
 				#$this->load_restaurant_tag($api_id, $category_id);
@@ -103,10 +103,10 @@ class Restaurants_model extends CI_Model {
         return $this->db->insert_id();
     }
 	
-	public function load_restaurant($tag, $name, $addr1, $city, $prv, $country, $api_id){
+	public function load_restaurant($restaurant_type, $name, $addr1, $city, $prv, $country, $api_id){
 	    #load restaurants.
 		$data = array(
-			'restaurant_type' => $tag,
+			'restaurant_type' => $restaurant_type,
 			'name' => $name,
 			'addr_1' => $addr1,
 			'city' => $city,
