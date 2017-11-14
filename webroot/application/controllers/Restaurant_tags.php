@@ -3,17 +3,22 @@ class Restaurant_tags extends CI_Controller {
 	
 	public function __construct() {
 		parent::__construct();
+		$this->load->model('tags_model');
 	}
 
 	public function index()
 	{
 		$data['title'] = "Restaurant Tags";
 
-		$data['tags'] = [
-			['id'=>0, 'name'=>'Happy'],
-			['id'=>1, 'name'=>'Spicy'],
-			['id'=>2, 'name'=>'Date Night']
-		];
+		$result = $this->tags_model->get_tags();
+		if ($result['success'])
+		{
+			$data['tags'] = $result['data'];
+		}
+		else
+		{
+			$data['tags'] = [];
+		}
 
 		$this->load->view("partials/header", $data);
 		$this->load->view("restaurants/tags", $data);
@@ -24,27 +29,54 @@ class Restaurant_tags extends CI_Controller {
 	{
 		header('Content-type: application/json');
 		$data = [
-			'success'=>FALSE,
-			'message'=>"Unable to add tag",
-			'data'=> [
-				'id'=>-1,
-				'name'=>$this->input->input_stream("name")
-			]
+			'name'=>$this->input->input_stream("name")
 		];
-		echo json_encode($data);
+		$result = $this->tags_model->add_tag($data);
+		if($result['success'])
+		{
+			$response = [
+				'success'=>TRUE,
+				'message'=>'Created tag',
+				'data'=>$result['data']
+			];
+		}
+		else
+		{
+			$response['data']['id'] = -1;
+			$response = [
+				'success'=>FALSE,
+				'message'=>"Unable to add tag",
+				'data'=> $response['data']
+			];
+		}
+		echo json_encode($response);
 	}
 
 	public function remove_tag()
 	{
 		header('Content-type: application/json');
 		$data = [
-			'success'=>FALSE,
-			'message'=>'Unable to remove tag',
-			'data'=>[
-				'id'=>$this->input->input_stream('id'),
-				'name'=>$this->input->input_stream('name')
-			]
+			'id'=>$this->input->input_stream('id'),
+			'name'=>$this->input->input_stream("name")
 		];
-		echo json_encode($data);
+		$result = $this->tags_model->delete_tag($data);
+		if($result['success'])
+		{
+			$response = [
+				'success'=>TRUE,
+				'message'=>'Created tag',
+				'data'=>$result['data']
+			];
+		}
+		else
+		{
+			$response['data']['id'] = -1;
+			$response = [
+				'success'=>FALSE,
+				'message'=>"Unable to add tag",
+				'data'=> $response['data']
+			];
+		}
+		echo json_encode($response);
 	}
 }

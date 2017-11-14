@@ -12,7 +12,7 @@ $('#removeConfirmModal').on('show.bs.modal', function (event) {
 		}).done(function( result ) {
 			if (result.success)
 			{
-				console.log(result.message);
+				location.reload();
 			}
 			else
 			{
@@ -34,7 +34,7 @@ $("#btnAddTag").click(function(){
 		}).done(function( result ) {
 			if (result.success)
 			{
-				console.log(result.message);
+				location.reload();
 			}
 			else
 			{

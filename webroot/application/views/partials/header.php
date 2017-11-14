@@ -28,7 +28,10 @@
 					<a class="nav-link" href="#">Recommended</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="<?php echo site_url('restaurants/create'); ?>">Add a 	Restaurant</a>
+					<a class="nav-link" href="/restaurants/create">Add a Restaurant</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/restaurants/tags">Modify a Tag</a>
 				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
