@@ -6,6 +6,8 @@ class Restaurants_model extends CI_Model {
 		$this->load->database();
 	}
 
+	#a temporary function that will block loading more restaurants if there are already 5 - this is currently required
+    #until we figure out a graceful way to deal with api_id collisions when adding restaurants.
 	public function check_if_loaded(){
 	    $query = $this->db->get('restaurants');
 	    if (sizeof($query->result()) > 5) return true;
@@ -80,16 +82,29 @@ class Restaurants_model extends CI_Model {
 
                 #Instead of this, just grab the first category listed.  Most only have 1 anyways.
 
-				
-				$this->load_restaurant($tags, $name, $streetAddress, $city, $prvCode, $country, $api_id, $category_id);
+
+                #once the restaurant is loaded, load the association table between restaurants and tags.
+				$this->load_restaurant($tags, $name, $streetAddress, $city, $prvCode, $country, $api_id);
+
+				#for when we have restaurant to tag linking working.
+				#$this->load_restaurant_tag($api_id, $category_id);
 			}
 			catch(Exception $e){
 				#Some value above was null.
 			}
 		}
 	}
+	public function load_restaurant_tag($restaurant_id, $tag_id){
+	    $data = array(
+	        'restaurant_id' => $restaurant_id,
+            'tag_id' => $tag_id
+        );
+        $this->db->insert('restaurant_tags', $data);
+        return $this->db->insert_id();
+    }
 	
-	public function load_restaurant($tag, $name, $addr1, $city, $prv, $country, $api_id, $category_id){
+	public function load_restaurant($tag, $name, $addr1, $city, $prv, $country, $api_id){
+	    #load restaurants.
 		$data = array(
 			'restaurant_type' => $tag,
 			'name' => $name,
@@ -98,7 +113,6 @@ class Restaurants_model extends CI_Model {
 			'state_prov_code' => $prv,
 			'country' => $country,
             'api_id' => $api_id
-            #category id goes here once migrated in.
 		);
 		
 		#should have some sort of try/catch here.

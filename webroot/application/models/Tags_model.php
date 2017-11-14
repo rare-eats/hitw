@@ -62,6 +62,8 @@ class Tags_model extends CI_Model {
 		];
 	}
 
+    #a temporary function that will block loading more tags from the API if there are already 5 - this is currently required
+    #until we figure out a graceful way to deal with api_id collisions when adding tags.
     public function check_if_loaded(){
         $query = $this->db->get('tags');
         if (sizeof($query->result()) > 5){
