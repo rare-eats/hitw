@@ -10,13 +10,16 @@ class Users extends CI_Controller {
     }
 
     public function search() {
+
+        $title['title'] = 'Search Results';
+
         $results = $this->input->post('search');
         $return = [];
         if ($results) {
             $return['users'] = $this->users_model->get_users_by_email($results);
         }
 
-        $this->load->view('partials/header');
+        $this->load->view('partials/header', $title);
         $this->load->view('users/search', $return);
         $this->load->view('partials/footer');
     }
@@ -26,21 +29,25 @@ class Users extends CI_Controller {
         // all users
         $data = [];
         $data['users'] = $this->users_model->get_all_users();
-        $this->load->view('partials/header');
+        $this->load->view('partials/header', $title);
         $this->load->view('users/index', $data);
         $this->load->view('partials/footer');
     }
 
     public function view($id = null) {
 
+        $title['title'] = 'View My Profile';
+
         $users = $this->users_model->get_user($id);
-        $this->load->view('partials/header');
+        $this->load->view('partials/header',$title);
         $this->load->view('users/view', $users[0]);
         $this->load->view('partials/footer');
 
     }
 
     public function create() {
+
+        $title['title'] = 'Create your Account';
 
         $first_name = [
             'name'          => 'first_name',
@@ -70,7 +77,6 @@ class Users extends CI_Controller {
             'placeholder'   => 'Password'
         ];
 
-
         $data = [
             'first_name' => $first_name,
             'last_name'  => $last_name,
@@ -85,7 +91,7 @@ class Users extends CI_Controller {
 
         if ($this->form_validation->run() == FALSE) {
 
-            $this->load->view('partials/header');
+            $this->load->view('partials/header', $title);
             $this->load->view('users/create', $data);
             $this->load->view('partials/footer');
 
@@ -115,7 +121,7 @@ class Users extends CI_Controller {
                 }
             }
 
-            $this->load->view('partials/header');
+            $this->load->view('partials/header', $title);
             $this->load->view('users/create', $data);
             $this->load->view('partials/footer');
 
@@ -125,6 +131,8 @@ class Users extends CI_Controller {
     }
 
     public function edit($id = null) {
+
+        $title['title'] = 'Edit Profile';
 
         if ($id === null) {
             echo "no id";
@@ -168,7 +176,7 @@ class Users extends CI_Controller {
 
         if ($this->form_validation->run() === FALSE) {
 
-            $this->load->view('partials/header');
+            $this->load->view('partials/header', $title);
             $this->load->view('users/edit', $data);
             $this->load->view('partials/footer');
 
@@ -188,6 +196,9 @@ class Users extends CI_Controller {
     }
 
     public function login(){
+
+        $title['title'] = 'Login';
+
         $data = [];
 
         if($this->session->userdata('success_msg')){
@@ -221,12 +232,13 @@ class Users extends CI_Controller {
             }
         }
         //load the view
-        $this->load->view('partials/header');
+        $this->load->view('partials/header', $title);
         $this->load->view('users/login', $data);
         $this->load->view('partials/footer');
     }
 
     public function logout(){
+
         $this->session->unset_userdata('isUserLoggedIn');
         $this->session->unset_userdata('id');
         $this->session->sess_destroy();
