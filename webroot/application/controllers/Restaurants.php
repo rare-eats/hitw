@@ -7,11 +7,21 @@ class Restaurants extends CI_Controller {
 		$this->load->helper('url_helper');
 	}
 
-	public function view($id = NULL) {
-		$data['restaurant'] = $this->restaurants_model->get_restaurant($id);
+	public function view($id = FALSE) {
+		if ($id === FALSE) {
+			$data['restaurants'] = $this->restaurants_model->get_restaurant();
 
-		if (empty($data['restaurant'])) {
-			show_404();
+			$data['title'] = "Restaurants";
+
+			$this->load->view('partials/header', $data);
+			$this->load->view('restaurants/view_all', $data);
+			$this->load->view('partials/footer');
+		}
+		else
+		{
+		$data['restaurant'] = $this->restaurants_model->get_restaurant($id);
+		if (!isset($data['restaurant'])) {
+			redirect('restaurants');
 		}
 
 		$data['title'] = $data['restaurant']['name'];
@@ -19,7 +29,7 @@ class Restaurants extends CI_Controller {
 		$this->load->view('partials/header', $data);
 		$this->load->view('restaurants/view', $data);
 		$this->load->view('partials/footer');
-
+		}
 	}
 
 	public function create() {

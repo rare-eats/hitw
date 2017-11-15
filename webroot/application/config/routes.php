@@ -59,6 +59,6 @@ $route['restaurants/tags']['DELETE'] = 'restaurant_tags/remove_tag';
 $route['restaurants/tags']['GET'] = 'restaurant_tags';
 
 $route['restaurants/create'] = 'restaurants/create';
-#$route['restaurants/edit'] = 'restaurants/create';
 $route['restaurants/edit/(:any)'] = 'restaurants/edit/$1';
 $route['restaurants/(:any)'] = 'restaurants/view/$1';
+$route['restaurants'] = 'restaurants/view';
