@@ -50,6 +50,14 @@ class Users_model extends CI_Model {
         }
     }
 
+
+    public function isAdmin() {
+        if ($this->session->userdata('permissions') === 'admin') {
+            return True;
+        }
+        return False;
+    }
+
     public function get_users_by_email($email) {
         $this->db->select('first_name, last_name, email');
         $query = $this->db->get_where('users', ['email' => $email]);
@@ -59,10 +67,8 @@ class Users_model extends CI_Model {
             return FALSE;
         }
     }
-        /*
-     * get rows from the users table
-     */
-    function getRows($params = array()){
+
+    public function getRows($params = array()){
         $this->db->select('*');
         $this->db->from('users');
 

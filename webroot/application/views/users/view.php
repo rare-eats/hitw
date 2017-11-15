@@ -24,7 +24,7 @@
                 <td><?php echo $email;?></td>
             </tr>
         </table>
-        <?php if ($this->session->userdata('id') === $id): ?>
+        <?php if ($this->session->userdata('id') === $id  || $this->users_model->is_admin()): ?>
             <a href="../edit/<?php echo $id;?>" type="button" class="btn btn-primary" >Edit</a>
             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete_modal">Delete Account</button>
         <?php endif ?>

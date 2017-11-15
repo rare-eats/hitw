@@ -13,5 +13,4 @@
         <td><?php echo $user['email']; ?></td>
     </tr>
     <?php endforeach; ?>
-    <a href="logout/" type="button" class="btn btn-danger">Logout</a>
 </table>

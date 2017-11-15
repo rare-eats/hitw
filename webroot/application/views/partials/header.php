@@ -44,14 +44,14 @@
 			<ul class="navbar-nav ml-auto">
 			<?php if($this->session->has_userdata('id')): ?>
 				<li class="nav-item">
-					<a class="nav-link" href="users/view/<?php echo $this->session->userdata('id');?>">View Profile</a>
+					<a class="nav-link" href="/users/view/<?php echo $this->session->userdata('id');?>">View Profile</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="users/logout">Logout</a>
+					<a class="nav-link" href="/users/logout">Logout</a>
 				</li>
 			</ul>
 			<?php else: ?>
-				<a class="nav-link" href="users/login">Login</a>
+				<a class="nav-link" href="/users/login">Login</a>
 			<?php endif ?>
 		</div>
 	</nav>
