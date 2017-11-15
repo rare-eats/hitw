@@ -4,69 +4,145 @@ class Restaurants_model extends CI_Model {
 		$this->load->database();
 	}
 
+	public function add_tags_to_restaurant($restaurant_id, $tag_ids) {
+		if ( !isset($restaurant_id) OR !isset($tag_ids) ) {
+			return FALSE;
+		}
+
+		$old_tags = get_restaurant_tags($restaurant_id);
+		$data['restaurant_id'] = $restaurant_id;
+
+
+		foreach ($tag_ids as $tag_id) {
+			if (!in_array($tag_id, $old_tags['id'])) {
+				$data['tag_id'] = $tag_id;
+				$this->db->insert('restaurant_tags', $data);
+			}
+		}
+	}
+
+	// public function add_tags_to_restaurant_by_name($restaurant_id, $tag_names) {
+	// 	if ( !isset($restaurant_id) OR !isset($tag_name) ) {
+	// 		return FALSE; // Insufficient data
+	// 	}
+
+	// 	$old_tags = get_restaurant_tags($restaurant_id);
+
+	// 	foreach ($tag_names as $new_tag) {
+	// 		if (!in_array($new_tag, $old_tags['name'])) {
+	// 			// Check if valid tag and create if not
+	// 			$valid_tag = _get_tag_validity($new_tag);
+	// 			if ($valid_tag === FALSE && $this->users_model->is_admin()) {
+	// 				$this->db->insert('tags', $new_tag);
+	// 				$valid_tag = _get_tag_validity($new_tag);
+	// 			}
+	// 			if ($valid_tag !== FALSE) {
+	// 				$this->db->insert('restaurant_tags', $new_tag);
+	// 			}
+	// 		}
+	// 	}
+	// }
+
 	// TODO: add_tags_by_name_to_restaurant($restaurant_id, $tag_names, $create_if_needed = FALSE)
-
+	
 	// WIP
-	public function add_tags_to_restaurant($restaurant_id, $tag_ids){
-		if ( !isset($restaurant_id) || !isset($tag_ids) || empty($tag_ids)) {
-			return FALSE; // Not enough data
+	// public function add_tags_to_restaurant($restaurant_id, $tag_ids){
+	// 	if ( !isset($restaurant_id) || !isset($tag_ids) || empty($tag_ids)) {
+	// 		return FALSE; // Not enough data
+	// 	}
+	// 	$ids = [];
+	// 	foreach ($tag_ids as $tag)
+	// 	{
+	// 		// Check if this association is already in the database
+	// 		$this->db->where("restaurant_id", $restuarant_id);
+	// 		$this->db->where("tag_id", $tag_id);
+	// 		$query = $this->db->get("restaurant_tags");
+	// 		if ($query->num_rows() <= 0)
+	// 		{
+	// 			$data = [
+	// 				'restaurant_id' => $restaurant_id,
+	// 				'tag_id'		=> $tag
+	// 			];
+	// 			$this->db->insert("restaurant_tags", $data);
+	// 			$id = $this->db->insert_id();
+	// 			array_push($ids, $id);
+	// 		}
+	// 		else
+	// 		{
+	// 			$row = $query->row();
+	// 			if (isset($row))
+	// 			{
+	// 				array_push($ids, $row['id']);
+	// 			}
+	// 			else
+	// 			{
+	// 				array_push($ids, -1);
+	// 			}
+	// 		}
+	// 	}
+	// 	return $ids;
+	// }
+
+	# Returns the tag name 
+	private function _get_tag_validity($tag_name) {
+		if (!isset($tag_name)) {
+			return FALSE;
 		}
 
-		$ids = [];
+		$this->db->where('name', $tag_name);
+		$query = $this->db->get('tags');
 
-		foreach ($tag_ids as $tag)
+		if (empty($query)) {
+			return FALSE;
+		}
+		else 
 		{
-			// Check if this association is already in the database
-			$this->db->where("restaurant_id", $restuarant_id);
-			$this->db->where("tag_id", $tag_id);
-
-			$query = $this->db->get("restaurant_tags");
-			if ($query->num_rows() <= 0)
-			{
-				$data = [
-					'restaurant_id' => $restaurant_id,
-					'tag_id'		=> $tag
-				];
-				$this->db->insert("restaurant_tags", $data);
-				$id = $this->db->insert_id();
-				array_push($ids, $id);
-			}
-			else
-			{
-				$row = $query->row();
-				if (isset($row))
-				{
-					array_push($ids, $row['id']);
-				}
-				else
-				{
-					array_push($ids, -1);
-				}
-			}
+			return $query->result_array();
 		}
+	}
 
-		return $ids;
+	# Returns all associated tags or false if none are associated
+	public function get_restaurant_tags($restaurant_id = FALSE) {
+		$this->db->select('*');
+		if ($restaurant_id === FALSE) {
+			$this->db->from('tags');
+		}
+		else 
+		{
+			$this->db->from('restaurant_tags');
+			$this->db->where('restaurant_id', $restaurant_id);
+			$this->db->join('tags', 'tags.id = restaurant_tags.tag_id');
+		}
+		$query = $this->db->get();
+
+		return $query->result_array();
 	}
 
 	# Create or update restaurant (update if id is provided)
 	public function set_restaurant($id = FALSE) {
-		$data = array(
+		$data = [
 			'restaurant_type' => $this->input->post('restaurant_type'),
 			'name' => $this->input->post('name'),
 			'addr_1' => $this->input->post('addr_1'),
 			'city' => $this->input->post('city'),
 			'state_prov_code' => $this->input->post('state_prov_code'),
 			'country' => $this->input->post('country')
-		);
+		];
+		
+		$given_tags = $this->input->post('tags');
+
 
 		if ($id === FALSE) {
 			$this->db->insert('restaurants', $data);
-			return $this->db->insert_id();
+			$query = $this->db->insert_id();
+			add_tags_to_restaurant($query, $given_tags);
+			return $query;
 		}
 		else
 		{
 			$this->db->where('id', $id);
 			$this->db->update('restaurants', $data);
+			add_tags_to_restaurant($id, $given_tags);
 			return $id;
 		}
 	}

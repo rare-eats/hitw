@@ -2,6 +2,7 @@
 	<div class="card">
 		<img class="card-img-top" src="http://via.placeholder.com/800x300" alt="placeholder">
 		<div class="card-body">
+			<p><?php echo var_dump($tags); ?></p>
 			<h3><?php echo $restaurant['name']; ?> 
 				<small class="text-muted">(<?php 
 					if (empty($restaurant['rating'])) 
@@ -33,6 +34,21 @@
 				echo ', ';
 				echo $restaurant['country'];
 				?>
+			</p>
+			<p class="card-text" id="tags-list">
+			<?php if (isset($tags))
+			{	
+				foreach ($tags as $tag) {
+					echo '<span class="badge badge-pill badge-primary">';
+					echo $tag['name'];
+					echo '</span>';
+				}
+			}
+			else
+			{
+				echo '<p>No tags.</p>';
+			}
+			?>
 			</p>
 			<a href="#" class="btn btn-primary">Reviews</a>
 			<a href="<?php echo site_url('/restaurants/edit/'.$restaurant['id']); ?>" class="btn btn-secondary">Edit</a>

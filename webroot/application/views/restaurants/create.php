@@ -3,6 +3,8 @@
 		<h3><?php echo $title; ?></h3>
 	<?php echo validation_errors(); ?>
 
+	<?php echo var_dump($tags_list); ?>
+
 	<?php echo form_open('restaurants/create'); ?>
 		<div class="form-group">
 			<label for="name">Restaurant Name</label>
@@ -28,6 +30,14 @@
 		<div class="form-group">
 			<label for="country">Country</label>
 			<input type="text" id="country" name="country" class="form-control" placeholder="Canada" required>
+		</div>
+		<div class="form-group">
+			<label for="tags">Tags</label>
+			<select class="form-control" name="tags[]" multiple="multiple">
+			<?php foreach ($tags_list as $tag): ?>
+				<option value="<?php echo $tag['id']; ?>"><?php echo $tag['name']; ?></option>
+			<?php endforeach; ?>
+			</select>
 		</div>
 		<button type="submit" class="btn btn-primary">Create</button>
 		<a class="btn btn-secondary" href="<?php echo site_url('/'); ?>">Cancel</a>
