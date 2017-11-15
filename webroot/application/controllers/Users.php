@@ -96,7 +96,6 @@ class Users extends CI_Controller {
             $this->load->view('partials/footer');
 
         } else {
-
             if ($this->users_model->get_users_by_email($this->input->post('email'))) {
                 $data['error_msg'] = "An account with this email already exists";
             } else {
@@ -104,7 +103,8 @@ class Users extends CI_Controller {
                     'first_name' => $this->input->post('first_name'),
                     'last_name'  => $this->input->post('last_name'),
                     'password'   => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-                    'email'      => $this->input->post('email')
+                    'email'      => $this->input->post('email'),
+                    'permissions' => 'user'
                 ];
 
                 $id = $this->users_model->create_user($save_data);
@@ -210,8 +210,10 @@ class Users extends CI_Controller {
             $this->session->unset_userdata('error_msg');
         }
         if($this->input->post('loginSubmit')) {
+
             $this->form_validation->set_rules('email', 'Email', 'required');
             $this->form_validation->set_rules('password', 'password', 'required');
+
             if ($this->form_validation->run() === True) {
                 $con['returnType'] = 'single';
                 $con['conditions'] = [
