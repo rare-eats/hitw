@@ -3,8 +3,6 @@
 		<h3><?php echo $title; ?></h3>
 	<?php echo validation_errors(); ?>
 
-	<?php echo var_dump($tags_list); ?>
-
 	<?php echo form_open('restaurants/create'); ?>
 		<div class="form-group">
 			<label for="name">Restaurant Name</label>
@@ -14,6 +12,14 @@
 			<label for="restaurant_type">Restaurant Type</label>
 			<input type="text" id="restaurant_type" name="restaurant_type" class="form-control" aria-describedby="type_help" placeholder="BBQ">
 			<small id="type_help" class="form-text text-muted">Doesn't have to be super specific, you can add additional tags later.</small>
+		</div>
+		<div class="form-group">
+			<label>Tags</label>
+			<select multiple class="form-control" name="tags[]" id="tag-select">
+				<?php foreach($tags as $tag): ?>
+					<option value="<?php echo $tag['id']; ?>"><?php echo $tag['name']; ?></option>
+				<?php endforeach; ?>
+			</select>
 		</div>
 		<div class="form-group">
 			<label for="addr_1">Address 1</label>
@@ -30,14 +36,6 @@
 		<div class="form-group">
 			<label for="country">Country</label>
 			<input type="text" id="country" name="country" class="form-control" placeholder="Canada" required>
-		</div>
-		<div class="form-group">
-			<label for="tags">Tags</label>
-			<select class="form-control" name="tags[]" multiple="multiple">
-			<?php foreach ($tags_list as $tag): ?>
-				<option value="<?php echo $tag['id']; ?>"><?php echo $tag['name']; ?></option>
-			<?php endforeach; ?>
-			</select>
 		</div>
 		<button type="submit" class="btn btn-primary">Create</button>
 		<a class="btn btn-secondary" href="<?php echo site_url('/'); ?>">Cancel</a>
