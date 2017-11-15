@@ -24,11 +24,6 @@
 				{ 
 					echo $restaurant['addr_1'];  
 				} 
-				if (! empty($restaurant['addr_2'])) 
-				{ 
-					echo ', ';
-					echo $restaurant['addr_2']; 
-				} 
 				echo ', ';
 				echo $restaurant['city']; 
 				if (!empty($restaurant['state_prov_code'])) 

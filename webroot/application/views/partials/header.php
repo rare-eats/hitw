@@ -9,6 +9,13 @@
 
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+	<!-- Load additional CSS files passed in $data, should they exist -->
+	<?php if(isset($css)): ?>
+		<?php foreach($css as $style): ?>
+			<link rel="stylesheet" href="<?php echo $style.'.css'; ?>"></script>
+		<?php endforeach; ?>
+	<?php endif; ?>
   </head>
   <body>
   	<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-primary">
@@ -28,7 +35,10 @@
 					<a class="nav-link" href="#">Recommended</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="<?php echo site_url('restaurants/create'); ?>">Add a 	Restaurant</a>
+					<a class="nav-link" href="/restaurants/create">Add a Restaurant</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/restaurants/tags">Modify a Tag</a>
 				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
