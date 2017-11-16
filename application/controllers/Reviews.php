@@ -9,13 +9,11 @@
     public function create($restaurant_id) {
   		$this->load->helper('form');
   		$this->load->library('form_validation');
-
   		$data['restaurant'] = 'Write a Review';
-
   		$this->form_validation->set_rules('Rating', 'Body', 'required');
   	}
-    public function index(){
-      $data['restuarant_id'] = $this->Restaurants_model->
+    public function index($restaurant_id){
+      $data['restuarant_id'] = $this->Restaurants_model->get_restaurant($restaurant_id)
     }
     public function view(){
       $this->load->view('Reviews');
