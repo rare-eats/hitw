@@ -67,6 +67,6 @@ $route['restaurants/tags']['GET'] = 'restaurant_tags';
 $route['restaurants/(:num)/tags/(:num)']['DELETE'] = 'restaurants/remove_tag/$1/$2';
 
 $route['restaurants/create'] = 'restaurants/create';
-#$route['restaurants/edit'] = 'restaurants/create';
 $route['restaurants/edit/(:any)'] = 'restaurants/edit/$1';
 $route['restaurants/(:any)'] = 'restaurants/view/$1';
+$route['restaurants'] = 'restaurants/view';
