@@ -5,6 +5,7 @@ class Users extends CI_Controller {
         parent::__construct();
 
         $this->load->helper(['form', 'url']);
+        $this->load->model('userplaylists_model');
 
         $this->load->library('form_validation');
     }
@@ -36,13 +37,17 @@ class Users extends CI_Controller {
         $this->load->view('partials/footer');
     }
 
-    public function view($id = null) {
+    public function view() {
 
+        $id = $this->session->id;
         $title['title'] = 'View My Profile';
 
-        $users = $this->users_model->get_user($id);
-        $this->load->view('partials/header',$title);
-        $this->load->view('users/view', $users[0]);
+        $user = $this->users_model->get_user($id);
+        $data['playlists'] = $this->userplaylists_model->get_by_author($id);
+
+        $data['user'] = $user[0];
+        $this->load->view('partials/header', $title);
+        $this->load->view('users/view', $data);
         $this->load->view('partials/footer');
 
     }

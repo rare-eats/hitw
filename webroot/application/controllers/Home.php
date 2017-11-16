@@ -44,7 +44,6 @@ class Home extends CI_Controller {
 				"desc" => "We all need a break sometimes, so come pig out at these delectably unhealthy dives"
 			)
 		);
-		$data['id'] = $this->session->id;
 		$data['playlists'] = $this->userplaylists_model->get_by_author($this->session->id);
 
 		$this->load->view('partials/header.php', $data);

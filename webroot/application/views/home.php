@@ -10,7 +10,10 @@
 <?php if ($this->session->has_userdata('id')): ?>
 	<div class="row">
 		<div class="col">
-			<h2 class="display-2">My Lists</h2>
+			<span>
+				<h2 class="display-2">My Lists</h2>
+				<a href="/users/view/">View More</a>
+			</span>
 		</div>
 	</div>
 	<div class="row">
