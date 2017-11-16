@@ -49,6 +49,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
+
+$route['userplaylists/create'] = 'userplaylists/create';
+$route['userplaylists/edit/(:any)'] = 'userplaylists/edit/$1';
+$route['userplaylists/(:any)'] = 'userplaylists/view/$1';
+// remove 'user in userplaylists routes possibly (left side)'
+
 $route['default_controller'] = 'home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
