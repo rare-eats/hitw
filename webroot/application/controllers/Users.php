@@ -4,42 +4,50 @@ class Users extends CI_Controller {
     public function __construct() {
         parent::__construct();
 
-        // Load form helper library
         $this->load->helper(['form', 'url']);
 
-        // Load form validation library
         $this->load->library('form_validation');
     }
 
+    public function search() {
+
+        $title['title'] = 'Search Results';
+
+        $results = $this->input->post('search');
+        $return = [];
+        if ($results) {
+            $return['users'] = $this->users_model->get_users_by_email($results);
+        }
+
+        $this->load->view('partials/header', $title);
+        $this->load->view('users/search', $return);
+        $this->load->view('partials/footer');
+    }
 
     public function index() {
         // Need to figure out pagination. Not a good idea to list
         // all users
         $data = [];
         $data['users'] = $this->users_model->get_all_users();
-        $this->load->view('partials/header');
+        $this->load->view('partials/header', $title);
         $this->load->view('users/index', $data);
         $this->load->view('partials/footer');
     }
 
-    // public function login() {
-
-    //     $data = [];
-    //     $this->load->view('partials/header');
-    //     $this->load->view('users/index', $data);
-    //     $this->load->view('partials/footer');
-    // }
-
     public function view($id = null) {
 
+        $title['title'] = 'View My Profile';
+
         $users = $this->users_model->get_user($id);
-        $this->load->view('partials/header');
+        $this->load->view('partials/header',$title);
         $this->load->view('users/view', $users[0]);
         $this->load->view('partials/footer');
 
     }
 
     public function create() {
+
+        $title['title'] = 'Create your Account';
 
         $first_name = [
             'name'          => 'first_name',
@@ -59,16 +67,15 @@ class Users extends CI_Controller {
             'name'          => 'email',
             'type'          => 'email',
             'class'         => 'form-control',
-            'placeholder'   => 'email'
+            'placeholder'   => 'Email'
         ];
 
         $password = [
             'name'          => 'password',
             'type'          => 'password',
             'class'         => 'form-control',
-            'placeholder'   => 'password'
+            'placeholder'   => 'Password'
         ];
-
 
         $data = [
             'first_name' => $first_name,
@@ -84,37 +91,48 @@ class Users extends CI_Controller {
 
         if ($this->form_validation->run() == FALSE) {
 
-            $this->load->view('partials/header');
+            $this->load->view('partials/header', $title);
             $this->load->view('users/create', $data);
             $this->load->view('partials/footer');
 
         } else {
+            if ($this->users_model->get_users_by_email($this->input->post('email'))) {
+                $data['error_msg'] = "An account with this email already exists";
+            } else {
+                $save_data = [
+                    'first_name' => $this->input->post('first_name'),
+                    'last_name'  => $this->input->post('last_name'),
+                    'password'   => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+                    'email'      => $this->input->post('email'),
+                    'permissions' => 'user'
+                ];
 
-            $save_data = [
-                'first_name' => $this->input->post('first_name'),
-                'last_name'  => $this->input->post('last_name'),
-                'password'   => md5($this->input->post('password')),
-                'email'      => $this->input->post('email')
-            ];
-
-            $id = $this->users_model->create_user($save_data);
-            //Figure out a way to confirm to users their account has been created
-            //without duplicating the view or
-            if ($id) {
-                $this->session->set_userdata(
-                    'success_msg',
-                    'Welcome!. Your account has been successfully created'
-                );
-                redirect('users/login');
-            } else{
-                $data['error_msg'] = 'Some problems occured, please try again.';
+                $id = $this->users_model->create_user($save_data);
+                //Figure out a way to confirm to users their account has been created
+                //without duplicating the view or
+                if ($id) {
+                    $this->session->set_userdata(
+                        'success_msg',
+                        'Welcome! Your account has been successfully created! Login here'
+                    );
+                    redirect('users/login');
+                } else{
+                    $data['error_msg'] = 'Some problems occured, please try again.';
+                }
             }
+
+            $this->load->view('partials/header', $title);
+            $this->load->view('users/create', $data);
+            $this->load->view('partials/footer');
+
 
         }
 
     }
 
     public function edit($id = null) {
+
+        $title['title'] = 'Edit Profile';
 
         if ($id === null) {
             echo "no id";
@@ -158,7 +176,7 @@ class Users extends CI_Controller {
 
         if ($this->form_validation->run() === FALSE) {
 
-            $this->load->view('partials/header');
+            $this->load->view('partials/header', $title);
             $this->load->view('users/edit', $data);
             $this->load->view('partials/footer');
 
@@ -172,14 +190,15 @@ class Users extends CI_Controller {
             ];
 
             $this->users_model->edit_user($id ,$save_data);
-            //Figure out a way to confirm to users their account has been created
-            //without duplicating the view or
             redirect('users/view/'.$id);
 
         }
     }
 
     public function login(){
+
+        $title['title'] = 'Login';
+
         $data = [];
 
         if($this->session->userdata('success_msg')){
@@ -191,35 +210,59 @@ class Users extends CI_Controller {
             $this->session->unset_userdata('error_msg');
         }
         if($this->input->post('loginSubmit')) {
+
             $this->form_validation->set_rules('email', 'Email', 'required');
             $this->form_validation->set_rules('password', 'password', 'required');
+
             if ($this->form_validation->run() === True) {
                 $con['returnType'] = 'single';
                 $con['conditions'] = [
-                    'email'     =>$this->input->post('email'),
-                    'password'  => md5($this->input->post('password'))
+                    'email'      => $this->input->post('email')
                 ];
                 $checkLogin = $this->users_model->getRows($con);
                 if($checkLogin) {
-                    $this->session->set_userdata('isUserLoggedIn',TRUE);
-                    $this->session->set_userdata('id',$checkLogin['id']);
-                    redirect('/');
+                    if (password_verify($this->input->post('password'), $checkLogin['password'])) {
+                        $this->session->set_userdata('isUserLoggedIn',TRUE);
+                        $this->session->set_userdata('id', $checkLogin['id']);
+                        redirect();
+                    } else {
+                         $data['error_msg'] = 'Wrong email or password, please try again.';
+                    }
                 } else {
                     $data['error_msg'] = 'Wrong email or password, please try again.';
                 }
             }
         }
         //load the view
-        $this->load->view('partials/header');
+        $this->load->view('partials/header', $title);
         $this->load->view('users/login', $data);
         $this->load->view('partials/footer');
     }
 
     public function logout(){
+
         $this->session->unset_userdata('isUserLoggedIn');
         $this->session->unset_userdata('id');
         $this->session->sess_destroy();
-        redirect('users/login/');
+        redirect();
+    }
+
+    public function delete($id = null) {
+
+        if ($id === null) {
+            redirect();
+        }
+
+        // confirmation done in view page through a modal
+        // TODO: work on putting the confirmation in the controller
+        // or at least the delete view
+
+        $this->session->unset_userdata('isUserLoggedIn');
+        $this->session->unset_userdata('id');
+        $this->session->sess_destroy();
+        $this->users_model->remove_user($id);
+        redirect();
+
     }
 
 }

@@ -15,6 +15,10 @@ class Users_model extends CI_Model {
         }
     }
 
+    public function remove_user($id) {
+        $this->db->delete('users', ['id' => $id]);
+    }
+
     public function get_user($id) {
         $query = $this->db->get_where('users', ['id' => $id]);
         if ($query !== False) {
@@ -46,10 +50,25 @@ class Users_model extends CI_Model {
         }
     }
 
-        /*
-     * get rows from the users table
-     */
-    function getRows($params = array()){
+
+    public function isAdmin() {
+        if ($this->session->userdata('permissions') === 'admin') {
+            return True;
+        }
+        return False;
+    }
+
+    public function get_users_by_email($email) {
+        $this->db->select('first_name, last_name, email');
+        $query = $this->db->get_where('users', ['email' => $email]);
+        if ($query !== False) {
+            return $query->result_array();
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function getRows($params = array()){
         $this->db->select('*');
         $this->db->from('users');
 

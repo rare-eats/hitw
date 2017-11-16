@@ -14,12 +14,16 @@
 			<small id="type_help" class="form-text text-muted">Additional tags can be added later.</small>
 		</div>
 		<div class="form-group">
-			<label for="addr_1">Address 1</label>
-			<input type="text" id="addr_1" name="addr_1" class="form-control" value="<?php echo $restaurant['addr_1']; ?>">
+			<label>Tags</label>
+			<select multiple class="form-control" name="tags[]" id="tag-select">
+				<?php foreach($tags as $tag): ?>
+					<option value="<?php echo $tag['id']; ?>"><?php echo $tag['name']; ?></option>
+				<?php endforeach; ?>
+			</select>
 		</div>
 		<div class="form-group">
-			<label for="addr_2">Address 2</label>
-			<input type="text" id="addr_2" name="addr_2" class="form-control" value="<?php echo $restaurant['addr_2']; ?>">
+			<label for="addr_1">Address 1</label>
+			<input type="text" id="addr_1" name="addr_1" class="form-control" value="<?php echo $restaurant['addr_1']; ?>">
 		</div>
 		<div class="form-group">
 			<label for="city">City</label>

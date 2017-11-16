@@ -4,17 +4,19 @@ class Restaurants extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('restaurants_model');
+		$this->load->model('tags_model');
 		$this->load->helper('url_helper');
 	}
 
 	public function view($id = NULL) {
-		$data['restaurant'] = $this->restaurants_model->get_restaurant($id);
+		$data['restaurant'] = $this->restaurants_model->get_restaurant($id)[0];
 
 		if (empty($data['restaurant'])) {
 			show_404();
 		}
 
 		$data['title'] = $data['restaurant']['name'];
+		$data['javascript'] = ['/script/restaurant_view'];
 
 		$this->load->view('partials/header', $data);
 		$this->load->view('restaurants/view', $data);
@@ -32,6 +34,16 @@ class Restaurants extends CI_Controller {
 		$this->form_validation->set_rules('city', 'City', 'required');
 
 		if ($this->form_validation->run() === FALSE) {
+			$result = $this->tags_model->get_tags();
+			if ($result['success'])
+			{
+				$data['tags'] = $result['data'];
+			}
+			else
+			{
+				$data['tags'] = [];
+			}
+
 			$this->load->view('partials/header', $data);
 			$this->load->view('restaurants/create', $data);
 			$this->load->view('partials/footer');
@@ -39,7 +51,6 @@ class Restaurants extends CI_Controller {
 		else 
 		{
 			$query = $this->restaurants_model->set_restaurant();
-
 			redirect('/restaurants/'.$query);
 		}
 	}
@@ -48,7 +59,7 @@ class Restaurants extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 
-		$data['restaurant'] = $this->restaurants_model->get_restaurant($id);
+		$data['restaurant'] = $this->restaurants_model->get_restaurant($id)[0];
 
 		if (empty($data['restaurant'])) {
 			show_404();
@@ -60,6 +71,15 @@ class Restaurants extends CI_Controller {
 		$this->form_validation->set_rules('city', 'City', 'required');
 
 		if ($this->form_validation->run() === FALSE) {
+			$result = $this->tags_model->get_tags();
+			if ($result['success'])
+			{
+				$data['tags'] = $result['data'];
+			}
+			else
+			{
+				$data['tags'] = [];
+			}
 			$this->load->view('partials/header', $data);
 			$this->load->view('restaurants/edit', $data);
 			$this->load->view('partials/footer');
@@ -67,7 +87,7 @@ class Restaurants extends CI_Controller {
 		else 
 		{
 			$this->restaurants_model->set_restaurant($id);
-			redirect('/restaurants/'.$restaurant['id']);
+			redirect('/restaurants/'.$id);
 		}
 	}
 
@@ -79,5 +99,16 @@ class Restaurants extends CI_Controller {
 		# Check for proper authentication first
 		$this->restaurants_model->delete_restaurant($id);
 		redirect(base_url());
+	}
+
+	public function remove_tag($restaurant_id, $tag_id)
+	{
+		header('Content-type: application/json');
+		$this->restaurants_model->remove_tag_from_restaurant($restaurant_id, $tag_id);
+		$response = [
+			'success'=>TRUE,
+			'message'=>'Removed tag'
+		];
+		echo json_encode($response);
 	}
 }

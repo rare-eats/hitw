@@ -24,11 +24,6 @@
 				{ 
 					echo $restaurant['addr_1'];  
 				} 
-				if (! empty($restaurant['addr_2'])) 
-				{ 
-					echo ', ';
-					echo $restaurant['addr_2']; 
-				} 
 				echo ', ';
 				echo $restaurant['city']; 
 				if (!empty($restaurant['state_prov_code'])) 
@@ -38,6 +33,15 @@
 				echo ', ';
 				echo $restaurant['country'];
 				?>
+			</p>
+			<p class="card-text" id="tags-list">
+			<?php if (!empty($restaurant['tags'])): ?>
+				<?php foreach($restaurant['tags'] as $tag): ?>
+					<span class="badge badge-pill badge-primary"><?php echo $tag['name']; ?> <a style="color: white;" href="#" class="remove_tag_button" data-tag_id="<?php echo $tag['id']; ?>" data-restaurant_id="<?php echo $restaurant['id']; ?>">&times;</a></span>
+				<?php endforeach; ?>
+			<?php else: ?>
+				<p>No tags.</p>
+			<?php endif; ?>
 			</p>
 			<a href="#" class="btn btn-primary">Reviews</a>
 			<a href="<?php echo site_url('/restaurants/edit/'.$restaurant['id']); ?>" class="btn btn-secondary">Edit</a>
