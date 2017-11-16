@@ -53,6 +53,10 @@ $route['restaurants/create'] = 'restaurants/create';
 #$route['restaurants/edit'] = 'restaurants/create';
 $route['restaurants/edit/(:any)'] = 'restaurants/edit/$1';
 $route['restaurants/(:any)'] = 'restaurants/view/$1';
+$route['userplaylists/create'] = 'userplaylists/create';
+$route['userplaylists/edit/(:any)'] = 'userplaylists/edit/$1';
+$route['userplaylists/(:any)'] = 'userplaylists/view/$1';
+// remove 'user in userplaylists routes possibly (left side)'
 $route['default_controller'] = 'home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
