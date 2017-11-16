@@ -17,8 +17,8 @@ class Restaurants_model extends CI_Model {
 		foreach ($tag_ids as $tag)
 		{
 			// Check if this association is already in the database
-			$this->db->where("restaurant_id", $restuarant_id);
-			$this->db->where("tag_id", $tag_id);
+			$this->db->where("restaurant_id", $restaurant_id);
+			$this->db->where("tag_id", $tag);
 
 			$query = $this->db->get("restaurant_tags");
 			if ($query->num_rows() <= 0)
@@ -29,23 +29,36 @@ class Restaurants_model extends CI_Model {
 				];
 				$this->db->insert("restaurant_tags", $data);
 				$id = $this->db->insert_id();
-				array_push($ids, $id);
+				$ids[] = $id;
 			}
 			else
 			{
 				$row = $query->row();
 				if (isset($row))
 				{
-					array_push($ids, $row['id']);
+					$ids[] = $row->id;
 				}
 				else
 				{
-					array_push($ids, -1);
+					$ids[] = -1;
 				}
 			}
 		}
 
 		return $ids;
+	}
+
+	public function clear_tags_from_restaurant($restaurant_id)
+	{
+		$this->db->where('restaurant_id', $restaurant_id);
+		$this->db->delete('restaurant_tags');
+	}
+
+	public function remove_tag_from_restaurant($restaurant_id, $tag_id)
+	{
+		$this->db->where('restaurant_id', $restaurant_id);
+		$this->db->where('tag_id', $tag_id);
+		$this->db->delete('restaurant_tags');
 	}
 
 	# Create or update restaurant (update if id is provided)
@@ -61,14 +74,18 @@ class Restaurants_model extends CI_Model {
 
 		if ($id === FALSE) {
 			$this->db->insert('restaurants', $data);
-			return $this->db->insert_id();
+			$id = $this->db->insert_id();
 		}
 		else
 		{
 			$this->db->where('id', $id);
 			$this->db->update('restaurants', $data);
-			return $id;
 		}
+
+		// Add the tags to this restaurant
+		$this->add_tags_to_restaurant($id, $this->input->post('tags'));
+
+		return $id;
 	}
 
 	# Return list of [amt] restaurants by [term] in a given [column]
@@ -95,16 +112,72 @@ class Restaurants_model extends CI_Model {
 		return $this;
 	}
 
-	# Returns all restaurants if no id is specified
-	public function get_restaurant($id = FALSE) {
-		if ($id === FALSE) {
-			$query = $this->db->get('restaurants');
-			return $query->result_array();
+	// Get all tags assigned to this restaurant
+	public function get_restaurant_tags($id) {
+		if (!isset($id))
+		{
+			return [
+				'success'=>FALSE,
+				'message'=>'No Restaurant ID Specified',
+				'data'=>[]
+			];
 		}
 
-		$this->db->where('id', $id);
+		$this->db->select('restaurant_id, tags.name AS tag_name, tags.id AS tag_id');
+		$this->db->from('restaurant_tags');
+		$this->db->join('tags', 'restaurant_tags.tag_id = tags.id');
+		$this->db->where('restaurant_tags.restaurant_id', $id);
+		$query = $this->db->get();
+
+		return [
+			'success'=>TRUE,
+			'message'=>'Got all tags',
+			'data'=>$query->result_array()
+		];
+	}
+
+	public function get_amount_of_restaurants($amount = FALSE) {
+		if (!isset($amount)) {
+			$amount = 4;
+		}
+
+		$this->db->limit($amount);
+		$this->db->order_by('id', 'RANDOM');
 		$query = $this->db->get('restaurants');
-		return $query->row_array();
+
+		return $query->result_array();
+	}
+
+	# Returns all restaurants if no id is specified
+	public function get_restaurant($id = NULL) {
+
+		if (isset($id)) {
+			$this->db->where('restaurants.id', $id);
+		}
+		$query = $this->db->get('restaurants');
+
+		$result = [];
+		foreach($query->result_array() as $row)
+		{
+			// Get the tags for this restaurant
+			$tagResult = $this->get_restaurant_tags($row['id']);
+			if($tagResult['success'])
+			{
+				$row['tags'] = [];
+				foreach($tagResult['data'] as $tag)
+				{
+					// Push the tag into the row's tag array
+					$row['tags'][] = [
+						'name'	=>$tag['tag_name'],
+						'id'	=>$tag['tag_id']
+					];
+				}
+				// Push the row into the result
+				$result[] = $row;
+			}
+		}
+
+		return $result;
 	}
 
 	# Get a list of [amt] restaurants by [type]
@@ -130,6 +203,8 @@ class Restaurants_model extends CI_Model {
 		if ($id === FALSE) {
 			show_404();
 		}
+
+		$this->clear_tags_from_restaurant($id);
 
 		$this->db->where('id', $id);
 		return $this->db->delete('restaurants');

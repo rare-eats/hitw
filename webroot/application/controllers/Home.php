@@ -5,6 +5,7 @@ class Home extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->helper('url_helper');
+		$this->load->model('restaurants_model');
 	}
 
 	public function index()
@@ -17,6 +18,8 @@ class Home extends CI_Controller {
 		}
 		
 		$data['title'] = "Home";
+
+		$data['restaurants'] = $this->restaurants_model->get_amount_of_restaurants(4);
 
 		$data['recommended'] = array(
 			array(
