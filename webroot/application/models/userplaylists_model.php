@@ -8,7 +8,7 @@ class Userplaylists_model extends CI_Model {
 	public function set_playlist($id = FALSE) {
 		$data = array(
 			#'author_id' => intval($this->input->post('author_id')),
-			'author_id' => 2,
+			'author_id' => $this->session->id,
 			'private' => 'FALSE',
 			'title' => $this->input->post('title'),
 			'desc' => $this->input->post('desc')
