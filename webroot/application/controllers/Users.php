@@ -27,6 +27,8 @@ class Users extends CI_Controller {
     public function index() {
         // Need to figure out pagination. Not a good idea to list
         // all users
+        $title['title'] = 'List';
+
         $data = [];
         $data['users'] = $this->users_model->get_all_users();
         $this->load->view('partials/header', $title);

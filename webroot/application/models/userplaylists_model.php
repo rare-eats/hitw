@@ -41,7 +41,7 @@ class Userplaylists_model extends CI_Model {
 			// $this->db->like('restaurant_type', $term);
 			// $this->db->or_like('name', $term);
 		// }
-		// else 
+		// else
 		// {
 			// $this->db->like($column, $term, 'both');
 		// }
@@ -70,5 +70,14 @@ class Userplaylists_model extends CI_Model {
 
 		$this->db->where('id', $id);
 		return $this->db->delete('user_playlists');
+	}
+
+	public function get_by_author($author_id) {
+		if (!isset($author_id)) {
+			return False;
+		} else {
+			$query = $this->db->get_where('user_playlists', ['author_id' => $author_id]);
+			return $query->result_array();
+		}
 	}
 }
