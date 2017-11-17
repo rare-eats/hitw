@@ -6,13 +6,14 @@ class Userplaylists_model extends CI_Model {
 
 	# Create or update playlist (update if id is provided)
 	public function set_playlist($id = FALSE) {
+		$private = False or (bool)$this->input->post('private');
 		$data = array(
-			#'author_id' => intval($this->input->post('author_id')),
 			'author_id' => $this->session->id,
-			'private' => 'FALSE',
+			'private' => $private,
 			'title' => $this->input->post('title'),
 			'desc' => $this->input->post('desc')
 		);
+		$restaurant = $this->input->post('restaurant');
 
 		if ($id === FALSE) {
 			$this->db->insert('user_playlists', $data);
@@ -26,29 +27,6 @@ class Userplaylists_model extends CI_Model {
 		}
 	}
 
-	// # Return list of [amt] restaurants by [term] in a given [column]
-	// # Ordering column defaults to rating, while ordering type defaults to descending
-	// public function search_restaurant($column = 'all', $term, $amt = 5, $ord_col = 'rating', $ord_val = 'desc') {
-		// # Limit search scope
-		// if ($amt < 1) {
-			// $amt = 1;
-		// }
-		// if ($amt > 100) {
-			// $amt = 100;
-		// }
-
-		// if ($column == 'all') {
-			// $this->db->like('restaurant_type', $term);
-			// $this->db->or_like('name', $term);
-		// }
-		// else
-		// {
-			// $this->db->like($column, $term, 'both');
-		// }
-		// $this->db->order_by($ord_col, $ord_val);
-		// $this->db->limit($amt);
-		// return $this;
-	// }
 
 	# Returns all playlists if no id is specified
 	public function get_playlist($id = FALSE) {
