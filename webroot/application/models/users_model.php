@@ -51,7 +51,7 @@ class Users_model extends CI_Model {
     }
 
 
-    public function isAdmin() {
+    public function is_admin() {
         if ($this->session->userdata('permissions') === 'admin') {
             return True;
         }

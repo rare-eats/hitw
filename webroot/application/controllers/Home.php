@@ -2,15 +2,17 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Home extends CI_Controller {
-	
+
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('restaurants_model');
+		$this->load->model('userplaylists_model');
 		#move once we get a tags page
 		$this->load->model('tags_model');
 		$this->load->helper('url_helper');
+		$this->load->model('restaurants_model');
 	}
-	
+
 	public function index()
 	{
 		$this->load->library('migration');
@@ -19,8 +21,10 @@ class Home extends CI_Controller {
 		{
 			show_error($this->migration->error_string());
 		}
-		
+
 		$data['title'] = "Home";
+
+		$data['restaurants'] = $this->restaurants_model->get_amount_of_restaurants(4);
 
 		$data['recommended'] = array(
 			array(
@@ -40,25 +44,7 @@ class Home extends CI_Controller {
 				"desc" => "We all need a break sometimes, so come pig out at these delectably unhealthy dives"
 			)
 		);
-
-		$data['playlists'] = array(
-			array(
-				"title" => "Out of ideas",
-				"desc" => "Coming up with these is really hard..."
-			),
-			array(
-				"title" => "Placeholders",
-				"desc" => "I'm just going to start using placeholders"
-			),
-			array(
-				"title" => "Lorem Ipsum",
-				"desc" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
-			),
-			array(
-				"title" => "Dolor Sit",
-				"desc" => "dolor sit amet, consectetur adipiscing elit. Nulla eget condimentum ex"
-			)
-		);
+		$data['playlists'] = $this->userplaylists_model->get_by_author($this->session->id);
 
 		$this->load->view('partials/header.php', $data);
 		$this->load->view('home.php', $data);
