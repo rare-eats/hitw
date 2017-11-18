@@ -2,34 +2,34 @@
 	<div class="card">
 		<img class="card-img-top" src="http://via.placeholder.com/800x300" alt="placeholder">
 		<div class="card-body">
-			<h3><?php echo $restaurant['name']; ?> 
-				<small class="text-muted">(<?php 
-					if (empty($restaurant['rating'])) 
+			<h3><?php echo $restaurant['name']; ?>
+				<small class="text-muted">(<?php
+					if (empty($restaurant['rating']))
 					{
 						echo 'No ratings yet';
 					}
 					else
 					{
 						echo $restaurant['rating'];
-						echo '/5'; 
+						echo '/5';
 					}
 					?>)</small></h3>
 			<p class="card-text">
-				<?php 
-				if (empty($restaurant['addr_1'])) 
-				{ 
-					echo "No address (yet)"; 
-				} 
-				else 
-				{ 
-					echo $restaurant['addr_1'];  
-				} 
+				<?php
+				if (empty($restaurant['addr_1']))
+				{
+					echo "No address (yet)";
+				}
+				else
+				{
+					echo $restaurant['addr_1'];
+				}
 				echo ', ';
-				echo $restaurant['city']; 
-				if (!empty($restaurant['state_prov_code'])) 
-				{ 
-					echo ', '; echo $restaurant['state_prov_code']; 
-				} 
+				echo $restaurant['city'];
+				if (!empty($restaurant['state_prov_code']))
+				{
+					echo ', '; echo $restaurant['state_prov_code'];
+				}
 				echo ', ';
 				echo $restaurant['country'];
 				?>
@@ -43,7 +43,7 @@
 				<p>No tags.</p>
 			<?php endif; ?>
 			</p>
-			<a href="#" class="btn btn-primary">Reviews</a>
+			<a href="<?php echo site_url('/restaurants/reviews/'.$restaurant['id']); ?>" class="btn btn-primary">Reviews</a>
 			<a href="<?php echo site_url('/restaurants/edit/'.$restaurant['id']); ?>" class="btn btn-secondary">Edit</a>
 			<hr />
 			<blockquote class="blockquote text-center">

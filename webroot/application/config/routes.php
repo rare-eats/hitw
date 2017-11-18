@@ -64,3 +64,6 @@ $route['restaurants/create'] = 'restaurants/create';
 #$route['restaurants/edit'] = 'restaurants/create';
 $route['restaurants/edit/(:any)'] = 'restaurants/edit/$1';
 $route['restaurants/(:any)'] = 'restaurants/view/$1';
+
+$route['restaurants/(:num)/reviews'] = 'restaurants/reviews/$1';
+$route['reviews/edit/(:num)'] = 'reviews/edit/$1';

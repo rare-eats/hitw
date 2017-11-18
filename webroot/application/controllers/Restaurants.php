@@ -1,10 +1,11 @@
 <?php
 class Restaurants extends CI_Controller {
-	
+
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('restaurants_model');
 		$this->load->model('tags_model');
+		$this->load->model('reviews_model');
 		$this->load->helper('url_helper');
 	}
 
@@ -48,7 +49,7 @@ class Restaurants extends CI_Controller {
 			$this->load->view('restaurants/create', $data);
 			$this->load->view('partials/footer');
 		}
-		else 
+		else
 		{
 			$query = $this->restaurants_model->set_restaurant();
 			redirect('/restaurants/'.$query);
@@ -84,7 +85,7 @@ class Restaurants extends CI_Controller {
 			$this->load->view('restaurants/edit', $data);
 			$this->load->view('partials/footer');
 		}
-		else 
+		else
 		{
 			$this->restaurants_model->set_restaurant($id);
 			redirect('/restaurants/'.$id);
@@ -110,5 +111,33 @@ class Restaurants extends CI_Controller {
 			'message'=>'Removed tag'
 		];
 		echo json_encode($response);
+	}
+
+	public function reviews($restaurant_id)
+	{
+		var_dump($restaurant_id, "Restuarants controller review: restaurant_id");
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('body', 'Body', 'required');
+		$data['restaurant'] = $this->restaurants_model->get_restaurant($restaurant_id)[0];
+		$data['title'] = 'Reviews';
+		$data['reviews']=$this->reviews_model->get_reviews($restaurant_id);
+		$author_id = $this->session->id;
+
+		if(!empty($author_id)){
+			if ($this->form_validation->run() === TRUE){
+					echo "validation form ran";
+					$this->reviews_model->leave_review($restaurant_id, $author_id);
+					redirect('/restaurants/reviews/'.$restaurant_id);
+				}
+		}
+		else{
+			echo "form invalid";
+			// $message = "Please log in to leave a review";
+			// echo "<script type='text/javascript'>alert('$message');</script>";
+		}
+		$this->load->view('partials/header', $data);
+		$this->load->view('restaurants/reviews', $data);
+		$this->load->view('partials/footer');
 	}
 }
