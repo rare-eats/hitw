@@ -164,6 +164,12 @@ class Restaurants_model extends CI_Model {
 		return $ids;
 	}
 
+	public function clear_tags_from_restaurant($restaurant_id)
+	{
+		$this->db->where('restaurant_id', $restaurant_id);
+		$this->db->delete('restaurant_tags');
+	}
+
 	public function remove_tag_from_restaurant($restaurant_id, $tag_id)
 	{
 		$this->db->where('restaurant_id', $restaurant_id);
@@ -246,8 +252,20 @@ class Restaurants_model extends CI_Model {
 		];
 	}
 
+	public function get_amount_of_restaurants($amount = FALSE) {
+		if (!isset($amount)) {
+			$amount = 4;
+		}
+
+		$this->db->limit($amount);
+		$this->db->order_by('id', 'RANDOM');
+		$query = $this->db->get('restaurants');
+
+		return $query->result_array();
+	}
+
 	# Returns all restaurants if no id is specified
-	public function get_restaurant($id) {
+	public function get_restaurant($id = NULL) {
 
 		if (isset($id)) {
 			$this->db->where('restaurants.id', $id);
@@ -301,6 +319,8 @@ class Restaurants_model extends CI_Model {
 		if ($id === FALSE) {
 			show_404();
 		}
+
+		$this->clear_tags_from_restaurant($id);
 
 		$this->db->where('id', $id);
 		return $this->db->delete('restaurants');

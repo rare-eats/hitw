@@ -19,7 +19,7 @@
   </head>
   <body>
   	<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-primary">
-		<a class="navbar-brand" href="#">Rare Eats</a>
+		<a class="navbar-brand" href="<?php echo site_url('/'); ?>">Rare Eats</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -44,7 +44,7 @@
 			<ul class="navbar-nav ml-auto">
 			<?php if($this->session->has_userdata('id')): ?>
 				<li class="nav-item">
-					<a class="nav-link" href="/users/view/<?php echo $this->session->userdata('id');?>">View Profile</a>
+					<a class="nav-link" href="/users/view">View Profile</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="/users/logout">Logout</a>
