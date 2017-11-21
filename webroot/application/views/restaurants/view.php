@@ -37,7 +37,7 @@
 			<p class="card-text" id="tags-list">
 			<?php if (!empty($restaurant['tags'])): ?>
 				<?php foreach($restaurant['tags'] as $tag): ?>
-					<span class="badge badge-pill badge-primary"><?php echo $tag['name']; ?> <a style="color: white;" href="#" class="remove_tag_button" data-tag_id="<?php echo $tag['id']; ?>" data-restaurant_id="<?php echo $restaurant['id']; ?>">&times;</a></span>
+					<span class="badge badge-pill badge-primary"><?php echo $tag['name']; ?> <a href="#" class="remove_tag_button" data-tag_id="<?php echo $tag['id']; ?>" data-restaurant_id="<?php echo $restaurant['id']; ?>">&times;</a></span>
 				<?php endforeach; ?>
 			<?php else: ?>
 				<p>No tags.</p>

@@ -1,5 +1,5 @@
 <div class="container">
-	<div class="card" style="padding: 1rem;">
+	<div class="card">
 		<h3><?php echo $title; ?></h3>
 	<?php echo validation_errors(); ?>
 

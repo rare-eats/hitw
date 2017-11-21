@@ -204,29 +204,6 @@ class Restaurants_model extends CI_Model {
 		return $id;
 	}
 
-	# Return list of [amt] restaurants by [term] in a given [column]
-	# Ordering column defaults to rating, while ordering type defaults to descending
-	public function search_restaurant($column = 'all', $term, $amt = 5, $ord_col = 'rating', $ord_val = 'desc') {
-		# Limit search scope
-		if ($amt < 1) {
-			$amt = 1;
-		}
-		if ($amt > 100) {
-			$amt = 100;
-		}
-
-		if ($column == 'all') {
-			$this->db->like('restaurant_type', $term);
-			$this->db->or_like('name', $term);
-		}
-		else 
-		{
-			$this->db->like($column, $term, 'both');
-		}
-		$this->db->order_by($ord_col, $ord_val);
-		$this->db->limit($amt);
-		return $this;
-	}
 
 	// Get all tags assigned to this restaurant
 	public function get_restaurant_tags($id) {
@@ -296,22 +273,33 @@ class Restaurants_model extends CI_Model {
 		return $result;
 	}
 
-	# Get a list of [amt] restaurants by [type]
-	public function get_restaurants_by_type($type = 'happy', $amt, $ord_col, $ord_val) {
-		$query = search_restaurant('restaurant_type', $type, $amt, $ord_col, $ord_val);
-		return $query->result_array();
-	}
+	# Return list of [amt] restaurants by [term] in a given [column]
+	# Ordering column defaults to rating, while ordering type defaults to descending
+	public function search_restaurants($terms, $column = 'all', $ord_col = 'rating', $ord_val = 'desc') {
+		# Limit search scope
+		$search_amount = 100;
+		$term = strtolower($terms);
 
-	# Get a list of [amt] restaurants in [city]
-	public function get_restaurants_by_city($city = 'Vancouver', $amt, $ord_col, $ord_val) {
-		$query = search_restaurant('city', $city, $amt, $ord_col, $ord_val);
+		// echo var_dump($term);
+		if ($column == 'all') {
+			$this->db->like('LOWER(name)', $term);
+			$this->db->or_like('LOWER(restaurant_type)', $term);
+			$this->db->or_like('LOWER(city)', $term);
+		}
+		else 
+		{
+			$this->db->like('LOWER('.$column.')', $term, 'both');
+		}
+		$this->db->order_by($ord_col, $ord_val);
+		$this->db->limit($search_amount);
+		$query = $this->db->get('restaurants');
 		return $query->result_array();
 	}
 
 	# Get a list of [amt] restaurants by list of [terms]
-	public function get_restaurant_by_search($terms, $amt, $ord_col, $ord_val) {
-		$query = search_restaurant('all', $terms, $amt, $ord_col, $ord_val);
-		return $query->result_array();
+	public function get_restaurant_by_search($terms, $ord_col, $ord_val) {
+		$query = search_restaurant('all', $terms, $ord_col, $ord_val);
+		return $query;
 	}
 
 	# Delete a restaurant
