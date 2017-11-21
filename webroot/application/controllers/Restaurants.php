@@ -41,9 +41,8 @@ class Restaurants extends CI_Controller {
 		}
 		else 
 		{
-			$search_terms = $this->input->get('terms');
-			$data['terms'] = $search_terms;
-			$data['restaurants'] = $this->restaurants_model->search_restaurants($search_terms);
+			$data['terms'] = $this->input->get('terms');
+			$data['restaurants'] = $this->restaurants_model->search_restaurants($data['terms']);
 		}
 
 		$this->load->view('partials/header', $data);

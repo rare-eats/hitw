@@ -7,7 +7,7 @@
 <div class="container-fluid">
 	<div class="form-control-lg input-group">
 		<input type="text" class="form-control form-control-lg" name="terms" placeholder="I'm feeling like..." 
-		<?php if (isset($terms)) 
+		<?php if(isset($terms))
 		{ 
 			echo 'value="'.$terms.'"'; 
 		}
@@ -20,11 +20,9 @@
 <?php echo form_close(); ?>
 </div>
 
-<?php if(empty($restaurants)) 
-{
-	echo '<h3 class="text-center text-muted">No restaurants available.</h3>';
-}
-?>
+<?php if(empty($restaurants)): ?>
+	<h3 class="text-center text-muted">No restaurants available.</h3>
+<?php endif; ?>
 <?php foreach ($restaurants as $restaurant): ?>
 	<a style="text-decoration: none;" href="<?php echo site_url('restaurants/'.$restaurant['id']); ?>">
 		<div class="card">
