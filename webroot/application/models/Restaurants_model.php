@@ -14,6 +14,8 @@ class Restaurants_model extends CI_Model {
 	    return false;
     }
 
+    #Dream: User clicks on category, we load from that category if not yet loaded.
+
 	//TODO: make this call the api at a static URL.
 		//THEN ->> Modify the api call to be modular.
 	public function make_restaurants_api_call(){
@@ -29,7 +31,7 @@ class Restaurants_model extends CI_Model {
 		$categoryId = "4d4b7105d754a06374d81259";
 		$fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/search?client_id=" . $client_id .
 										"&client_secret=" . $client_secret . "&categoryId=" . $categoryId .
-										"&v=20171111&limit=10&intent=browse&near=Vancouver%2C%20BC");
+										"&v=20171111&limit=40&intent=browse&near=Vancouver%2C%20BC");
 		$this->preload_restaurants($fourSearch);
 	}
 	
@@ -114,10 +116,13 @@ class Restaurants_model extends CI_Model {
 			'country' => $country,
             'api_id' => $api_id
 		);
-		
-		#should have some sort of try/catch here.
-		$this->db->insert('restaurants', $data);
-		return $this->db->insert_id();
+		try {
+            #should have some sort of try/catch here.
+            $this->db->insert('restaurants', $data);
+            return $this->db->insert_id();
+        }catch(Exception $f){
+		    return;
+        }
 	}
 
 	// TODO: add_tags_by_name_to_restaurant($restaurant_id, $tag_names, $create_if_needed = FALSE)

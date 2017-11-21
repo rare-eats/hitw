@@ -1,4 +1,7 @@
 <!doctype html>
+  <?php
+  $this->load->helper('url');
+  ?>
 <html lang="en">
   <head>
   	<title>Rare Eats - <?php echo $title;?></title>
