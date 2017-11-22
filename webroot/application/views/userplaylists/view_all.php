@@ -1,4 +1,4 @@
-<?php if(empty($playlists)) 
+<?php if(empty($playlists))
 {
 	echo 'No playlists available.';
 }

@@ -1,3 +1,6 @@
+<?php if($this->session->id !== $playlist['author_id']): ?>
+    <h3 class="text-danger">You do not have permission to edit</h3>
+<?php else: ?>
 <div class="container">
 	<div class="card" style="padding: 1rem;">
 		<h3><?php echo $title; ?></h3>
@@ -6,7 +9,7 @@
 	<?php echo form_open('userplaylists/edit/'.$playlist['id']); ?>
 		<div class="form-group">
 			<label for="title">Playlist Title</label>
-			<input type="text" id="title" name="title" class="form-control" value="<?php echo $playlist['title']; ?>" required>			
+			<input type="text" id="title" name="title" class="form-control" value="<?php echo $playlist['title']; ?>" required>
 		</div>
 		<div class="form-group">
 			<label for="playlist_description">Playlist Description</label>
@@ -18,7 +21,7 @@
 			<?php echo form_checkbox('private', 'accept', $playlist['private']); ?>
 		</div>
 			<div class="col text-center">
-				<button type="submit" class="btn btn-primary">Edit</button>
+				<button type="submit" class="btn btn-primary">Save Changes</button>
 				<a class="btn btn-secondary" href="<?php echo site_url('userplaylists/view/'.$playlist['id']); ?>">Cancel</a>
 				<!-- Button trigger modal -->
 				<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletePlaylistModal">Delete</button>
@@ -26,7 +29,7 @@
 		</div>
 	</div>
 </div>
-
+<?php endif ?>
 
 <!-- Modal -->
 <div class="modal" id="deletePlaylistModal" tabindex="-1" role="dialog" aria-labelledby="deletePlaylistModalLabel" aria-hidden="true">

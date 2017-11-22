@@ -1,6 +1,6 @@
 <?php
 class Userplaylists extends CI_Controller {
-	
+
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('userplaylists_model');
@@ -9,6 +9,7 @@ class Userplaylists extends CI_Controller {
 
 	public function view($id = NULL) {
 		if ($id === NULL) {
+
 			$data['title'] = "Playlists";
 			$data['playlists'] = $this->userplaylists_model->get_playlist();
 
@@ -22,7 +23,7 @@ class Userplaylists extends CI_Controller {
 			if (empty($data['playlist'])) {
 				show_404();
 			}
-			
+
 			$this->load->model('users_model');
 			$author = ($this->users_model->get_user($data['playlist']['author_id']))[0];
 			$data['author_name'] = $author['first_name'] . ' ' . $author['last_name'];
@@ -50,7 +51,7 @@ class Userplaylists extends CI_Controller {
 			$this->load->view('userplaylists/create', $data);
 			$this->load->view('partials/footer');
 		}
-		else 
+		else
 		{
 			$query = $this->userplaylists_model->set_playlist();
 
@@ -78,7 +79,7 @@ class Userplaylists extends CI_Controller {
 			$this->load->view('userplaylists/edit', $data);
 			$this->load->view('partials/footer');
 		}
-		else 
+		else
 		{
 			$this->userplaylists_model->set_playlist($id);
 			redirect('/userplaylists/'.$playlist['id']);
