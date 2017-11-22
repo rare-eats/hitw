@@ -6,12 +6,12 @@
 
 		<?php echo form_open('userplaylists/create'); ?>
 			<div class="form-group">
-				<label for="title">Playlist Title</label>
-				<input type="text" id="title" name="title" class="form-control" placeholder="Worst Food Ever" required>
+				<!-- <label for="title">Playlist Title</label> -->
+				<input type="text" id="title" name="title" class="form-control" placeholder="Playlist Title" required>
 			</div>
 			<div class="form-group">
-				<label for="playlist_description">Playlist Description</label>
-				<input type="text" id="desc" name="desc" class="form-control"  placeholder="It sucks!!" required>
+				<!-- <label for="playlist_description">Playlist Description</label> -->
+				<input type="text" id="desc" name="desc" class="form-control" placeholder="Playlist Description" required>
 			</div>
 			<div class="form-group">
 				<label for="private_playlist">Is this playlist private?

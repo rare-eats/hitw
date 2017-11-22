@@ -254,15 +254,25 @@ class Users extends CI_Controller {
         redirect();
     }
 
+    // Delete a user and all its private playlists
+    // Set public playlists to a an author called "Deleted"
     public function delete($id = null) {
 
         if ($id === null) {
             redirect();
         }
 
-        // confirmation done in view page through a modal
-        // TODO: work on putting the confirmation in the controller
-        // or at least the delete view
+        $playlists = $this->userplaylists_model->get_by_author($id);
+        // this is terrible. Write a function that batch sets it instead
+        // of accessing the database every iteration
+        foreach ($playlists as $playlist) {
+            if (!$playlist['private']) {
+                $playlist['author_id'] = 4;
+                $this->userplaylists_model->update_playlist($playlist['id'], $playlist);
+            } else {
+                $this->userplaylists_model->delete_playlist($playlist['id']);
+            }
+        }
 
         $this->session->unset_userdata('isUserLoggedIn');
         $this->session->unset_userdata('id');

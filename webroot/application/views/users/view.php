@@ -76,7 +76,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-            <a href="../delete/<?php echo $user['id'];?>" type="button" class="btn btn-danger">Yes</a>
+            <a href="/users/delete/<?php echo $user['id'];?>" type="button" class="btn btn-danger">Yes</a>
         </div>
     </div>
   </div>
