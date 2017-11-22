@@ -13,7 +13,7 @@
 	<!-- Load additional CSS files passed in $data, should they exist -->
 	<?php if(isset($css)): ?>
 		<?php foreach($css as $style): ?>
-			<link rel="stylesheet" href="<?php echo $style.'.css'; ?>"></script>
+			<link rel="stylesheet" href="<?php echo $style.'.css'; ?>"></link>
 		<?php endforeach; ?>
 	<?php endif; ?>
   </head>
