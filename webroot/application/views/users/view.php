@@ -1,5 +1,5 @@
 <?php if (!($this->session->has_userdata('id') || $this->users_model->is_admin())): ?>
-    <div>Please login or register to view your profile</div>
+    <h4 class="text-danger">Please login or register to view your profile</h4>
 <?php else: ?>
 <div class="container-fluid">
     <div>
@@ -10,7 +10,6 @@
             <button type="submit" class="btn btn-primary">Search</button>
         </form>
     </div>
-
     <div class="my-sm-3 mx-sm-3">
         <h3>User Profile</h3>
         <table class="table">

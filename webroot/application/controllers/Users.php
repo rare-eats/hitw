@@ -45,7 +45,9 @@ class Users extends CI_Controller {
         $user = $this->users_model->get_user($id);
         $data['playlists'] = $this->userplaylists_model->get_by_author($id);
 
-        $data['user'] = $user[0];
+        if ($user) {
+            $data['user'] = $user[0];
+        }
         $this->load->view('partials/header', $title);
         $this->load->view('users/view', $data);
         $this->load->view('partials/footer');
@@ -80,6 +82,7 @@ class Users extends CI_Controller {
         $password = [
             'name'          => 'password',
             'type'          => 'password',
+            'minlength'     => '10',
             'class'         => 'form-control',
             'placeholder'   => 'Password'
         ];
@@ -131,8 +134,6 @@ class Users extends CI_Controller {
             $this->load->view('partials/header', $title);
             $this->load->view('users/create', $data);
             $this->load->view('partials/footer');
-
-
         }
 
     }
@@ -187,8 +188,7 @@ class Users extends CI_Controller {
             $this->load->view('users/edit', $data);
             $this->load->view('partials/footer');
 
-        }
-        else {
+        } else {
 
             $save_data = [
                 'first_name' => $this->input->post('first_name'),
