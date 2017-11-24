@@ -63,4 +63,9 @@ class Userplaylists_model extends CI_Model {
 			return $query->result_array();
 		}
 	}
+
+	// public function count_tags($author_id) {
+	// 	$query = $this->db->query('SELECT name, title, email FROM my_table');
+	// }
+
 }

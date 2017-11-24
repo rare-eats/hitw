@@ -1,7 +1,7 @@
 <?php
 
 class Restaurants_model extends CI_Model {
-	
+
 	public function __construct() {
 		$this->load->database();
 	}
@@ -24,7 +24,7 @@ class Restaurants_model extends CI_Model {
 
 		$client_id = "WCJXKICZZ3FVGLCCQNJQ3XL3WXDCX5GVFRF5E1PYLQ5MUEMI";
 		$client_secret = "WQU20OQPUUCLSTZUFNL5C3DH52JZ3AHFT1XQ1WYIRZM3QTMH";
-		
+
 		#this is the general 'food' category.
 		$categoryId = "4d4b7105d754a06374d81259";
 		$fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/search?client_id=" . $client_id .
@@ -32,25 +32,25 @@ class Restaurants_model extends CI_Model {
 										"&v=20171111&limit=10&intent=browse&near=Vancouver%2C%20BC");
 		$this->preload_restaurants($fourSearch);
 	}
-	
+
 	#Dummy data for restaurants.
 	public function preload_restaurants($srJson = null){
 		#Some json data taken from foursquare.  This should be taken on an api request.
 		if (is_null($srJson)){
 			return;
 		}
-		
+
 		$parsedJson = json_decode($srJson);
 		$response = $parsedJson->response;
 		$venues = $response->venues;
-		
+
 		$tags = "";
 		$name = "";
 		$streetAddress = "";
 		$city = "";
 		$pvCode = "";
 		$country = "";
-		
+
 		foreach($venues as $v)
 		{
 			try{
@@ -60,7 +60,7 @@ class Restaurants_model extends CI_Model {
 				$restaurant_type = $v->categories[0]->id;
 				$lat = $location->lat;
 				$lng = $location->lng;
-				
+
 				$api_id = $v->id;
 				$streetAddress = $location->address;
 				$city = $location->city;
@@ -71,7 +71,7 @@ class Restaurants_model extends CI_Model {
 					$postalCode = ", " . $location->postalCode;
 				}
 				$address = "";
-				
+
 				$address .= $streetAddress . ", " . $city . ", " . $prvCode . $postalCode;
 
 				#foreach ($categories as $cat)
@@ -102,7 +102,7 @@ class Restaurants_model extends CI_Model {
         $this->db->insert('restaurant_tags', $data);
         return $this->db->insert_id();
     }
-	
+
 	public function load_restaurant($restaurant_type, $name, $addr1, $city, $prv, $country, $api_id){
 	    #load restaurants.
 		$data = array(
@@ -114,7 +114,7 @@ class Restaurants_model extends CI_Model {
 			'country' => $country,
             'api_id' => $api_id
 		);
-		
+
 		#should have some sort of try/catch here.
 		$this->db->insert('restaurants', $data);
 		return $this->db->insert_id();
@@ -286,7 +286,7 @@ class Restaurants_model extends CI_Model {
 			$this->db->or_like('LOWER(restaurant_type)', $term);
 			$this->db->or_like('LOWER(city)', $term);
 		}
-		else 
+		else
 		{
 			$this->db->like('LOWER('.$column.')', $term, 'both');
 		}
@@ -312,5 +312,13 @@ class Restaurants_model extends CI_Model {
 
 		$this->db->where('id', $id);
 		return $this->db->delete('restaurants');
+	}
+
+	public function get_restaurants_by_ids($ids) {
+		if (isset($ids)) {
+			$this->db->where_in('id', $ids);
+			$query = $this->db->get('restaurants');
+			return $query->result_array();
+		}
 	}
 }

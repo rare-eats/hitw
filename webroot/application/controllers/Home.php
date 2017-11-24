@@ -9,6 +9,7 @@ class Home extends CI_Controller {
 		$this->load->model('userplaylists_model');
 		#move once we get a tags page
 		$this->load->model('tags_model');
+		$this->load->model('autoplaylists_model');
 		$this->load->helper('url_helper');
 		$this->load->model('restaurants_model');
 	}
@@ -26,24 +27,17 @@ class Home extends CI_Controller {
 
 		$data['restaurants'] = $this->restaurants_model->get_amount_of_restaurants(4);
 
-		$data['recommended'] = array(
-			array(
-				"title" => "Grove And Chew",
-				"desc" => "Get your chow on while you grove at these totally rad diners"
-			),
-			array(
-				"title" => "Rainy Days",
-				"desc" => "Come in from the rain and warm up with these comforting menus"
-			),
-			array(
-				"title" => "Health is Might",
-				"desc" => "No cheaters in here! Treat your body right with this selection of health food restaurants"
-			),
-			array(
-				"title" => "Cheat Day",
-				"desc" => "We all need a break sometimes, so come pig out at these delectably unhealthy dives"
-			)
-		);
+		$author_id = $this->session->id;
+
+        $tag_count = $this->autoplaylists_model->get_most_popular_tag($author_id);
+        $restaurant_ids = $this->tags_model->get_tags_by_id($tag_count[0]['tag_id']);
+
+        // Putting them in a format to pipe into get_restaurants_by_ids
+        foreach ($restaurant_ids as $r) {
+            $ids[] = $r['restaurant_id'];
+        }
+
+        $data['recommended'] = $this->restaurants_model->get_restaurants_by_ids($ids);
 		$data['playlists'] = $this->userplaylists_model->get_by_author($this->session->id, 4);
 
 		$this->load->view('partials/header.php', $data);
