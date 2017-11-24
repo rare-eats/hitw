@@ -36,8 +36,10 @@ class Users_model extends CI_Model {
     }
 
     public function edit_user($id, $data) {
-        $this->db->where('id', $id);
-        $this->db->update('users', $data);
+        if ($id) {
+            $this->db->where('id', $id);
+            $this->db->update('users', $data);
+        }
     }
 
     public function get_first_name($id) {
@@ -49,7 +51,6 @@ class Users_model extends CI_Model {
             return FALSE;
         }
     }
-
 
     public function is_admin() {
         if ($this->session->userdata('permissions') === 'admin') {

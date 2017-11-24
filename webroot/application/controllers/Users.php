@@ -45,7 +45,9 @@ class Users extends CI_Controller {
         $user = $this->users_model->get_user($id);
         $data['playlists'] = $this->userplaylists_model->get_by_author($id);
 
-        $data['user'] = $user[0];
+        if ($user) {
+            $data['user'] = $user[0];
+        }
         $this->load->view('partials/header', $title);
         $this->load->view('users/view', $data);
         $this->load->view('partials/footer');
@@ -80,6 +82,7 @@ class Users extends CI_Controller {
         $password = [
             'name'          => 'password',
             'type'          => 'password',
+            'minlength'     => '10',
             'class'         => 'form-control',
             'placeholder'   => 'Password'
         ];
@@ -131,8 +134,6 @@ class Users extends CI_Controller {
             $this->load->view('partials/header', $title);
             $this->load->view('users/create', $data);
             $this->load->view('partials/footer');
-
-
         }
 
     }
@@ -187,8 +188,7 @@ class Users extends CI_Controller {
             $this->load->view('users/edit', $data);
             $this->load->view('partials/footer');
 
-        }
-        else {
+        } else {
 
             $save_data = [
                 'first_name' => $this->input->post('first_name'),
@@ -254,15 +254,25 @@ class Users extends CI_Controller {
         redirect();
     }
 
+    // Delete a user and all its private playlists
+    // Set public playlists to a an author called "Deleted"
     public function delete($id = null) {
 
         if ($id === null) {
             redirect();
         }
 
-        // confirmation done in view page through a modal
-        // TODO: work on putting the confirmation in the controller
-        // or at least the delete view
+        $playlists = $this->userplaylists_model->get_by_author($id);
+        // this is terrible. Write a function that batch sets it instead
+        // of accessing the database every iteration
+        foreach ($playlists as $playlist) {
+            if (!$playlist['private']) {
+                $playlist['author_id'] = 4;
+                $this->userplaylists_model->update_playlist($playlist['id'], $playlist);
+            } else {
+                $this->userplaylists_model->delete_playlist($playlist['id']);
+            }
+        }
 
         $this->session->unset_userdata('isUserLoggedIn');
         $this->session->unset_userdata('id');
