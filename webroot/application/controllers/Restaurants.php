@@ -9,17 +9,37 @@ class Restaurants extends CI_Controller {
 		$this->load->helper('url_helper');
 	}
 
-	public function view($id = FALSE) {
-		if ($id === FALSE) {
+	public function view($id = NULL) {
+		if (!isset($id)) {
 			redirect('restaurants');
+			return; // Ensure the rest of the function doesn't run when redirecting
 		}
-		else
-		{
-			$data['restaurant'] = $this->restaurants_model->get_restaurant($id)[0];
+		// Control will only reach this block if $id exists
 
-			if (!isset($data['restaurant'])) {
+		$data['restaurant'] = $this->restaurants_model->get_restaurant($id)[0];
+
+		if (!isset($data['restaurant'])) {
 			redirect('restaurants');
+			return; // Don't continue if there was no data
 		}
+
+		$data['restaurant_id']	= $id;
+
+		$data['reviews'] = $this->reviews_model->get_reviews(
+			[
+				'restaurant_id' => $id
+			], 
+			TRUE
+		);
+		
+		$data['user_left_review'] = $this->reviews_model->count_reviews(
+			[
+				'restaurant_id'	=>	$id,
+				'author_id'		=>	$this->session->id
+			]
+		);
+
+		$data['user_id'] = $this->session->id;
 
 		$data['title'] = $data['restaurant']['name'];
 		$data['css'] = ['/css/restaurants'];
@@ -28,7 +48,6 @@ class Restaurants extends CI_Controller {
 		$this->load->view('partials/header', $data);
 		$this->load->view('restaurants/view', $data);
 		$this->load->view('partials/footer');
-		}
 	}
 
 	public function search() {
@@ -139,33 +158,5 @@ class Restaurants extends CI_Controller {
 			'message'=>'Removed tag'
 		];
 		echo json_encode($response);
-	}
-
-	public function reviews($restaurant_id)
-	{
-		var_dump($restaurant_id, "Restuarants controller review: restaurant_id");
-		$this->load->helper('form');
-		$this->load->library('form_validation');
-		$this->form_validation->set_rules('body', 'Body', 'required');
-		$data['restaurant'] = $this->restaurants_model->get_restaurant($restaurant_id)[0];
-		$data['title'] = 'Reviews';
-		$data['reviews']=$this->reviews_model->get_reviews($restaurant_id);
-		$author_id = $this->session->id;
-
-		if(!empty($author_id)){
-			if ($this->form_validation->run() === TRUE){
-					echo "validation form ran";
-					$this->reviews_model->leave_review($restaurant_id, $author_id);
-					redirect('/restaurants/reviews/'.$restaurant_id);
-				}
-		}
-		else{
-			echo "form invalid";
-			// $message = "Please log in to leave a review";
-			// echo "<script type='text/javascript'>alert('$message');</script>";
-		}
-		$this->load->view('partials/header', $data);
-		$this->load->view('restaurants/reviews', $data);
-		$this->load->view('partials/footer');
 	}
 }
