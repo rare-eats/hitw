@@ -2,7 +2,10 @@
 	<div class="card">
 		<div class="card-body">
 			<h2><?php echo $playlist['title']; ?>
-				<br><small class="text-muted">author: (<?php echo $playlist['author_id']?>)</small>
+				<br><small class="text-muted">
+					<!-- <a href="<?php echo site_url('/users/'.$author_id); ?>">author: <?php echo $author_name?></a> -->
+					<?php echo $author_name?>
+				</small>
 			</h2>
 			<p class="card-text">
 				<?php 

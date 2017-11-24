@@ -53,6 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['userplaylists/create'] = 'userplaylists/create';
 $route['userplaylists/edit/(:any)'] = 'userplaylists/edit/$1';
 $route['userplaylists/(:any)'] = 'userplaylists/view/$1';
+$route['userplaylists'] = 'userplaylists/view';
 // remove 'user in userplaylists routes possibly (left side)'
 
 $route['default_controller'] = 'home';
@@ -68,6 +69,8 @@ $route['restaurants/(:num)/tags/(:num)']['DELETE'] = 'restaurants/remove_tag/$1/
 
 $route['restaurants/create'] = 'restaurants/create';
 $route['restaurants/edit/(:any)'] = 'restaurants/edit/$1';
+$route['restaurants/search/(:any)'] = 'restaurants/search/$1';
+$route['restaurants/search'] = 'restaurants/search';
 $route['restaurants/(:any)'] = 'restaurants/view/$1';
 
 $route['restaurants/(:num)/reviews'] = 'restaurants/reviews/$1';
