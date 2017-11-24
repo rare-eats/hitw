@@ -69,7 +69,19 @@ $route['restaurants/(:num)/tags/(:num)']['DELETE'] = 'restaurants/remove_tag/$1/
 
 $route['restaurants/create'] = 'restaurants/create';
 $route['restaurants/edit/(:any)'] = 'restaurants/edit/$1';
+
 $route['restaurants/search/(:any)'] = 'restaurants/search/$1';
 $route['restaurants/search'] = 'restaurants/search';
 $route['restaurants/(:any)'] = 'restaurants/view/$1';
+
 $route['restaurants'] = 'restaurants/search';
+
+$route['restaurants/(:num)/reviews'] = 'restaurants/reviews/$1';
+
+// I'd use HTTP verbs for this, but I didn't feel like making the JS for it
+$route['restaurants/(:num)/review/(:num)/delete'] = 'reviews/delete/$1/$2';
+$route['restaurants/(:num)/review/put'] = 'reviews/put/$1';
+
+$route['reviews/edit/(:num)'] = 'reviews/edit/$1';
+
+$route['restaurants'] = 'restaurants/view';
