@@ -8,10 +8,57 @@ class Restaurants_model extends CI_Model {
 
 	#a temporary function that will block loading more restaurants if there are already 5 - this is currently required
     #until we figure out a graceful way to deal with api_id collisions when adding restaurants.
-	public function check_if_loaded(){
+	public function check_if_restaurants_loaded(){
 	    $query = $this->db->get('restaurants');
 	    if (sizeof($query->result()) > 5) return true;
 	    return false;
+    }
+
+    public function check_if_reviews_loaded(){
+        $query = $this->db->get('reviews');
+        if (sizeof($query->result()) > 5) return true;
+        return false;
+    }
+
+    public function make_reviews_api_call($venueId){
+        #want this in when we get the ability to load in by api key - then check to see how many reviews are associated with a specific restaurant.
+	    #if ($this->check_if_reviews_loaded($venueId)){
+#	        return true;
+#        }
+
+        $client_id = "WCJXKICZZ3FVGLCCQNJQ3XL3WXDCX5GVFRF5E1PYLQ5MUEMI";
+        $client_secret = "WQU20OQPUUCLSTZUFNL5C3DH52JZ3AHFT1XQ1WYIRZM3QTMH";
+
+        #https://api.foursquare.com/v2/venues/4aa7f646f964a5203d4e20e3/tips?v=20171123&sort=friends&limit=5
+        #https://api.foursquare.com/v2/venues/4aa7f646f964a5203d4e20e3/tips?client_id=
+        #WCJXKICZZ3FVGLCCQNJQ3XL3WXDCX5GVFRF5E1PYLQ5MUEMI&client_secret=WQU20OQPUUCLSTZUFNL5C3DH52JZ3AHFT1XQ1WYIRZM3QTMH
+        #&v=20171123&sort=recent&limit=5&offset=5
+
+        $fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/" .
+            $venueId . "/tips?client_id=" . $client_id . "&client_secret=" . $client_secret .
+            "&v=20171123&sort=recent&limit=5&offset=5");
+
+        $this->preload_reviews($fourSearch, $venueId);
+    }
+
+    public function preload_reviews($fourSearch, $venueId){
+        #Parse through the resulting JSON and load it into the database.
+        $parsedJson = json_decode($fourSearch);
+        #something something if code not 200, don't load.
+        $meta = $parsedJson->meta;
+        $code = $meta->code;
+
+        $response = $parsedJson->response;
+        $items = $response->tips->items;
+
+        #foreach tip in items
+        #foreach($venues as $v)
+        foreach ($items as $review){
+            $reviewId = $review->id;
+            $reviewText = $review->text;
+            #https:\/\/igx.4sqi.net\/img\/general\/original\/7711715_gjwwPjf3psCUv8Ftx4fe2MDakydOJ6qZ3gvdxalu6ZA.jpg
+            $reviewImage = $review->photourl;
+        }
     }
 
     #Dream: User clicks on category, we load from that category if not yet loaded.
@@ -20,7 +67,7 @@ class Restaurants_model extends CI_Model {
 		//THEN ->> Modify the api call to be modular.
 	public function make_restaurants_api_call(){
 	    #check if we should load.
-        if ($this->check_if_loaded()){
+        if ($this->check_if_restaurants_loaded()){
             return true;
         }
 
@@ -104,6 +151,8 @@ class Restaurants_model extends CI_Model {
         $this->db->insert('restaurant_tags', $data);
         return $this->db->insert_id();
     }
+
+
 	
 	public function load_restaurant($restaurant_type, $name, $addr1, $city, $prv, $country, $api_id){
 	    #load restaurants.

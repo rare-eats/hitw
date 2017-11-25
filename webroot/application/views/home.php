@@ -1,7 +1,10 @@
 <?php
 	#$this->restaurants_model->load_food_categories();
     $this->tags_model->make_tags_api_call();
+
+    #Get restaurants, and within restaurants get a few associated reviews if available.
     $this->restaurants_model->make_restaurants_api_call();
+
     #$this->restaurants_model->associate_restaurants_with_tags();
 
 ?>
