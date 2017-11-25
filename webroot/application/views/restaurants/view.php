@@ -2,34 +2,34 @@
 	<div class="card">
 		<img class="card-img-top" src="http://via.placeholder.com/800x300" alt="placeholder">
 		<div class="card-body">
-			<h3><?php echo $restaurant['name']; ?> 
-				<small class="text-muted">(<?php 
-					if (empty($restaurant['rating'])) 
+			<h3><?php echo $restaurant['name']; ?>
+				<small class="text-muted">(<?php
+					if (empty($restaurant['rating']))
 					{
 						echo 'No ratings yet';
 					}
 					else
 					{
 						echo $restaurant['rating'];
-						echo '/5'; 
+						echo '/5';
 					}
 					?>)</small></h3>
 			<p class="card-text">
-				<?php 
-				if (empty($restaurant['addr_1'])) 
-				{ 
-					echo "No address (yet)"; 
-				} 
-				else 
-				{ 
-					echo $restaurant['addr_1'];  
-				} 
+				<?php
+				if (empty($restaurant['addr_1']))
+				{
+					echo "No address (yet)";
+				}
+				else
+				{
+					echo $restaurant['addr_1'];
+				}
 				echo ', ';
-				echo $restaurant['city']; 
-				if (!empty($restaurant['state_prov_code'])) 
-				{ 
-					echo ', '; echo $restaurant['state_prov_code']; 
-				} 
+				echo $restaurant['city'];
+				if (!empty($restaurant['state_prov_code']))
+				{
+					echo ', '; echo $restaurant['state_prov_code'];
+				}
 				echo ', ';
 				echo $restaurant['country'];
 				?>
@@ -43,9 +43,12 @@
 				<p>No tags.</p>
 			<?php endif; ?>
 			</p>
-			<a href="#" class="btn btn-primary">Reviews</a>
 			<a href="<?php echo site_url('/restaurants/edit/'.$restaurant['id']); ?>" class="btn btn-secondary">Edit</a>
 			<hr />
+
+			<p class="card-text text-center">
+				Critic Reviews
+			</p>
 			<blockquote class="blockquote text-center">
 				<p class="mb-0">I enjoyed consuming things here.</p>
 				<footer class="blockquote-footer">Cthulu in <cite title="Diner's Choice">Diner's Choice</cite></footer>
@@ -54,6 +57,43 @@
 				<p class="mb-0">Great selection, would visit again.</p>
 				<footer class="blockquote-footer">Merlin in <cite title="Food Weekly">Food Weekly</cite></footer>
 			</blockquote>
+
+			<hr />
+			<!-- User Reviews and Recommendations -->
+			<p class="card-text text-center">
+				User Reviews
+			</p>
+			<?php if(!empty($reviews)): ?>
+				<div class="container-fluid">
+					<?php foreach($reviews as $review): ?>
+						<div class="row">
+							<div class="col-11">
+								<blockquote class="blockquote">
+									<p class="mb-0"><?php echo $review['body']; ?></p>
+									<footer class="blockquote-footer"><?php echo $review['first_name']." ".$review['last_name'];?></footer>
+								</blockquote>
+							</div>
+							<?php if($review['author_id'] == $user_id): ?>
+								<form action="/restaurants/<?php echo $restaurant_id; ?>/review/<?php echo $review['id']; ?>/delete" method="post" class="col-1">
+									<button type="submit" class="btn btn-danger">Delete</button>
+								</form>
+							<?php endif; ?>
+						</div>
+					<?php endforeach; ?>
+				</div>
+			<?php endif; ?>
+
+			<?php if(empty($reviews) || (isset($user_left_review) && $user_left_review < 1) ): ?>
+				<p class="text-center">Let your voice be heard, leave a review now!</p>
+					<form action="/restaurants/<?php echo $restaurant_id; ?>/review/put" method="post" accept-charset="utf-8">
+						<div class="form-group">
+							<input type="text" id="body" name="body" class="form-control" placeholder="What did you think of this location?" value="<?php empty($user_review) || empty($user_review['body']) ? "" : html_escape($user_review['body']); ?>">
+						</div>
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</form>
+			<?php endif; ?>
+			<!-- End user reviews and recommendations -->
+
 		</div>
 	</div>
 	<div class="row" style="margin-top: 1rem;">
