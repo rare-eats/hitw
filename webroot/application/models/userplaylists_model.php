@@ -45,6 +45,15 @@ class Userplaylists_model extends CI_Model {
 		return $query->row_array();
 	}
 
+	public function get_restaurants($id = FALSE) {
+		$query = FALSE;
+		if ($id !== FALSE) {
+			$query = $this->db->get_where('user_playlist_contents', ['playlist_id' => $id]);
+		}
+
+		return $query->result_array();
+	}
+
 	# Delete a playlist
 	public function delete_playlist($id = FALSE) {
 		if ($id === FALSE) {
@@ -52,7 +61,12 @@ class Userplaylists_model extends CI_Model {
 		}
 
 		$this->db->where('id', $id);
-		return $this->db->delete('user_playlists');
+		$query = $this->db->delete('user_playlists');
+
+		if ($query) {
+			$this->db->where('id', $id);
+			$this->db->delete('user_playlist_contents');
+		}
 	}
 
 	public function get_by_author($author_id, $limit = FALSE) {
@@ -63,6 +77,8 @@ class Userplaylists_model extends CI_Model {
 			return $query->result_array();
 		}
 	}
+
+
 
 	// public function count_tags($author_id) {
 	// 	$query = $this->db->query('SELECT name, title, email FROM my_table');

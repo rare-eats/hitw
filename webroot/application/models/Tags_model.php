@@ -67,7 +67,7 @@ class Tags_model extends CI_Model {
     public function get_tags_by_id($tag_id = NULL) {
         $query = FALSE;
         if (isset($tag_id)) {
-            // $this->db->select('restaurant_id');
+            $this->db->select('restaurant_id');
             $query = $this->db->get_where('restaurant_tags', ['tag_id' => $tag_id]);
         }
 

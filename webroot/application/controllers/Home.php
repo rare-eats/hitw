@@ -29,16 +29,37 @@ class Home extends CI_Controller {
 
 		$author_id = $this->session->id;
 
-        $tag_count = $this->autoplaylists_model->get_most_popular_tag($author_id);
-        $restaurant_ids = $this->tags_model->get_tags_by_id($tag_count[0]['tag_id']);
+		if (isset($author_id)) {
+        	$recommended_playlist = $this->autoplaylists_model->get_recommended_playlist($author_id);
+        	$data['recommended'] = $recommended_playlist;
+			$data['playlists'] = $this->userplaylists_model->get_by_author($author_id, 4);
 
-        // Putting them in a format to pipe into get_restaurants_by_ids
-        foreach ($restaurant_ids as $r) {
-            $ids[] = $r['restaurant_id'];
+		}
+
+        if (isset($recommended_playlist) && $recommended_playlist['t_created'] - date("Y-m-d H:i:s") >= 7) {
+
+        		$tag_count = $this->autoplaylists_model->get_most_popular_tag($author_id);
+
+	        	$restaurant_tags = $this->tags_model->get_tags_by_id($tag_count[0]['tag_id']);
+	        	$restaurant_users = $this->autoplaylists_model->get_user_restaurants($author_id);
+	        	$ru = [];
+		        $rt = [];
+
+		        array_walk_recursive($restaurant_users, function($a) use (&$ru) { $ru[] = $a; });
+		        array_walk_recursive($restaurant_tags, function($a) use (&$rt) { $rt[] = $a; });
+
+		        //find restaurants that are not in restaurants_users
+		        $recommended = [];
+		        foreach ($rt as $r) {
+		        	if (!in_array($r, $ru)) {
+		        		$recommended[] = $r;
+		        	}
+		        }
+		        $this->autoplaylists_model->create_recommendation_list($author_id, $recommended);
         }
 
-        $data['recommended'] = $this->restaurants_model->get_restaurants_by_ids($ids);
-		$data['playlists'] = $this->userplaylists_model->get_by_author($this->session->id, 4);
+
+        $data['author_id'] = $author_id;
 
 		$this->load->view('partials/header.php', $data);
 		$this->load->view('home.php', $data);
