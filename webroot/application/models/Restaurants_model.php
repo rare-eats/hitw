@@ -20,12 +20,53 @@ class Restaurants_model extends CI_Model {
         return false;
     }
 
-    public function make_reviews_api_call($venueId){
+    public function make_photos_api_call($restaurant_id){
+        #Example: "I want 3 general photos from this venue"
+        #check if photos exist for this restaurant, if they do, don't load in more.
+        #if ($this->check_if_reviews_loaded($venueId)){
+#	        return true;
+#       }
+        #https://api.foursquare.com/v2/venues/4aa7f646f964a5203d4e20e3/photos?v=20171125&client_id=WCJXKICZZ3FVGLCCQNJQ3XL3WXDCX5GVFRF5E1PYLQ5MUEMI&client_secret=WQU20OQPUUCLSTZUFNL5C3DH52JZ3AHFT1XQ1WYIRZM3QTMH
+        #&group=venue&limit=5
+        #{"meta":{"code":200,"requestId":"5a19f690f594df3e1542aeae"},"response":{"photos":{"count":1830,"items":[{"id":"5a080569bed483485caa0db3","createdAt":1510475113,"source":{"name":"Swarm for iOS","url":"https:\/\/www.swarmapp.com"},"prefix":"https:\/\/igx.4sqi.net\/img\/general\/","suffix":"\/129685696_sc_R5gl5efHuHtuNmY1sA_AtorTxfyIdYfcRxxTEsbk.jpg","width":1920,"height":1279,"user":{"id":"129685696","firstName":"Polina","lastName":"Komisarova","gender":"female","photo":{"prefix":"https:\/\/igx.4sqi.net\/img\/user\/","suffix":"\/129685696-VP2OK4NSBQQM2YKH.jpg"}},"visibility":"public"},{"id":"5a0769e80802d42aa2d5fa94","createdAt":1510435304,"source":{"name":"Swarm for iOS","url":"https:\/\/www.swarmapp.com"},"prefix":"https:\/\/igx.4sqi.net\/img\/general\/","suffix":"\/1771373_fSqYkTY8b8Z-smAs55-3R0H3jcpBoTWC9gOMkkjbKLg.jpg","width":1920,"height":1440,"user":{"id":"1771373","firstName":"Stanford","gender":"male","photo":{"prefix":"https:\/\/igx.4sqi.net\/img\/user\/","suffix":"\/JEPKZYXLYV02KOJV.jpg"}},"visibility":"public"},{"id":"5a076530c0f16370f3a110ab","createdAt":1510434096,"source":{"name":"Swarm for iOS","url":"https:\/\/www.swarmapp.com"},"prefix":"https:\/\/igx.4sqi.net\/img\/general\/","suffix":"\/804080_cMHcsfH9VAEkxF3jXBHLVDhvmEO5AU4nLNxH8Fwvr5g.jpg","width":1920,"height":1440,"user":{"id":"804080","firstName":"Runar","lastName":"Petursson","gender":"male","photo":{"prefix":"https:\/\/igx.4sqi.net\/img\/user\/","suffix":"\/804080-PSS0EQO4ZEG5PHN3.jpg"}},"visibility":"public"}]}}}
+        $client_id = "WCJXKICZZ3FVGLCCQNJQ3XL3WXDCX5GVFRF5E1PYLQ5MUEMI";
+        $client_secret = "WQU20OQPUUCLSTZUFNL5C3DH52JZ3AHFT1XQ1WYIRZM3QTMH";
+
+        $fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/" .
+            $restaurant_id . "/photos?client_id=" . $client_id . "&client_secret=" . $client_secret .
+            "&v=20171123&group=venue&limit=5");
+
+        $this->preload_photo_urls($fourSearch, $restaurant_id);
+    }
+
+    public function preload_photo_urls($fourSearch, $restaurant_id){
+
+        $parsedJson = json_decode($fourSearch);
+
+        #TODO: If code not 200, don't load, something like that goes here.
+        $meta = $parsedJson->meta;
+        $code = $meta->code;
+
+        $response = $parsedJson->response;
+        $items = $response->photos->items;
+        foreach ($items as $photo){
+            #Build image URL string
+            $imgId = $photo->id;
+            $imgTaken = $photo->createdAt;
+            $imgUrl = $photo->prefix . $photo->width . "x" . $photo->height . $photo->suffix;
+
+            #Load image data into SOMEWHERE.
+        }
+    }
+
+    public function make_reviews_api_call($restaurant_id){
         #want this in when we get the ability to load in by api key - then check to see how many reviews are associated with a specific restaurant.
 	    #if ($this->check_if_reviews_loaded($venueId)){
 #	        return true;
 #        }
 
+        #backup client id: IREJNTZAUVFPPDAEJ2EY0L4AHKFGYMPUB4RKEHJG5QK20AXS
+        #backup secret: WVP24YF0O504XZ4QMOQ3TPKZ3DZI3KYYO3ODP3DR0SKHZ2FX
         $client_id = "WCJXKICZZ3FVGLCCQNJQ3XL3WXDCX5GVFRF5E1PYLQ5MUEMI";
         $client_secret = "WQU20OQPUUCLSTZUFNL5C3DH52JZ3AHFT1XQ1WYIRZM3QTMH";
 
@@ -35,13 +76,13 @@ class Restaurants_model extends CI_Model {
         #&v=20171123&sort=recent&limit=5&offset=5
 
         $fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/" .
-            $venueId . "/tips?client_id=" . $client_id . "&client_secret=" . $client_secret .
+            $restaurant_id . "/tips?client_id=" . $client_id . "&client_secret=" . $client_secret .
             "&v=20171123&sort=recent&limit=5&offset=5");
 
-        $this->preload_reviews($fourSearch, $venueId);
+        $this->preload_reviews($fourSearch, $restaurant_id);
     }
 
-    public function preload_reviews($fourSearch, $venueId){
+    public function preload_reviews($fourSearch, $restaurant_id){
         #Parse through the resulting JSON and load it into the database.
         $parsedJson = json_decode($fourSearch);
         #something something if code not 200, don't load.
@@ -54,12 +95,36 @@ class Restaurants_model extends CI_Model {
         #foreach tip in items
         #foreach($venues as $v)
         foreach ($items as $review){
-            $reviewId = $review->id;
-            $reviewText = $review->text;
+            $api_id = $review->id;
+            $body = $review->text;
             #https:\/\/igx.4sqi.net\/img\/general\/original\/7711715_gjwwPjf3psCUv8Ftx4fe2MDakydOJ6qZ3gvdxalu6ZA.jpg
             $reviewImage = $review->photourl;
+            $author_id = $review->user->id;
+
+            try {
+                $data = array('restaurant_id' => $restaurant_id,
+                    'body' => $body,
+                    'api_id' => $api_id);
+                $this->load_review($data);
+                #'author_id' = $author_id,
+            }catch(Exception $e){
+
+            }
         }
     }
+    public function load_review($data){
+        $this->db->insert('reviews', $data);
+        return $this->db->insert_id();
+    }
+
+    #public function load_restaurant_tag($restaurant_id, $tag_id){
+    #$data = array(
+    #'restaurant_id' => $restaurant_id,
+    #'tag_id' => $tag_id
+    #);
+    #$this->db->insert('restaurant_tags', $data);
+    #return $this->db->insert_id();
+    #}
 
     #Dream: User clicks on category, we load from that category if not yet loaded.
 
@@ -149,6 +214,7 @@ class Restaurants_model extends CI_Model {
             'tag_id' => $tag_id
         );
         $this->db->insert('restaurant_tags', $data);
+        $this->make_reviews_api_call($restaurant_id);
         return $this->db->insert_id();
     }
 

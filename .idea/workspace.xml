@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="49b1eead-e2de-47d2-af8a-e59528e4548b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/application/controllers/Home.php" afterPath="$PROJECT_DIR$/webroot/application/controllers/Home.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/application/models/Restaurants_model.php" afterPath="$PROJECT_DIR$/webroot/application/models/Restaurants_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/application/views/home.php" afterPath="$PROJECT_DIR$/webroot/application/views/home.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,8 +21,8 @@
       <file leaf-file-name="Home.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/webroot/application/controllers/Home.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="238">
+              <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -31,7 +31,7 @@
       <file leaf-file-name="Tags_model.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/webroot/application/models/Tags_model.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2567">
+            <state relative-caret-position="255">
               <caret line="151" column="82" lean-forward="false" selection-start-line="151" selection-start-column="82" selection-end-line="151" selection-end-column="82" />
               <folding />
             </state>
@@ -41,8 +41,8 @@
       <file leaf-file-name="Restaurants_model.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/webroot/application/models/Restaurants_model.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="75" column="0" lean-forward="false" selection-start-line="74" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+            <state relative-caret-position="136">
+              <caret line="56" column="0" lean-forward="true" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -61,8 +61,8 @@
       <file leaf-file-name="home.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/webroot/application/views/home.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="5" column="58" lean-forward="true" selection-start-line="5" selection-start-column="58" selection-end-line="5" selection-end-column="58" />
+            <state relative-caret-position="102">
+              <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -122,9 +122,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>restaurants.php</find>
-      <find>load_food_categories</find>
-      <find>migration</find>
       <find>$this-&gt;load-&gt;library('migration');</find>
       <find>database</find>
       <find>Home.php</find>
@@ -148,10 +145,13 @@
       <find>create</find>
       <find>tags</find>
       <find>load_tag</find>
-      <find>preload_restaurants</find>
       <find>foreach</find>
       <find>restaurant</find>
       <find>check_if_restaurant</find>
+      <find>check_if_reviews_</find>
+      <find>preload_restaurants</find>
+      <find>make_reviews</find>
+      <find>make_reviews_api_call</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -162,7 +162,6 @@
       <list>
         <option value="$PROJECT_DIR$/webroot/application/config/migration.php" />
         <option value="$PROJECT_DIR$/webroot/application/migrations/20171111094930_update_tags_tables.php" />
-        <option value="$PROJECT_DIR$/webroot/application/controllers/Home.php" />
         <option value="$PROJECT_DIR$/webroot/application/controllers/Restaurants.php" />
         <option value="$PROJECT_DIR$/webroot/application/migrations/20171102155434_initial_database_structure.php" />
         <option value="$PROJECT_DIR$/webroot/application/migrations/20171111163224_restaurant_api_field.php" />
@@ -170,6 +169,7 @@
         <option value="$PROJECT_DIR$/chef/cookbooks/baseconfig/recipes/default.rb" />
         <option value="$PROJECT_DIR$/webroot/application/models/Tags_model.php" />
         <option value="$PROJECT_DIR$/webroot/application/views/home.php" />
+        <option value="$PROJECT_DIR$/webroot/application/controllers/Home.php" />
         <option value="$PROJECT_DIR$/webroot/application/models/Restaurants_model.php" />
       </list>
     </option>
@@ -218,6 +218,7 @@
     <option name="width" value="1346" />
     <option name="height" value="688" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
@@ -234,7 +235,22 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="Scratches" />
+      <pane id="Scratches">
+        <subPane>
+          <expand>
+            <path>
+              <item name="" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+              <item name="Extensions" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
+            </path>
+            <path>
+              <item name="" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+              <item name="Extensions" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
+              <item name="com.intellij.database" type="61db50fb:ScratchProjectViewPane$MyPsiNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -348,18 +364,17 @@
       <workItem from="1510537513222" duration="24499000" />
       <workItem from="1510783169490" duration="3934000" />
       <workItem from="1511240110899" duration="4014000" />
-      <workItem from="1511483966142" duration="9870000" />
+      <workItem from="1511483966142" duration="19068000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42317000" />
+    <option name="totallyTimeSpent" value="51515000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23133236" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23133236" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -692,23 +707,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/webroot/application/models/Tags_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2567">
-          <caret line="151" column="82" lean-forward="false" selection-start-line="151" selection-start-column="82" selection-end-line="151" selection-end-column="82" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Vagrantfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/webroot/application/controllers/Home.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -724,18 +723,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/webroot/application/controllers/Home.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webroot/application/models/Tags_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="151" column="82" lean-forward="false" selection-start-line="151" selection-start-column="82" selection-end-line="151" selection-end-column="82" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/webroot/application/views/home.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="5" column="58" lean-forward="true" selection-start-line="5" selection-start-column="58" selection-end-line="5" selection-end-column="58" />
+        <state relative-caret-position="102">
+          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/webroot/application/models/Restaurants_model.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="75" column="0" lean-forward="false" selection-start-line="74" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+        <state relative-caret-position="136">
+          <caret line="56" column="0" lean-forward="true" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
           <folding />
         </state>
       </provider>
