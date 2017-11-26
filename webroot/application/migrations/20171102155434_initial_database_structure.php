@@ -11,11 +11,6 @@ class Migration_Initial_database_structure extends CI_Migration {
 		$this->dbforge->create_table('restaurants');
 		// End restaurants Table Setup
 
-        // photos Table Setup
-        $this->dbforge->add_field('id');
-        $this->dbforge->create_table('photos');
-        // End photos table setup
-
 		// tags Table Setup
 		$this->dbforge->add_field('id');
 		$this->dbforge->create_table('tags');
@@ -32,13 +27,6 @@ class Migration_Initial_database_structure extends CI_Migration {
 		$this->dbforge->add_field('tag_id integer references tags (id)');
 		$this->dbforge->create_table('restaurant_tags');
 		// End resturant_tags Table Setup
-
-        //restaurant_photos Table Setup
-        $this->dbforge->add_field('id');
-        $this->dbforge->add_field('restaurant_id integer references restaurants(id)');
-        $this->dbforge->add_field('photo_id integer references photos(id)');
-        $this->dbforge->create_table('restaurant_photos');
-        //end restaurant_photos table setup
 
 		// reviews Table Setup
 		$this->dbforge->add_field('id');
@@ -94,7 +82,5 @@ class Migration_Initial_database_structure extends CI_Migration {
 		$this->dbforge->drop_table('users');
 		$this->dbforge->drop_table('tags');
 		$this->dbforge->drop_table('restaurant');
-		$this->dbforge->drop_table('restaurant_photos');
-		$this->dbforge->drop_table('photos');
 	}
 }
