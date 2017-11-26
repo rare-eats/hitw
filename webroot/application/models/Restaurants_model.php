@@ -32,11 +32,11 @@ class Restaurants_model extends CI_Model {
         }
         $id_secret = $this->get_id_and_secret();
 
-        #this is the general 'food' category.  All other categories sit inside of it.
+        #this is the general 'food' category.  All other restaurant categories we want sit inside of it.
         $categoryId = "4d4b7105d754a06374d81259";
         $fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/search?client_id=" . $id_secret[0] .
             "&client_secret=" . $id_secret[1] . "&categoryId=" . $categoryId .
-            "&v=20171111&limit=40&intent=browse&near=Vancouver%2C%20BC");
+            "&v=20171111&limit=50&intent=browse&near=Vancouver%2C%20BC");
 
         if (is_null($fourSearch)){return;}
         $this->preload_restaurants($fourSearch);
@@ -121,6 +121,16 @@ class Restaurants_model extends CI_Model {
             }
         }
     }
+
+    private function is_good_category($category_api_id){
+        #Here resides a list of banned categories that we should not load in.
+        #(in_array(strtolower($name), array('food', 'coffee shop', 'restaurant', 'bubble tea shop', 'cafeteria', 'deli / bodega', 'diner', 'fast food', 'food court', 'labour canteen', 'hot dog joint', 'juice bar', 'tea room', 'truck stop', 'market', 'food & drink shop', 'grocery store', 'food court')
+        if (in_array($category_api_id, array('4d4b7105d754a06374d81259', '4bf58dd8d48988d1e0931735', '4bf58dd8d48988d1c4941735', '52e81612bcbc57f1066b7a0c', '4bf58dd8d48988d128941735', '4bf58dd8d48988d146941735', '4bf58dd8d48988d147941735', '4bf58dd8d48988d16e941735', '57558b36e4b065ecebd306b2', '4bf58dd8d48988d16f941735', '4bf58dd8d48988d112941735', '4bf58dd8d48988d1dc931735', '57558b36e4b065ecebd306d', '50be8ee891d4fa8dcc7199a7', '4bf58dd8d48988d1f9941735', '4bf58dd8d48988d118951735', '52f2ab2ebcbc57f1066b8b46', '4bf58dd8d48988d120951735')))
+        {
+            return FALSE;
+        }
+        return TRUE;
+    }
 	
 	#do a load of restaurants from the API (this data is static for demonstration purposes).
 	private function preload_restaurants($srJson){
@@ -132,8 +142,15 @@ class Restaurants_model extends CI_Model {
 
 		foreach($parsedJson->response->venues as $v)
 		{
+		    $loadable_venue = TRUE;
 			try{
 			    if ($v != null && $v->categories != null){
+			        foreach ($v->categories as $cat){
+                        if (!$this->is_good_category($v->categories[0]->id)){
+                            $loadable_venue = FALSE;
+                        }
+                    }
+                    if (!$loadable_venue){continue;}
                     $data = array(
                         'restaurant_type' => $v->categories[0]->id,
                         'name' => $v->name,
