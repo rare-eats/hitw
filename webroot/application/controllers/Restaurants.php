@@ -7,6 +7,7 @@ class Restaurants extends CI_Controller {
 		$this->load->model('tags_model');
 		$this->load->model('reviews_model');
 		$this->load->helper('url_helper');
+		$this->load->helper('form');
 	}
 
 	public function view($id = NULL) {
@@ -28,10 +29,10 @@ class Restaurants extends CI_Controller {
 		$data['reviews'] = $this->reviews_model->get_reviews(
 			[
 				'restaurant_id' => $id
-			], 
+			],
 			TRUE
 		);
-		
+
 		$data['user_left_review'] = $this->reviews_model->count_reviews(
 			[
 				'restaurant_id'	=>	$id,
@@ -59,7 +60,7 @@ class Restaurants extends CI_Controller {
 		if (!isset($_GET['terms'])) {
 			$data['restaurants'] = $this->restaurants_model->get_restaurant();
 		}
-		else 
+		else
 		{
 			$data['terms'] = $this->input->get('terms');
 			$data['restaurants'] = $this->restaurants_model->search_restaurants($data['terms']);

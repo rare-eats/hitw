@@ -17,7 +17,6 @@ class Reviews_model extends CI_Model {
 			}
 		}
 	}
-
 	/**
 	get_reviews()
 	- Returns an array containing all results which match the supplied
@@ -65,7 +64,6 @@ class Reviews_model extends CI_Model {
 		$this->filter_results($fields);
 		return $this->db->count_all_results('reviews');
 	}
-
 	// Delete all reviews which match the fields
 	public function delete_reviews($fields = NULL)
 	{
