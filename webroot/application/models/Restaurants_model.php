@@ -20,7 +20,7 @@ class Restaurants_model extends CI_Model {
         return false;
     }
 
-    public function make_photos_api_call($restaurant_id){
+    public function make_photos_api_call($restaurant_table_id, $restaurant_id){
         #Example: "I want 3 general photos from this venue"
         #check if photos exist for this restaurant, if they do, don't load in more.
         #if ($this->check_if_reviews_loaded($venueId)){
@@ -36,10 +36,10 @@ class Restaurants_model extends CI_Model {
             $restaurant_id . "/photos?client_id=" . $client_id . "&client_secret=" . $client_secret .
             "&v=20171123&group=venue&limit=5");
 
-        $this->preload_photo_urls($fourSearch, $restaurant_id);
+        $this->preload_photo_urls($fourSearch, $restaurant_table_id);
     }
 
-    public function preload_photo_urls($fourSearch, $restaurant_id){
+    public function preload_photo_urls($fourSearch, $restaurant_table_id){
 
         $parsedJson = json_decode($fourSearch);
 
@@ -51,15 +51,28 @@ class Restaurants_model extends CI_Model {
         $items = $response->photos->items;
         foreach ($items as $photo){
             #Build image URL string
-            $imgId = $photo->id;
-            $imgTaken = $photo->createdAt;
-            $imgUrl = $photo->prefix . $photo->width . "x" . $photo->height . $photo->suffix;
+            $api_id = $photo->id;
+            #$imgTaken = $photo->createdAt;
+            $image_url = $photo->prefix . $photo->width . "x" . $photo->height . $photo->suffix;
 
             #Load image data into SOMEWHERE.
+            try {
+                $data = array('api_id' => $api_id,
+                    'image_url' => $image_url,
+                    'restaurant_id' => $restaurant_table_id
+                );
+                $this->load_image($data);
+            }catch(Exception $e){
+
+            }
         }
     }
+    public function load_image($data){
+        $this->db->insert('photos', $data);
+        return $this->db->insert_id();
+    }
 
-    public function make_reviews_api_call($restaurant_id){
+    public function make_reviews_api_call($restaurant_table_id, $restaurant_id){
         #want this in when we get the ability to load in by api key - then check to see how many reviews are associated with a specific restaurant.
 	    #if ($this->check_if_reviews_loaded($venueId)){
 #	        return true;
@@ -77,12 +90,12 @@ class Restaurants_model extends CI_Model {
 
         $fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/" .
             $restaurant_id . "/tips?client_id=" . $client_id . "&client_secret=" . $client_secret .
-            "&v=20171123&sort=recent&limit=5&offset=5");
+            "&v=20171123&sort=recent&limit=2&offset=2");
 
-        $this->preload_reviews($fourSearch, $restaurant_id);
+        $this->preload_reviews($fourSearch, $restaurant_table_id);
     }
 
-    public function preload_reviews($fourSearch, $restaurant_id){
+    public function preload_reviews($fourSearch, $restaurant_table_id){
         #Parse through the resulting JSON and load it into the database.
         $parsedJson = json_decode($fourSearch);
         #something something if code not 200, don't load.
@@ -95,20 +108,19 @@ class Restaurants_model extends CI_Model {
         #foreach tip in items
         #foreach($venues as $v)
         foreach ($items as $review){
-            $api_id = $review->id;
-            $body = $review->text;
-            #https:\/\/igx.4sqi.net\/img\/general\/original\/7711715_gjwwPjf3psCUv8Ftx4fe2MDakydOJ6qZ3gvdxalu6ZA.jpg
-            $reviewImage = $review->photourl;
-            $author_id = $review->user->id;
-
             try {
-                $data = array('restaurant_id' => $restaurant_id,
+                $api_id = $review->id;
+                $body = $review->text;
+
+                $data = array('restaurant_id' => $restaurant_table_id,
+                    'author_id' => 2,
                     'body' => $body,
-                    'api_id' => $api_id);
+                    'api_id' => $api_id
+                );
                 $this->load_review($data);
                 #'author_id' = $author_id,
             }catch(Exception $e){
-
+                #var_dump($review);
             }
         }
     }
@@ -116,17 +128,6 @@ class Restaurants_model extends CI_Model {
         $this->db->insert('reviews', $data);
         return $this->db->insert_id();
     }
-
-    #public function load_restaurant_tag($restaurant_id, $tag_id){
-    #$data = array(
-    #'restaurant_id' => $restaurant_id,
-    #'tag_id' => $tag_id
-    #);
-    #$this->db->insert('restaurant_tags', $data);
-    #return $this->db->insert_id();
-    #}
-
-    #Dream: User clicks on category, we load from that category if not yet loaded.
 
 	//TODO: make this call the api at a static URL.
 		//THEN ->> Modify the api call to be modular.
@@ -214,7 +215,6 @@ class Restaurants_model extends CI_Model {
             'tag_id' => $tag_id
         );
         $this->db->insert('restaurant_tags', $data);
-        $this->make_reviews_api_call($restaurant_id);
         return $this->db->insert_id();
     }
 
@@ -234,6 +234,8 @@ class Restaurants_model extends CI_Model {
 		try {
             #should have some sort of try/catch here.
             $this->db->insert('restaurants', $data);
+            $this->make_reviews_api_call($this->db->insert_id(), $api_id);
+            $this->make_photos_api_call($this->db->insert_id(), $api_id);
             return $this->db->insert_id();
         }catch(Exception $f){
 		    return;

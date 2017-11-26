@@ -7,6 +7,7 @@
 
     #$this->restaurants_model->associate_restaurants_with_tags();
 
+
 ?>
 
 <div class="container-fluid">

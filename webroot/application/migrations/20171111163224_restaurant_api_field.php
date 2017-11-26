@@ -15,7 +15,6 @@ class Migration_restaurant_api_field extends CI_Migration {
 				'null' => TRUE
 			)
 		);
-
 		$this->dbforge->add_column('restaurants', $fields);
 		$this->dbforge->drop_column('restaurants', 'addr_2');
 	}
