@@ -8,106 +8,103 @@ class Restaurants_model extends CI_Model {
 
 	#a temporary function that will block loading more restaurants if there are already 5 - this is currently required
     #until we figure out a graceful way to deal with api_id collisions when adding restaurants.
+    #If restaurants are loaded, everything else should be loaded.
 	public function check_if_restaurants_loaded(){
 	    $query = $this->db->get('restaurants');
 	    if (sizeof($query->result()) > 5) return true;
 	    return false;
     }
 
-    public function check_if_reviews_loaded(){
-        $query = $this->db->get('reviews');
-        if (sizeof($query->result()) > 5) return true;
-        return false;
-    }
-
-    public function make_photos_api_call($restaurant_table_id, $restaurant_id){
-        #Example: "I want 3 general photos from this venue"
-        #check if photos exist for this restaurant, if they do, don't load in more.
-        #if ($this->check_if_reviews_loaded($venueId)){
-#	        return true;
-#       }
-        #https://api.foursquare.com/v2/venues/4aa7f646f964a5203d4e20e3/photos?v=20171125&client_id=WCJXKICZZ3FVGLCCQNJQ3XL3WXDCX5GVFRF5E1PYLQ5MUEMI&client_secret=WQU20OQPUUCLSTZUFNL5C3DH52JZ3AHFT1XQ1WYIRZM3QTMH
-        #&group=venue&limit=5
-        #{"meta":{"code":200,"requestId":"5a19f690f594df3e1542aeae"},"response":{"photos":{"count":1830,"items":[{"id":"5a080569bed483485caa0db3","createdAt":1510475113,"source":{"name":"Swarm for iOS","url":"https:\/\/www.swarmapp.com"},"prefix":"https:\/\/igx.4sqi.net\/img\/general\/","suffix":"\/129685696_sc_R5gl5efHuHtuNmY1sA_AtorTxfyIdYfcRxxTEsbk.jpg","width":1920,"height":1279,"user":{"id":"129685696","firstName":"Polina","lastName":"Komisarova","gender":"female","photo":{"prefix":"https:\/\/igx.4sqi.net\/img\/user\/","suffix":"\/129685696-VP2OK4NSBQQM2YKH.jpg"}},"visibility":"public"},{"id":"5a0769e80802d42aa2d5fa94","createdAt":1510435304,"source":{"name":"Swarm for iOS","url":"https:\/\/www.swarmapp.com"},"prefix":"https:\/\/igx.4sqi.net\/img\/general\/","suffix":"\/1771373_fSqYkTY8b8Z-smAs55-3R0H3jcpBoTWC9gOMkkjbKLg.jpg","width":1920,"height":1440,"user":{"id":"1771373","firstName":"Stanford","gender":"male","photo":{"prefix":"https:\/\/igx.4sqi.net\/img\/user\/","suffix":"\/JEPKZYXLYV02KOJV.jpg"}},"visibility":"public"},{"id":"5a076530c0f16370f3a110ab","createdAt":1510434096,"source":{"name":"Swarm for iOS","url":"https:\/\/www.swarmapp.com"},"prefix":"https:\/\/igx.4sqi.net\/img\/general\/","suffix":"\/804080_cMHcsfH9VAEkxF3jXBHLVDhvmEO5AU4nLNxH8Fwvr5g.jpg","width":1920,"height":1440,"user":{"id":"804080","firstName":"Runar","lastName":"Petursson","gender":"male","photo":{"prefix":"https:\/\/igx.4sqi.net\/img\/user\/","suffix":"\/804080-PSS0EQO4ZEG5PHN3.jpg"}},"visibility":"public"}]}}}
-        $client_id = "WCJXKICZZ3FVGLCCQNJQ3XL3WXDCX5GVFRF5E1PYLQ5MUEMI";
-        $client_secret = "WQU20OQPUUCLSTZUFNL5C3DH52JZ3AHFT1XQ1WYIRZM3QTMH";
-
-        $fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/" .
-            $restaurant_id . "/photos?client_id=" . $client_id . "&client_secret=" . $client_secret .
-            "&v=20171123&group=venue&limit=5");
-
-        $this->preload_photo_urls($fourSearch, $restaurant_table_id);
-    }
-
-    public function preload_photo_urls($fourSearch, $restaurant_table_id){
-
-        $parsedJson = json_decode($fourSearch);
-
-        #TODO: If code not 200, don't load, something like that goes here.
-        $meta = $parsedJson->meta;
-        $code = $meta->code;
-
-        $response = $parsedJson->response;
-        $items = $response->photos->items;
-        foreach ($items as $photo){
-            #Build image URL string
-            $api_id = $photo->id;
-            #$imgTaken = $photo->createdAt;
-            $image_url = $photo->prefix . $photo->width . "x" . $photo->height . $photo->suffix;
-
-            #Load image data into SOMEWHERE.
-            try {
-                $data = array('api_id' => $api_id,
-                    'image_url' => $image_url,
-                    'restaurant_id' => $restaurant_table_id
-                );
-                $this->load_image($data);
-            }catch(Exception $e){
-
-            }
-        }
-    }
-    public function load_image($data){
-        $this->db->insert('photos', $data);
-        return $this->db->insert_id();
-    }
-
-    public function make_reviews_api_call($restaurant_table_id, $restaurant_id){
-        #want this in when we get the ability to load in by api key - then check to see how many reviews are associated with a specific restaurant.
-	    #if ($this->check_if_reviews_loaded($venueId)){
-#	        return true;
-#        }
-
+    private function get_id_and_secret(){
         #backup client id: IREJNTZAUVFPPDAEJ2EY0L4AHKFGYMPUB4RKEHJG5QK20AXS
         #backup secret: WVP24YF0O504XZ4QMOQ3TPKZ3DZI3KYYO3ODP3DR0SKHZ2FX
         $client_id = "WCJXKICZZ3FVGLCCQNJQ3XL3WXDCX5GVFRF5E1PYLQ5MUEMI";
         $client_secret = "WQU20OQPUUCLSTZUFNL5C3DH52JZ3AHFT1XQ1WYIRZM3QTMH";
+        return array($client_id, $client_secret);
+    }
 
-        #https://api.foursquare.com/v2/venues/4aa7f646f964a5203d4e20e3/tips?v=20171123&sort=friends&limit=5
-        #https://api.foursquare.com/v2/venues/4aa7f646f964a5203d4e20e3/tips?client_id=
-        #WCJXKICZZ3FVGLCCQNJQ3XL3WXDCX5GVFRF5E1PYLQ5MUEMI&client_secret=WQU20OQPUUCLSTZUFNL5C3DH52JZ3AHFT1XQ1WYIRZM3QTMH
-        #&v=20171123&sort=recent&limit=5&offset=5
+    //TODO: make this call the api at a static URL.
+        //THEN ->> Modify the api call to be modular.
+    public function make_restaurants_api_call(){
+        #check if we should load.
+        if ($this->check_if_restaurants_loaded()){
+            return true;
+        }
+        $id_secret = $this->get_id_and_secret();
 
-        $fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/" .
-            $restaurant_id . "/tips?client_id=" . $client_id . "&client_secret=" . $client_secret .
-            "&v=20171123&sort=recent&limit=2&offset=2");
+        #this is the general 'food' category.  All other categories sit inside of it.
+        $categoryId = "4d4b7105d754a06374d81259";
+        $fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/search?client_id=" . $id_secret[0] .
+            "&client_secret=" . $id_secret[1] . "&categoryId=" . $categoryId .
+            "&v=20171111&limit=40&intent=browse&near=Vancouver%2C%20BC");
 
+        if (is_null($fourSearch)){return;}
+        $this->preload_restaurants($fourSearch);
+    }
+
+
+    public function make_reviews_api_call($restaurant_table_id, $restaurant_id){
+        $fourSearch = $this->build_api_url($restaurant_id, "tips", "recent", "2");
+
+        if (is_null($fourSearch)){return;}
         $this->preload_reviews($fourSearch, $restaurant_table_id);
     }
 
-    public function preload_reviews($fourSearch, $restaurant_table_id){
+    #Looking on a way to generalize this - not having success.
+    private function build_api_url($restaurant_id, $endpoint, $sort, $limit){
+        $id_secret = $this->get_id_and_secret();
+        $url = "https://api.foursquare.com/v2/venues/" . $restaurant_id . "/" . $endpoint . "?client_id=" . $id_secret[0] . "&client_secret=" .
+            $id_secret[1] . "&v=20171123&sort=" . $sort . "&limit=" . $limit . "&offset=" . $limit;
+        return file_get_contents($url);
+    }
+
+    #Example: "I want 3 general photos from this venue".  check if photos exist for this restaurant, if they do, don't load in more.
+    #https://api.foursquare.com/v2/venues/4aa7f646f964a5203d4e20e3/photos?v=20171125&client_id=WCJXKICZZ3FVGLCCQNJQ3XL3WXDCX5GVFRF5E1PYLQ5MUEMI&client_secret=WQU20OQPUUCLSTZUFNL5C3DH52JZ3AHFT1XQ1WYIRZM3QTMH&group=venue&limit=5
+    #{"meta":{"code":200,"requestId":"5a19f690f594df3e1542aeae"},"response":{"photos":{"count":1830,"items":[{"id":"5a080569bed483485caa0db3","createdAt":1510475113,"source":{"name":"Swarm for iOS","url":"https:\/\/www.swarmapp.com"},"prefix":"https:\/\/igx.4sqi.net\/img\/general\/","suffix":"\/129685696_sc_R5gl5efHuHtuNmY1sA_AtorTxfyIdYfcRxxTEsbk.jpg","width":1920,"height":1279,"user":{"id":"129685696","firstName":"Polina","lastName":"Komisarova","gender":"female","photo":{"prefix":"https:\/\/igx.4sqi.net\/img\/user\/","suffix":"\/129685696-VP2OK4NSBQQM2YKH.jpg"}},"visibility":"public"},{"id":"5a0769e80802d42aa2d5fa94","createdAt":1510435304,"source":{"name":"Swarm for iOS","url":"https:\/\/www.swarmapp.com"},"prefix":"https:\/\/igx.4sqi.net\/img\/general\/","suffix":"\/1771373_fSqYkTY8b8Z-smAs55-3R0H3jcpBoTWC9gOMkkjbKLg.jpg","width":1920,"height":1440,"user":{"id":"1771373","firstName":"Stanford","gender":"male","photo":{"prefix":"https:\/\/igx.4sqi.net\/img\/user\/","suffix":"\/JEPKZYXLYV02KOJV.jpg"}},"visibility":"public"},{"id":"5a076530c0f16370f3a110ab","createdAt":1510434096,"source":{"name":"Swarm for iOS","url":"https:\/\/www.swarmapp.com"},"prefix":"https:\/\/igx.4sqi.net\/img\/general\/","suffix":"\/804080_cMHcsfH9VAEkxF3jXBHLVDhvmEO5AU4nLNxH8Fwvr5g.jpg","width":1920,"height":1440,"user":{"id":"804080","firstName":"Runar","lastName":"Petursson","gender":"male","photo":{"prefix":"https:\/\/igx.4sqi.net\/img\/user\/","suffix":"\/804080-PSS0EQO4ZEG5PHN3.jpg"}},"visibility":"public"}]}}}
+    public function make_photos_api_call($restaurant_table_id, $restaurant_id){
+        $id_secret = $this->get_id_and_secret();
+        $fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/" .
+            $restaurant_id . "/photos?client_id=" . $id_secret[0] . "&client_secret=" . $id_secret[1] .
+            "&v=20171123&group=venue&limit=5");
+
+        if (is_null($fourSearch)){return;}
+        $this->preload_photo_urls($fourSearch, $restaurant_table_id);
+    }
+
+    public function preload_photo_urls($fourSearch, $restaurant_table_id){
+        $parsedJson = json_decode($fourSearch);
+
+        if  (!$this->check_response_code($parsedJson->meta)){
+            return FALSE;
+        }
+
+        foreach ($parsedJson->response->photos->items as $photo){
+            #Load image data for each image found.
+            try {
+                #Build the image URL.
+                $image_url = $photo->prefix . $photo->width . "x" . $photo->height . $photo->suffix;
+                $data = array('api_id' => $photo->id,
+                    'image_url' => $image_url,
+                    'restaurant_id' => $restaurant_table_id
+                );
+                $this->load_item('photos', $data);
+            }catch(Exception $e){
+                var_dump($e);
+            }
+        }
+    }
+
+    private function preload_reviews($fourSearch, $restaurant_table_id){
         #Parse through the resulting JSON and load it into the database.
         $parsedJson = json_decode($fourSearch);
-        #something something if code not 200, don't load.
-        $meta = $parsedJson->meta;
-        $code = $meta->code;
 
-        $response = $parsedJson->response;
-        $items = $response->tips->items;
+        #something something if code not 200, don't load.
+        if  (!$this->check_response_code($parsedJson->meta)){
+            return FALSE;
+        }
 
         #foreach tip in items
-        #foreach($venues as $v)
-        foreach ($items as $review){
+        foreach ($parsedJson->response->tips->items as $review){
             try {
                 $api_id = $review->id;
                 $body = $review->text;
@@ -117,132 +114,53 @@ class Restaurants_model extends CI_Model {
                     'body' => $body,
                     'api_id' => $api_id
                 );
-                $this->load_review($data);
+                $this->load_item('reviews', $data);
                 #'author_id' = $author_id,
             }catch(Exception $e){
-                #var_dump($review);
+                var_dump($e);
             }
         }
     }
-    public function load_review($data){
-        $this->db->insert('reviews', $data);
-        return $this->db->insert_id();
-    }
+	
+	#do a load of restaurants from the API (this data is static for demonstration purposes).
+	private function preload_restaurants($srJson){
+		$parsedJson = json_decode($srJson);
 
-	//TODO: make this call the api at a static URL.
-		//THEN ->> Modify the api call to be modular.
-	public function make_restaurants_api_call(){
-	    #check if we should load.
-        if ($this->check_if_restaurants_loaded()){
-            return true;
+        if  (!$this->check_response_code($parsedJson->meta)){
+            return FALSE;
         }
 
-		$client_id = "WCJXKICZZ3FVGLCCQNJQ3XL3WXDCX5GVFRF5E1PYLQ5MUEMI";
-		$client_secret = "WQU20OQPUUCLSTZUFNL5C3DH52JZ3AHFT1XQ1WYIRZM3QTMH";
-		
-		#this is the general 'food' category.
-		$categoryId = "4d4b7105d754a06374d81259";
-		$fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/search?client_id=" . $client_id .
-										"&client_secret=" . $client_secret . "&categoryId=" . $categoryId .
-										"&v=20171111&limit=40&intent=browse&near=Vancouver%2C%20BC");
-		$this->preload_restaurants($fourSearch);
-	}
-	
-	#Dummy data for restaurants.
-	public function preload_restaurants($srJson = null){
-		#Some json data taken from foursquare.  This should be taken on an api request.
-		if (is_null($srJson)){
-			return;
-		}
-		
-		$parsedJson = json_decode($srJson);
-		$response = $parsedJson->response;
-		$venues = $response->venues;
-		
-		$tags = "";
-		$name = "";
-		$streetAddress = "";
-		$city = "";
-		$pvCode = "";
-		$country = "";
-		
-		foreach($venues as $v)
+		foreach($parsedJson->response->venues as $v)
 		{
 			try{
-				$name = $v->name;
-				$location = $v->location;
-				$category_id = $v->categories[0]->id;
-				$restaurant_type = $v->categories[0]->id;
-				$lat = $location->lat;
-				$lng = $location->lng;
-				
-				$api_id = $v->id;
-				$streetAddress = $location->address;
-				$city = $location->city;
-				$prvCode = $location->state;
-				$country = $location->country;
-				$postalCode = "";
-				if (!empty($location->postalCode)){
-					$postalCode = ", " . $location->postalCode;
-				}
-				$address = "";
-				
-				$address .= $streetAddress . ", " . $city . ", " . $prvCode . $postalCode;
+			    if ($v != null && $v->categories != null){
+                    $data = array(
+                        'restaurant_type' => $v->categories[0]->id,
+                        'name' => $v->name,
+                        'addr_1' => $v->location->address,
+                        'city' => $v->location->city,
+                        'state_prov_code' => $v->location->state,
+                        'country' => $v->location->country,
+                        'api_id' => $v->id
+                    );
+                    #Might want to eventually load the joining table - is it needed?
+                    $restaurant_id = $this->load_item('restaurants', $data);
 
-				#foreach ($categories as $cat)
-				#{
-					#Extract each tag name for this restaurant.
-					#$tags .= $cat->shortName;
-				#}
-
-                #Instead of this, just grab the first category listed.  Most only have 1 anyways.
-
-
-                #once the restaurant is loaded, load the association table between restaurants and tags.
-				$this->load_restaurant($restaurant_type, $name, $streetAddress, $city, $prvCode, $country, $api_id);
-
-				#for when we have restaurant to tag linking working.
-				#$this->load_restaurant_tag($api_id, $category_id);
+                    #Restaurant has been added - add associated reviews and photos.
+                    $this->make_reviews_api_call($restaurant_id, $v->id);
+                    $this->make_photos_api_call($restaurant_id, $v->id);
+                }
 			}
 			catch(Exception $e){
-				#Some value above was null.
+                var_dump($e);
 			}
 		}
 	}
-	public function load_restaurant_tag($restaurant_id, $tag_id){
-	    $data = array(
-	        'restaurant_id' => $restaurant_id,
-            'tag_id' => $tag_id
-        );
-        $this->db->insert('restaurant_tags', $data);
+
+    public function load_item($table, $data){
+        $this->db->insert($table, $data);
         return $this->db->insert_id();
     }
-
-
-	
-	public function load_restaurant($restaurant_type, $name, $addr1, $city, $prv, $country, $api_id){
-	    #load restaurants.
-		$data = array(
-			'restaurant_type' => $restaurant_type,
-			'name' => $name,
-			'addr_1' => $addr1,
-			'city' => $city,
-			'state_prov_code' => $prv,
-			'country' => $country,
-            'api_id' => $api_id
-		);
-		try {
-            #should have some sort of try/catch here.
-            $this->db->insert('restaurants', $data);
-            $this->make_reviews_api_call($this->db->insert_id(), $api_id);
-            $this->make_photos_api_call($this->db->insert_id(), $api_id);
-            return $this->db->insert_id();
-        }catch(Exception $f){
-		    return;
-        }
-	}
-
-	// TODO: add_tags_by_name_to_restaurant($restaurant_id, $tag_names, $create_if_needed = FALSE)
 
 	// WIP
 	public function add_tags_to_restaurant($restaurant_id, $tag_ids){
@@ -282,7 +200,6 @@ class Restaurants_model extends CI_Model {
 				}
 			}
 		}
-
 		return $ids;
 	}
 
@@ -435,4 +352,16 @@ class Restaurants_model extends CI_Model {
 		$this->db->where('id', $id);
 		return $this->db->delete('restaurants');
 	}
+
+    public function check_response_code($meta){
+        if (is_numeric($meta->code)){
+            if ((int)$meta->code == 200){
+                return TRUE;
+            }else{
+                var_dump($meta->code);
+                var_dump($meta->errorDetail);
+                return FALSE;
+            }
+        }
+    }
 }

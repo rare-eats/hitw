@@ -16,6 +16,7 @@ class Migration_Add_seed_admin extends CI_Migration {
 		];
 		$this->db->insert('users', $data);
 
+        #Sorry, I couldnt figure out how to put both into the same statement.
         $data = [
             'first_name'	=> 'Foursquare',
             'last_name'		=> 'User',
