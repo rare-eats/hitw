@@ -72,7 +72,7 @@
 									<div id="show-review"> <?php echo $review['body']; ?> </div>
 									<form action="/restaurants/<?php echo $restaurant_id; ?>/review/put" method="post" accept-charset="utf-8">
 										<input id="edit-review" type="hidden" name="body" value="<?php echo $review['body']; ?>" class="form_control">
-										<button id = "edit-review-btn" style="visibility: hidden" type="submit" class = "btn-primary">Submit</button>
+										<button id = "edit-review-btn" style="visibility: hidden" type="submit" class = "btn btn-primary">Submit</button>
 									</form>
 									<footer class="blockquote-footer"><?php echo $review['first_name']." ".$review['last_name'];?></footer>
 								</blockquote>
