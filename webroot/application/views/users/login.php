@@ -23,6 +23,6 @@
             </div>
         </form>
         <p class="footInfo">Don't have an account? <a href="create/">Register here</a></p>
+        </div>
     </div>
-</div>
 </div>

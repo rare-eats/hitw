@@ -4,6 +4,10 @@ body, html {
 	background-color: #A0A0A0;
 }
 
+.navbar-brand img {
+	width: 42px;
+}
+
 a, .btn-link {
 	color: #ed977a;
 }
@@ -12,21 +16,25 @@ a:hover, .btn-link:hover {
 	color: #ec1046;
 }
 
+h1, h2, h3 {
+	color: #ec1046;
+}
+
 .display-2 {
 	font-weight: 500;
 }
 
-.input:focus, .btn:focus, .btn:active {
+input:focus {
+	border-color: #cd775a !important; 
+}
+
+input:focus, .btn:focus, .btn:active {
 	box-shadow: 0 0 0.5rem rgba(205, 119, 90,.5) !important;
 }
 
 .bg-primary, .btn-primary {
 	background: #ed977a !important;
 	border-color: #cd775a !important;
-}
-
-.nav-item .nav-link {
-	color: #303030;
 }
 
 .btn-primary:hover, .btn-primary:active {
@@ -64,10 +72,30 @@ a:hover, .btn-link:hover {
 	margin: 1rem;
 }
 
+a .card:hover {
+	background: #E0E0E0;
+}
+
 .card-img-top {
 	margin: 0;
 }
 
 .remove_tag_button {
 	color: white;
+}
+
+#error-container {
+	background: #F9F9F9;
+	max-width: 32rem;
+	text-align: center;
+	margin: 1rem;
+	padding: 1rem;
+	border-radius: 10px;
+	border-width: 2px;
+	border-color: #303030;
+	box-shadow: 0 3px 0.2rem rgba(0,0,0,0.25);
+}
+
+#error-container p, #error-container h1 {
+	font-family: sans-serif;
 }

@@ -45,7 +45,7 @@
 			</p>
 			<a href="#" class="btn btn-primary">Reviews</a>
 			<a href="<?php echo site_url('/restaurants/edit/'.$restaurant['id']); ?>" class="btn btn-secondary">Edit</a>
-			<a class="btn btn-outline-primary" href="<?php echo site_url('/'); ?>">Go back</a>
+			<a class="btn btn-outline-primary" href="/restaurants">Restaurant List</a>
 			<hr />
 			<blockquote class="blockquote text-center">
 				<p class="mb-0">I enjoyed consuming things here.</p>

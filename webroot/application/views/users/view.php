@@ -1,5 +1,6 @@
 <div class="container-fluid">
 <div class="card">
+    <div class="card-body">
 <?php if (!($this->session->has_userdata('id') || $this->users_model->is_admin())): ?>
     <h4 class="text-danger">Please login or register to view your profile</h4>
 <?php else: ?>
@@ -27,7 +28,7 @@
                 <td><?php echo $user['email'];?></td>
             </tr>
         </table>
-        <a href="../edit/<?php echo $user['id'];?>" class="btn btn-primary">Edit</a>
+        <a href="edit/<?php echo $user['id'];?>" class="btn btn-primary">Edit</a>
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete_modal">Delete Account</button>
     </div>
     <div class="my-sm-3 mx-sm-3">
@@ -82,5 +83,6 @@
     </div>
   </div>
 <?php endif ?>
+</div>
 </div>
 </div>

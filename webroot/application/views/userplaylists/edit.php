@@ -1,10 +1,9 @@
-<?php if($this->session->id !== $playlist['author_id']): ?>
-    <h3 class="text-danger">You do not have permission to edit</h3>
-<?php else: ?>
 <div class="container">
 	<div class="card">
 		<div class="card-body">
-			
+<?php if($this->session->id !== $playlist['author_id']): ?>
+    <h3 class="text-danger">You do not have permission to edit</h3>
+<?php else: ?>
 		<h3><?php echo $title; ?></h3>
 		
 	<?php echo validation_errors(); ?>
@@ -30,10 +29,11 @@
 		<!-- Button trigger modal -->
 		<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletePlaylistModal">Delete</button>
 		</div>
+<?php endif ?>
 	</div>
 	</div>
 </div>
-<?php endif ?>
+
 
 <!-- Modal -->
 <div class="modal" id="deletePlaylistModal" tabindex="-1" role="dialog" aria-labelledby="deletePlaylistModalLabel" aria-hidden="true">

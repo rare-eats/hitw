@@ -86,7 +86,7 @@ class Restaurants extends CI_Controller {
 		$data['restaurant'] = $this->restaurants_model->get_restaurant($id)[0];
 
 		if (empty($data['restaurant'])) {
-			show_404();
+			redirect('/restaurants');
 		}
 
 		$data['title'] = 'Edit Restaurant';
