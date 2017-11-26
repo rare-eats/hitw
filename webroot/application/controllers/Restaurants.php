@@ -21,7 +21,6 @@ class Restaurants extends CI_Controller {
 		}
 
 		$data['title'] = $data['restaurant']['name'];
-		$data['css'] = ['/css/restaurants'];
 		$data['javascript'] = ['/script/restaurant_view'];
 
 		$this->load->view('partials/header', $data);
@@ -34,7 +33,6 @@ class Restaurants extends CI_Controller {
 		$this->load->helper('form');
 
 		$data['title'] = "Restaurants";
-		$data['css'] = ['/css/restaurants'];
 
 		if (!isset($_GET['terms'])) {
 			$data['restaurants'] = $this->restaurants_model->get_restaurant();
@@ -55,7 +53,6 @@ class Restaurants extends CI_Controller {
 		$this->load->library('form_validation');
 
 		$data['title'] = 'Add New Restaurant';
-		$data['css'] = ['/css/restaurants'];
 
 		$this->form_validation->set_rules('name', 'Restaurant Name', 'required');
 		$this->form_validation->set_rules('city', 'City', 'required');
@@ -93,7 +90,6 @@ class Restaurants extends CI_Controller {
 		}
 
 		$data['title'] = 'Edit Restaurant';
-		$data['css'] = ['/css/restaurants'];
 
 		$this->form_validation->set_rules('name', 'Restaurant Name', 'required');
 		$this->form_validation->set_rules('city', 'City', 'required');

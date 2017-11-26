@@ -2,8 +2,11 @@
     <h3 class="text-danger">You do not have permission to edit</h3>
 <?php else: ?>
 <div class="container">
-	<div class="card" style="padding: 1rem;">
+	<div class="card">
+		<div class="card-body">
+			
 		<h3><?php echo $title; ?></h3>
+		
 	<?php echo validation_errors(); ?>
 
 	<?php echo form_open('userplaylists/edit/'.$playlist['id']); ?>
@@ -20,13 +23,14 @@
 			<label for="private_playlist">Is this playlist private?</label>
 			<?php echo form_checkbox('private', 'accept', $playlist['private']); ?>
 		</div>
-			<div class="col text-center">
-				<button type="submit" class="btn btn-primary">Save Changes</button>
-				<a class="btn btn-secondary" href="<?php echo site_url('userplaylists/view/'.$playlist['id']); ?>">Cancel</a>
-				<!-- Button trigger modal -->
-				<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletePlaylistModal">Delete</button>
-			</div>
+	</div>
+		
+		<button type="submit" class="btn btn-primary">Save Changes</button>
+		<a class="btn btn-secondary" href="<?php echo site_url('userplaylists/view/'.$playlist['id']); ?>">Cancel</a>
+		<!-- Button trigger modal -->
+		<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletePlaylistModal">Delete</button>
 		</div>
+	</div>
 	</div>
 </div>
 <?php endif ?>

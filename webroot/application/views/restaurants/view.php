@@ -45,6 +45,7 @@
 			</p>
 			<a href="#" class="btn btn-primary">Reviews</a>
 			<a href="<?php echo site_url('/restaurants/edit/'.$restaurant['id']); ?>" class="btn btn-secondary">Edit</a>
+			<a class="btn btn-outline-primary" href="<?php echo site_url('/'); ?>">Go back</a>
 			<hr />
 			<blockquote class="blockquote text-center">
 				<p class="mb-0">I enjoyed consuming things here.</p>
@@ -54,11 +55,6 @@
 				<p class="mb-0">Great selection, would visit again.</p>
 				<footer class="blockquote-footer">Merlin in <cite title="Food Weekly">Food Weekly</cite></footer>
 			</blockquote>
-		</div>
-	</div>
-	<div class="row" style="margin-top: 1rem;">
-		<div class="col text-center">
-			<a class="btn btn-outline-primary" href="<?php echo site_url('/'); ?>">Go back</a>
 		</div>
 	</div>
 </div>

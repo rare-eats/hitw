@@ -1,4 +1,5 @@
-<div class="container col-md-6" >
+<div class="container col-md-6">
+    <div class="card">
     <h2>Edit User</h2>
     <?php echo form_open('users/edit/'.$id);?>
         <div class="form-group">
@@ -16,4 +17,5 @@
         <button type="submit" class="btn btn-primary">Submit</button>
         <a href="/" class="btn btn-link">Cancel</a>
     </form>
+    </div>
 </div>

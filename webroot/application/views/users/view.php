@@ -1,7 +1,8 @@
+<div class="container-fluid">
+<div class="card">
 <?php if (!($this->session->has_userdata('id') || $this->users_model->is_admin())): ?>
     <h4 class="text-danger">Please login or register to view your profile</h4>
 <?php else: ?>
-<div class="container-fluid">
     <div>
         <?php echo form_open('users/search', ['class' => 'form-inline']); ?>
         <div class="form-group my-sm-3 mx-sm-3">
@@ -26,14 +27,15 @@
                 <td><?php echo $user['email'];?></td>
             </tr>
         </table>
-        <a href="../edit/<?php echo $user['id'];?>" type="button" class="btn btn-primary" >Edit</a>
+        <a href="../edit/<?php echo $user['id'];?>" class="btn btn-primary">Edit</a>
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete_modal">Delete Account</button>
     </div>
     <div class="my-sm-3 mx-sm-3">
         <div class="row">
             <div class="col">
                 <span>
-                    <h2>My Lists</h2>
+                    <h2>My Lists <small>
+                    <a href="/userplaylists/create">&plus;</a></small></h2>
                 </span>
             </div>
         </div>
@@ -41,7 +43,7 @@
         <div class="row">
             <div class="col d-lg-flex">
             <?php foreach ($playlists as $playlist): ?>
-                <div class="card" style="width: 15rem; display: inline-block; margin: 1rem;">
+                <div class="card">
                     <img class="card-img-top" src="http://via.placeholder.com/350x150" alt="Card image cap">
                     <div class="card-body">
                         <h4 class="card-title"><?php echo $playlist['title']; ?></h4>
@@ -53,7 +55,7 @@
             </div>
         </div>
         <?php else: ?>
-            <a href="/userplaylists/create"?>Create New Playlist</a>
+            <a href="/userplaylists/create">Create New Playlist</a>
         <?php endif; ?>
     </div>
 </div>
@@ -64,20 +66,21 @@
   <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="delete_modal">Modal title</h5>
+          <h5 class="modal-title" id="delete_modal">Delete Account</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
             <p>Your account will be deleted. Are you sure you want to continue?</p>
-            <p>This process is not reversible and no user data is retained once deleted</p>
+            <p class="text-danger">This process is not reversible and no user data is retained once deleted.</p>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-            <a href="/users/delete/<?php echo $user['id'];?>" type="button" class="btn btn-danger">Yes</a>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <a href="/users/delete/<?php echo $user['id'];?>" class="btn btn-danger">Delete</a>
         </div>
     </div>
   </div>
-</div>
 <?php endif ?>
+</div>
+</div>
