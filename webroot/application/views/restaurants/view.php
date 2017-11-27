@@ -44,6 +44,7 @@
 			<?php endif; ?>
 			</p>
 			<a href="<?php echo site_url('/restaurants/edit/'.$restaurant['id']); ?>" class="btn btn-secondary">Edit</a>
+			<a class="btn btn-outline-primary" href="/restaurants">Restaurant List</a>
 			<hr />
 
 			<p class="card-text text-center">
@@ -94,11 +95,6 @@
 			<?php endif; ?>
 			<!-- End user reviews and recommendations -->
 
-		</div>
-	</div>
-	<div class="row" style="margin-top: 1rem;">
-		<div class="col text-center">
-			<a class="btn btn-outline-primary" href="<?php echo site_url('/'); ?>">Go back</a>
 		</div>
 	</div>
 </div>
