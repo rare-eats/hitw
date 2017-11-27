@@ -17,7 +17,7 @@
 		</div>
 	</div>
 	<div class="row flex-row">
-		<div class="col-sm d-lg-flex justify-content-center">
+		<div class="col-sm d-lg-flex justify-content-sm-center">
 		<?php foreach ($playlists as $playlist): ?>
 			<div class="card">
 				<img class="card-img-top" src="http://via.placeholder.com/350x150" alt="Card image cap">
@@ -38,7 +38,7 @@
 		</div>
 	</div>
 	<div class="row d-flex flex-row">
-		<div class="col d-lg-flex justify-content-center">
+		<div class="col d-lg-flex justify-content-sm-center">
 		<?php foreach ($restaurants as $restaurant): ?>
 			<div class="card">
 				<img class="card-img-top" src="http://via.placeholder.com/350x150" alt="Card image cap">
@@ -67,7 +67,7 @@
 		</div>
 	</div>
 	<div class="row d-flex flex-row">
-		<div class="col d-lg-flex justify-content-center">
+		<div class="col d-lg-flex justify-content-sm-center">
 		<?php foreach ($recommended as $playlist): ?>
 			<div class="card">
 				<img class="card-img-top" src="http://via.placeholder.com/350x150" alt="Card image cap">

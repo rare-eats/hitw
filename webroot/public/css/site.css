@@ -64,10 +64,6 @@ input:focus, .btn:focus, .btn:active {
 	margin: none !important;
 }
 
-.justify-content-center {
-	margin: 0 auto;
-}
-
 .card {
 	margin: 1rem;
 }
