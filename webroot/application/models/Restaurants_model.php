@@ -121,16 +121,6 @@ class Restaurants_model extends CI_Model {
             }
         }
     }
-
-    private function is_good_category($category_api_id){
-        #Here resides a list of banned categories that we should not load in.
-        #(in_array(strtolower($name), array('food', 'coffee shop', 'restaurant', 'bubble tea shop', 'cafeteria', 'deli / bodega', 'diner', 'fast food', 'food court', 'labour canteen', 'hot dog joint', 'juice bar', 'tea room', 'truck stop', 'market', 'food & drink shop', 'grocery store', 'food court')
-        if (in_array($category_api_id, array('4d4b7105d754a06374d81259', '4bf58dd8d48988d1e0931735', '4bf58dd8d48988d1c4941735', '52e81612bcbc57f1066b7a0c', '4bf58dd8d48988d128941735', '4bf58dd8d48988d146941735', '4bf58dd8d48988d147941735', '4bf58dd8d48988d16e941735', '57558b36e4b065ecebd306b2', '4bf58dd8d48988d16f941735', '4bf58dd8d48988d112941735', '4bf58dd8d48988d1dc931735', '57558b36e4b065ecebd306d', '50be8ee891d4fa8dcc7199a7', '4bf58dd8d48988d1f9941735', '4bf58dd8d48988d118951735', '52f2ab2ebcbc57f1066b8b46', '4bf58dd8d48988d120951735')))
-        {
-            return FALSE;
-        }
-        return TRUE;
-    }
 	
 	#do a load of restaurants from the API (this data is static for demonstration purposes).
 	private function preload_restaurants($srJson){
@@ -145,8 +135,15 @@ class Restaurants_model extends CI_Model {
 		    $loadable_venue = TRUE;
 			try{
 			    if ($v != null && $v->categories != null){
+			        $venue_categories = array();
 			        foreach ($v->categories as $cat){
-                        if (!$this->is_good_category($v->categories[0]->id)){
+			            #Look for this category, associate it with that category in the joining table if it exists.  If it doesn't exist, it's not a restaurant we want.
+                        $catQuery = $this->db->select('id')->where('api_id', $cat->id)->get('tags');
+                        $result = $catQuery->row();
+                        if (!is_null($result)){
+                            array_push($venue_categories, $result->id);
+                        }
+                        else{
                             $loadable_venue = FALSE;
                         }
                     }
@@ -160,10 +157,23 @@ class Restaurants_model extends CI_Model {
                         'country' => $v->location->country,
                         'api_id' => $v->id
                     );
+                    #'api_id' => $v->id
+                    #api_id is a reference to the loaded api category, and is likely no longer needed now that the joining table is set up.
+                    #This is the 'cuisine type' of the restaurant - IMO it belongs here somewhere, but The People don't want a cuisine table, so that doesnt exist.
+
                     #Might want to eventually load the joining table - is it needed?
                     $restaurant_id = $this->load_item('restaurants', $data);
 
-                    #Restaurant has been added - add associated reviews and photos.
+                    #Restaurant loaded in - add in the values to the joining table.
+                    foreach ($result as $tag_id){
+                        $data = array(
+                            'restaurant_id' => $restaurant_id,
+                            'tag_id' => $tag_id
+                        );
+                        $this->load_item('restaurant_tags', $data);
+                    }
+
+                    #Add associated reviews and photos.
                     $this->make_reviews_api_call($restaurant_id, $v->id);
                     $this->make_photos_api_call($restaurant_id, $v->id);
                 }
