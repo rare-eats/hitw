@@ -69,11 +69,15 @@
 						<div class="row">
 							<div class="col-10">
 								<blockquote class="blockquote">
-									<p id="show-review"> <?php echo $review['body']; ?> </p>
-									<form action="/restaurants/<?php echo $restaurant_id; ?>/review/put" method="post" accept-charset="utf-8">
-										<input id="edit-field" type="hidden" name="body" value="<?php echo $review['body']; ?>" class="form_control">
-										<button id = "submit-edit-btn" style="visibility: hidden" type="submit" class = "btn btn-primary">Submit</button>
-									</form>
+									<?php if($review['author_id'] == $user_id): ?>
+										<p id="show-review"> <?php echo $review['body']; ?> </p>
+										<form action="/restaurants/<?php echo $restaurant_id; ?>/review/put" method="post" accept-charset="utf-8">
+											<input id="edit-field" type="hidden" name="body" value="<?php echo $review['body']; ?>" class="form_control">
+											<button id = "submit-edit-btn" style="visibility: hidden" type="submit" class = "btn btn-primary">Submit</button>
+										</form>
+									<?php else: ?>
+										 <p> <?php echo $review['body']; ?> </p>
+									<?php endif; ?>
 									<footer class="blockquote-footer"><?php echo $review['first_name']." ".$review['last_name'];?></footer>
 								</blockquote>
 							</div>
