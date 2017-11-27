@@ -7,10 +7,11 @@ class Restaurants extends CI_Controller {
 		$this->load->model('tags_model');
 		$this->load->model('reviews_model');
 		$this->load->helper('url_helper');
-		$this->load->helper('form');
 	}
 
 	public function view($id = NULL) {
+		$this->load->helper('form');
+
 		if (!isset($id)) {
 			redirect('restaurants');
 			return; // Ensure the rest of the function doesn't run when redirecting

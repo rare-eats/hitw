@@ -13,7 +13,7 @@ class Reviews extends CI_Controller {
 		$data = [
 			'restaurant_id'	=>	$restaurant_id,
 			'author_id'		=>	$this->session->id,
-			'body'			=>	$this->input->post('body')
+			'body'			=>	$this->input->post('body'),
 		];
 		$this->reviews_model->put_review($data);
 		redirect("/restaurants/".$restaurant_id);

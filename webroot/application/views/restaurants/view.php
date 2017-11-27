@@ -69,18 +69,18 @@
 						<div class="row">
 							<div class="col-10">
 								<blockquote class="blockquote">
-									<div id="show-review"> <?php echo $review['body']; ?> </div>
+									<p id="show-review"> <?php echo $review['body']; ?> </p>
 									<form action="/restaurants/<?php echo $restaurant_id; ?>/review/put" method="post" accept-charset="utf-8">
-										<input id="edit-review" type="hidden" name="body" value="<?php echo $review['body']; ?>" class="form_control">
-										<button id = "edit-review-btn" style="visibility: hidden" type="submit" class = "btn btn-primary">Submit</button>
+										<input id="edit-field" type="hidden" name="body" value="<?php echo $review['body']; ?>" class="form_control">
+										<button id = "submit-edit-btn" style="visibility: hidden" type="submit" class = "btn btn-primary">Submit</button>
 									</form>
 									<footer class="blockquote-footer"><?php echo $review['first_name']." ".$review['last_name'];?></footer>
 								</blockquote>
 							</div>
 							<?php if($review['author_id'] == $user_id): ?>
 							<div class='btn-group col-2'>
-								<form action="/restaurants/<?php echo $restaurant_id; ?>/review/<?php echo $review['id']; ?>/put" method="post">
-									<button id="edit-btn" onclick="editReview()" type="button" class="btn btn-danger edit-btn" style="margin-right:5px">Edit</button>
+								<form class="edit_reviews" action="/restaurants/<?php echo $restaurant_id; ?>/review/<?php echo $review['id']; ?>/put" method="post">
+									<button id="edit-btn" onclick="editReview()" type="button" class="btn btn-secondary edit_reviews" style="margin-right:5px">Edit</button>
 								</form>
 								<form action="/restaurants/<?php echo $restaurant_id; ?>/review/<?php echo $review['id']; ?>/delete" method="post">
 									<button type="submit" class="btn btn-danger">Delete</button>
@@ -110,11 +110,3 @@
 		</div>
 	</div>
 </div>
-
-<script type="text/javascript">
-	function editReview() {
-		document.getElementById('show-review').style = "visibility: hidden";
-		document.getElementById('edit-review').type = "text";
-		document.getElementById('edit-review-btn').style = "visibility: none";
-	}
-</script>
