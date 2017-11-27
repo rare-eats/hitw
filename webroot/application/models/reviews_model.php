@@ -85,6 +85,7 @@ class Reviews_model extends CI_Model {
 		]);
 		if ($review_count < 1)
 		{
+			unset($data['javascript']);
 			$this->db->insert('reviews', $data);
 		}
 		else
