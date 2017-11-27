@@ -1,24 +1,45 @@
 <?php
 class Restaurants extends CI_Controller {
-	
+
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('restaurants_model');
 		$this->load->model('tags_model');
+		$this->load->model('reviews_model');
 		$this->load->helper('url_helper');
 	}
 
-	public function view($id = FALSE) {
-		if ($id === FALSE) {
+	public function view($id = NULL) {
+		if (!isset($id)) {
 			redirect('restaurants');
+			return; // Ensure the rest of the function doesn't run when redirecting
 		}
-		else
-		{
-			$data['restaurant'] = $this->restaurants_model->get_restaurant($id)[0];
+		// Control will only reach this block if $id exists
 
-			if (!isset($data['restaurant'])) {
+		$data['restaurant'] = $this->restaurants_model->get_restaurant($id)[0];
+
+		if (!isset($data['restaurant'])) {
 			redirect('restaurants');
+			return; // Don't continue if there was no data
 		}
+
+		$data['restaurant_id']	= $id;
+
+		$data['reviews'] = $this->reviews_model->get_reviews(
+			[
+				'restaurant_id' => $id
+			], 
+			TRUE
+		);
+		
+		$data['user_left_review'] = $this->reviews_model->count_reviews(
+			[
+				'restaurant_id'	=>	$id,
+				'author_id'		=>	$this->session->id
+			]
+		);
+
+		$data['user_id'] = $this->session->id;
 
 		$data['title'] = $data['restaurant']['name'];
 		$data['javascript'] = ['/script/restaurant_view'];
@@ -26,7 +47,6 @@ class Restaurants extends CI_Controller {
 		$this->load->view('partials/header', $data);
 		$this->load->view('restaurants/view', $data);
 		$this->load->view('partials/footer');
-		}
 	}
 
 	public function search() {
@@ -72,7 +92,7 @@ class Restaurants extends CI_Controller {
 			$this->load->view('restaurants/create', $data);
 			$this->load->view('partials/footer');
 		}
-		else 
+		else
 		{
 			$query = $this->restaurants_model->set_restaurant();
 			redirect('/restaurants/'.$query);
@@ -108,7 +128,7 @@ class Restaurants extends CI_Controller {
 			$this->load->view('restaurants/edit', $data);
 			$this->load->view('partials/footer');
 		}
-		else 
+		else
 		{
 			$this->restaurants_model->set_restaurant($id);
 			redirect('/restaurants/'.$id);
