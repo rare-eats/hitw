@@ -80,7 +80,7 @@
 							<?php if($review['author_id'] == $user_id): ?>
 							<div class='btn-group col-2'>
 								<form class="edit_reviews" action="/restaurants/<?php echo $restaurant_id; ?>/review/<?php echo $review['id']; ?>/put" method="post">
-									<button id="edit-btn" onclick="editReview()" type="button" class="btn btn-secondary edit_reviews" style="margin-right:5px">Edit</button>
+									<button id="edit-btn" type="button" class="btn btn-secondary edit_reviews" style="margin-right:5px">Edit</button>
 								</form>
 								<form action="/restaurants/<?php echo $restaurant_id; ?>/review/<?php echo $review['id']; ?>/delete" method="post">
 									<button type="submit" class="btn btn-danger">Delete</button>
