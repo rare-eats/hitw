@@ -14,6 +14,7 @@ class Reviews extends CI_Controller {
 			'restaurant_id'	=>	$restaurant_id,
 			'author_id'		=>	$this->session->id,
 			'body'			=>	$this->input->post('body'),
+			'javascript' => '/script/restaurant_view'
 		];
 		$this->reviews_model->put_review($data);
 		redirect("/restaurants/".$restaurant_id);

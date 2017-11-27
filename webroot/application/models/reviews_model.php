@@ -93,6 +93,7 @@ class Reviews_model extends CI_Model {
 				'restaurant_id'	=>	$data['restaurant_id'],
 				'author_id'	=>	$data['author_id']
 			]);
+			unset($data['javascript']);
 			$this->db->update('reviews', $data);
 		}
 	}
