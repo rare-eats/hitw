@@ -1,5 +1,7 @@
+<div class="container">
+    <div class="card">
 <?php if(empty($users)):?>
-    <h2>No users found</h2>
+    <h2>No users found :(</h2>
 <?php else: ?>
     <table class="table">
         <tr>
@@ -16,3 +18,5 @@
         <?php endforeach; ?>
     </table>
 <?php endif ?>
+    </div>
+</div>

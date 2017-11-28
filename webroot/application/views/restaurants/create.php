@@ -1,5 +1,6 @@
 <div class="container">
 	<div class="card">
+		<div class="card-body">
 		<h3><?php echo $title; ?></h3>
 	<?php echo validation_errors(); ?>
 
@@ -39,5 +40,6 @@
 		</div>
 		<button type="submit" class="btn btn-primary">Create</button>
 		<a class="btn btn-secondary" href="<?php echo site_url('/'); ?>">Cancel</a>
+	</div>
 	</div>
 </div>

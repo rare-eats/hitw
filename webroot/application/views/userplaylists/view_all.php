@@ -1,3 +1,6 @@
+<div class="container">
+    <div class="card">
+        <div class="card-body">
 <?php if(empty($playlists))
 {
 	echo 'No playlists available.';
@@ -21,3 +24,7 @@
     </tr>
     <?php endforeach; ?>
 </table>
+
+        </div>
+    </div>
+</div>

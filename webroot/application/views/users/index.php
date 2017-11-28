@@ -1,3 +1,7 @@
+<div class="container">
+    <div class="card">
+        <div class="card-body"> 
+    <h3><?php echo $title; ?></h3>
 <table class="table">
     <tr>
         <th>ID</th>
@@ -14,3 +18,6 @@
     </tr>
     <?php endforeach; ?>
 </table>
+        </div>
+    </div>
+</div>

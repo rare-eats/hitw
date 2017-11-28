@@ -1,6 +1,7 @@
 <div class="container">
 
 <div class="card">
+	<div class="card-body">
 <?php $attr = [ 'class' => 'form-inline', 'method' => 'get'];
 	echo form_open('restaurants/search', $attr); 
 ?>
@@ -17,8 +18,7 @@
 		</span>
 	</div>
 </div>
-<?php echo form_close(); ?>
-</div>
+</form>
 
 <?php if(empty($restaurants)): ?>
 	<h3 class="text-center text-muted">No restaurants available.</h3>
@@ -26,6 +26,7 @@
 <?php foreach ($restaurants as $restaurant): ?>
 	<a style="text-decoration: none;" href="<?php echo site_url('restaurants/'.$restaurant['id']); ?>">
 		<div class="card">
+			<div class="card-body">
 			<h3><?php echo $restaurant['name']; ?>
 			<small class="text-muted">(<?php 
 				if (empty($restaurant['rating'])) 
@@ -39,6 +40,8 @@
 				}
 			?>)</small></h3>
 		</div>
+	</div>
 	</a>
 <?php endforeach; ?>
+</div>
 </div>

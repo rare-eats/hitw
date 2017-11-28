@@ -1,6 +1,7 @@
+<div class="container">
+	<div class="card">
+		<div class="card-body">
 <?php if ($this->session->has_userdata('id')): ?>
-	<div class="container">
-		<div class="card" style="padding: 1rem;">
 			<h3><?php echo $title; ?></h3>
 		<?php echo validation_errors(); ?>
 
@@ -27,10 +28,11 @@
 			</div>
 			<button type="submit" class="btn btn-primary">Create</button>
 			<a class="btn btn-secondary" href="<?php echo site_url('/'); ?>">Cancel</a>
+		</form>
+		</div>
+<?php else: ?>
+	<h4 class="text-danger">Please Log In to Create a List</h4>
+<?php endif ?>
 		</div>
 	</div>
-<?php else: ?>
-	<div class="card">
-		<h4 class="text-danger">Please Log In to Create a List</h4>
-	</div>
-<?php endif ?>
+</div>

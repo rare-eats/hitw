@@ -9,6 +9,10 @@ class Home extends CI_Controller {
 		$this->load->model('userplaylists_model');
 		#move once we get a tags page
 		$this->load->model('tags_model');
+
+		#move once we find a nicer place in reviews to put it
+        $this->load->model('reviews_model');
+
 		$this->load->helper('url_helper');
 		$this->load->model('restaurants_model');
 	}
