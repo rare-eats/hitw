@@ -1,10 +1,3 @@
-<?php
-    $this->tags_model->make_tags_api_call();
-
-    #Get restaurants, and within restaurants get a few associated reviews if available.
-    $this->restaurants_model->make_restaurants_api_call();
-?>
-
 <div class="container-fluid">
 <?php if ($this->session->has_userdata('id')): ?>
 	<div class="row">

@@ -5,6 +5,7 @@ class Home extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
+
 		$this->load->model('restaurants_model');
 		$this->load->model('userplaylists_model');
 		#move once we get a tags page
