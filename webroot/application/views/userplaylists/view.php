@@ -17,11 +17,6 @@
 				<li> Here's another restaurant in this playlist! </li>
 			</ul>
 			<a href="<?php echo site_url('/userplaylists/edit/'.$playlist['id']); ?>" class="btn btn-secondary">Edit</a>
-			<hr />
-		</div>
-	</div>
-	<div class="row" style="margin-top: 1rem;">
-		<div class="col text-center">
 			<a class="btn btn-outline-primary" href="<?php echo site_url('/'); ?>">Go back</a>
 		</div>
 	</div>

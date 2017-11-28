@@ -4,6 +4,12 @@ class Userplaylists_model extends CI_Model {
 		$this->load->database();
 	}
 
+	public function update_playlist($id, $data) {
+		if ($id) {
+            $this->db->where('id', $id);
+            $this->db->update('user_playlists', $data);
+        }
+	}
 	# Create or update playlist (update if id is provided)
 	public function set_playlist($id = FALSE) {
 		$private = ($this->input->post('private') === 'accept');

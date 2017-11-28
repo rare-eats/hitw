@@ -1,5 +1,4 @@
 <?php
-	#$this->restaurants_model->load_food_categories();
     $this->tags_model->make_tags_api_call();
     $this->restaurants_model->make_restaurants_api_call();
     #$this->restaurants_model->associate_restaurants_with_tags();
@@ -31,7 +30,7 @@
 		</div>
 		<div class="col d-lg-flex justify-content-sm-center">
 		<?php foreach ($playlists as $playlist): ?>
-			<div class="card" style="width: 20rem; display: inline-block; margin: 1rem;">
+			<div class="card">
 				<img class="card-img-top" src="http://via.placeholder.com/350x150" alt="Card image cap">
 				<div class="card-body">
 					<h4 class="card-title"><?php echo $playlist['title']; ?></h4>
@@ -44,15 +43,15 @@
 	</div>
 <?php endif ?>
 <?php if(!empty($restaurants)): ?>
-	<div class="row">
-		<div class="col">
+	<div class="row heading">
+		<div class="col text-center">
 			<h2 class="display-2">Quick Bites</h2>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row d-flex flex-row">
 		<div class="col d-lg-flex justify-content-sm-center">
 		<?php foreach ($restaurants as $restaurant): ?>
-			<div class="card" style="width: 20rem; display: inline-block; margin: 1rem;">
+			<div class="card">
 				<img class="card-img-top" src="http://via.placeholder.com/350x150" alt="Card image cap">
 				<div class="card-body">
 					<h4 class="card-title"><?php echo $restaurant['name']; ?></h4>
