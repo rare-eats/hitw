@@ -70,10 +70,10 @@
 							<div class="col-10">
 								<blockquote class="blockquote">
 									<?php if($review['author_id'] == $user_id): ?>
-										<p id="show-review"> <?php echo $review['body']; ?> </p>
-										<form action="/restaurants/<?php echo $restaurant_id; ?>/review/put" method="post" accept-charset="utf-8">
-											<input id="edit-field" type="hidden" name="body" value="<?php echo $review['body']; ?>" class="form_control">
-											<button id = "submit-edit-btn" style="visibility: hidden" type="submit" class = "btn btn-primary">Submit</button>
+										<p id="show-review" style="display: block"> <?php echo $review['body']; ?> </p>
+										<form id="edit-form" class="edit-form" style="display:none" action="/restaurants/<?php echo $restaurant_id; ?>/review/put" method="post" accept-charset="utf-8">
+											<input id="edit-field" name="body" value="<?php echo $review['body']; ?>" class="form_control">
+											<button id = "submit-edit-btn" type="submit" class = "btn btn-primary">Submit</button>
 										</form>
 									<?php else: ?>
 										 <p> <?php echo $review['body']; ?> </p>

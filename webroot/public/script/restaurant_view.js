@@ -16,7 +16,6 @@ $(".remove_tag_button").click(function(){
 })
 
 $(".edit_reviews").click(function(){
-	document.getElementById('show-review').style = "visibility: hidden";
-	document.getElementById('edit-field').type = "text";
-	document.getElementById('submit-edit-btn').style = "visibility: none";
+	$("#show-review").css("display", "none");
+	$("#edit-form").css("display", "block");
 })
