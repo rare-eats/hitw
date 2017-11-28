@@ -68,16 +68,29 @@
 				<div class="container-fluid">
 					<?php foreach($reviews as $review): ?>
 						<div class="row">
-							<div class="col-11">
+							<div class="col-10">
 								<blockquote class="blockquote">
-									<p class="mb-0"><?php echo $review['body']; ?></p>
+									<?php if($review['author_id'] == $user_id): ?>
+										<p id="show-review" style="display: block"> <?php echo $review['body']; ?> </p>
+										<form id="edit-form" class="edit-form" style="display:none" action="/restaurants/<?php echo $restaurant_id; ?>/review/put" method="post" accept-charset="utf-8">
+											<input id="edit-field" name="body" value="<?php echo $review['body']; ?>" class="form_control">
+											<button id = "submit-edit-btn" type="submit" class = "btn btn-primary">Submit</button>
+										</form>
+									<?php else: ?>
+										 <p> <?php echo $review['body']; ?> </p>
+									<?php endif; ?>
 									<footer class="blockquote-footer"><?php echo $review['first_name']." ".$review['last_name'];?></footer>
 								</blockquote>
 							</div>
 							<?php if($review['author_id'] == $user_id): ?>
-								<form action="/restaurants/<?php echo $restaurant_id; ?>/review/<?php echo $review['id']; ?>/delete" method="post" class="col-1">
+							<div class='btn-group col-2'>
+								<form class="edit_reviews" action="/restaurants/<?php echo $restaurant_id; ?>/review/<?php echo $review['id']; ?>/put" method="post">
+									<button id="edit-btn" type="button" class="btn btn-secondary edit_reviews" style="margin-right:5px">Edit</button>
+								</form>
+								<form action="/restaurants/<?php echo $restaurant_id; ?>/review/<?php echo $review['id']; ?>/delete" method="post">
 									<button type="submit" class="btn btn-danger">Delete</button>
 								</form>
+							</div>
 							<?php endif; ?>
 						</div>
 					<?php endforeach; ?>
@@ -94,7 +107,6 @@
 					</form>
 			<?php endif; ?>
 			<!-- End user reviews and recommendations -->
-
 		</div>
 	</div>
 </div>
