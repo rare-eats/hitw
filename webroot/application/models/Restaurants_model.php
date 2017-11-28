@@ -10,9 +10,13 @@ class Restaurants_model extends CI_Model {
     #until we figure out a graceful way to deal with api_id collisions when adding restaurants.
     #If restaurants are loaded, everything else should be loaded.
 	public function check_if_restaurants_loaded(){
-	    $query = $this->db->get('restaurants');
-	    if (sizeof($query->result()) > 5) return true;
-	    return false;
+        $catQuery = $this->db->select('api_id')->where('api_id', '4aa7dce2f964a520ad4d20e3')->get('restaurants');
+        $result = $catQuery->row();
+        if (is_null($result)) {
+            return false;
+        }
+        return true;
+
     }
 
     private function get_id_and_secret(){

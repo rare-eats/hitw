@@ -1,9 +1,3 @@
-<?php
-    $this->tags_model->make_tags_api_call();
-    $this->restaurants_model->make_restaurants_api_call();
-    #$this->restaurants_model->associate_restaurants_with_tags();
-?>
-
 <div class="container-fluid">
 <?php if ($author_id): ?>
     <div class="row">
