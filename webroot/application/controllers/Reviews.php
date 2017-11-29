@@ -19,6 +19,12 @@ class Reviews extends CI_Controller {
 		redirect("/restaurants/".$restaurant_id);
 	}
 
+	public function leave_rating($restaurant_id, $author_id)
+	{
+			$this->reviews_model->leave_rating($restaurant_id, $author_id);
+			redirect("/restaurants/".$restaurant_id);
+	}
+
 	// Needs restaurant_id so we can redirect
 	public function delete($restaurant_id, $review_id)
 	{

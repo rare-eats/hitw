@@ -34,7 +34,11 @@
 				echo $restaurant['country'];
 				?>
 			</p>
-			<p class="card-text" id="tags-list">
+			<form action="/restaurants/<?php echo $restaurant_id; ?>/review/leave_rating" method="post">
+				<button type="button" class="btn btn-info btn-lg">
+	          <span class="glyphicon glyphicon-thumbs-up"></span>
+	      </button>
+			</form>
 			<?php if (!empty($restaurant['tags'])): ?>
 				<?php foreach($restaurant['tags'] as $tag): ?>
 					<span class="badge badge-pill badge-primary"><?php echo $tag['name']; ?> <a href="#" class="remove_tag_button" data-tag_id="<?php echo $tag['id']; ?>" data-restaurant_id="<?php echo $restaurant['id']; ?>">&times;</a></span>

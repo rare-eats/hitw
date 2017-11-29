@@ -96,4 +96,16 @@ class Reviews_model extends CI_Model {
 			$this->db->update('reviews', $data);
 		}
 	}
+	public function leave_rating($author_id, $restaurant_id){
+		$this->db->where('reviews.author_id'==$author_id, 'reviews.restaurant_id'==$author_id);
+		$rating = $this->db->select("reviews.rating");
+		if ($rating = 0){
+			$this->db->update('reviews.rating', 1);
+			return 1;
+		}
+		else{
+			$this->db->update('reviews.rating', 0);
+			return 0;
+		}
+	}
 }

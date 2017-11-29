@@ -2,19 +2,22 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Migration_reviews extends CI_Migration {
+class Migration_ratings extends CI_Migration {
 
 
 	public function up()
 	{
-		$this->dbforge->add_field('rating');
-		$this->dbforge->add_field('restaurant_id integer references restaurants (id)');
-		$this->dbforge->add_field('author_id integer references users (id)');
-		$this->dbforge->create_table('ratings');
+		$fields = [
+			'rating' => [
+				'type' 	=> 'BOOL',
+				'null'	=>	TRUE
+			]
+		];
+		$this->dbforge->add_column('reviews', $fields);
 	}
 
 	public function down()
 	{
-		$this->dbforge->drop_table("ratings");
+		$this->dbforge->drop_column('reviews', 'rating');
 	}
 }
