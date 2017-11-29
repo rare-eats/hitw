@@ -31,27 +31,27 @@
 	</div>
 	<div class="row d-flex flex-row">
 		<div class="col d-lg-flex justify-content-sm-center">
-		<?php foreach($restaurants as $restaurant): ?>
+		<?php for ($x = 0; $x < count($restaurants); $x++): ?>
 			<div class="card align-top">
 				<div class="restaurant-image">
-					<img class="card-img-top align-middle" src="<?php echo ($restaurant_images['restaurant_id' == $restaurant['id']]['image_url']); ?>" alt="Restaurant Image">
+					<img class="card-img-top align-middle" src="<?php echo ($restaurant_images[$x]['image_url']); ?>" alt="Restaurant Image">
 				</div>
 				<div class="card-body">
-					<h4 class="card-title"><?php echo $restaurant['name']; ?></h4>
+					<h4 class="card-title"><?php echo $restaurants[$x]['name']; ?></h4>
 					<p class="card-text">(<?php
-						if (!isset($restaurant['rating'])) {
+						if (!isset($restaurants[$x]['rating'])) {
 							echo 'No ratings yet';
 						}
 						else
 						{
-							echo $restaurant['rating'];
+							echo $restaurant[$x]['rating'];
 							echo '/5';
 						}
 						?>)</p>
-					<a href="<?php echo site_url('restaurants/'.$restaurant['id']); ?>" class="btn btn-primary">Dig in</a>
+					<a href="<?php echo site_url('restaurants/'.$restaurants[$x]['id']); ?>" class="btn btn-primary">Dig in</a>
 				</div>
 			</div>
-		<?php endforeach; ?>
+		<?php endfor; ?>
 		</div>
 	</div>
 <?php endif; ?>
