@@ -42,6 +42,8 @@ class Restaurants_model extends CI_Model {
             "&client_secret=" . $id_secret[1] . "&categoryId=" . $categoryId .
             "&v=20171111&limit=50&intent=browse&near=Vancouver%2C%20BC");
 
+
+
         if (is_null($fourSearch)){return;}
         $this->preload_restaurants($fourSearch);
     }
@@ -65,6 +67,9 @@ class Restaurants_model extends CI_Model {
     #Example: "I want 3 general photos from this venue".  check if photos exist for this restaurant, if they do, don't load in more.
     #https://api.foursquare.com/v2/venues/4aa7f646f964a5203d4e20e3/photos?v=20171125&client_id=WCJXKICZZ3FVGLCCQNJQ3XL3WXDCX5GVFRF5E1PYLQ5MUEMI&client_secret=WQU20OQPUUCLSTZUFNL5C3DH52JZ3AHFT1XQ1WYIRZM3QTMH&group=venue&limit=5
     #{"meta":{"code":200,"requestId":"5a19f690f594df3e1542aeae"},"response":{"photos":{"count":1830,"items":[{"id":"5a080569bed483485caa0db3","createdAt":1510475113,"source":{"name":"Swarm for iOS","url":"https:\/\/www.swarmapp.com"},"prefix":"https:\/\/igx.4sqi.net\/img\/general\/","suffix":"\/129685696_sc_R5gl5efHuHtuNmY1sA_AtorTxfyIdYfcRxxTEsbk.jpg","width":1920,"height":1279,"user":{"id":"129685696","firstName":"Polina","lastName":"Komisarova","gender":"female","photo":{"prefix":"https:\/\/igx.4sqi.net\/img\/user\/","suffix":"\/129685696-VP2OK4NSBQQM2YKH.jpg"}},"visibility":"public"},{"id":"5a0769e80802d42aa2d5fa94","createdAt":1510435304,"source":{"name":"Swarm for iOS","url":"https:\/\/www.swarmapp.com"},"prefix":"https:\/\/igx.4sqi.net\/img\/general\/","suffix":"\/1771373_fSqYkTY8b8Z-smAs55-3R0H3jcpBoTWC9gOMkkjbKLg.jpg","width":1920,"height":1440,"user":{"id":"1771373","firstName":"Stanford","gender":"male","photo":{"prefix":"https:\/\/igx.4sqi.net\/img\/user\/","suffix":"\/JEPKZYXLYV02KOJV.jpg"}},"visibility":"public"},{"id":"5a076530c0f16370f3a110ab","createdAt":1510434096,"source":{"name":"Swarm for iOS","url":"https:\/\/www.swarmapp.com"},"prefix":"https:\/\/igx.4sqi.net\/img\/general\/","suffix":"\/804080_cMHcsfH9VAEkxF3jXBHLVDhvmEO5AU4nLNxH8Fwvr5g.jpg","width":1920,"height":1440,"user":{"id":"804080","firstName":"Runar","lastName":"Petursson","gender":"male","photo":{"prefix":"https:\/\/igx.4sqi.net\/img\/user\/","suffix":"\/804080-PSS0EQO4ZEG5PHN3.jpg"}},"visibility":"public"}]}}}
+
+    #If we want ratings as well, we can expand this photos api call by removing the /photos endpoint and taking just /venues/{venue_id}.
+    #  This will give us rating, as well as other information for the api we may need.
     public function make_photos_api_call($restaurant_table_id, $restaurant_id){
         $id_secret = $this->get_id_and_secret();
         $fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/" .
@@ -145,7 +150,7 @@ class Restaurants_model extends CI_Model {
                         $catQuery = $this->db->select('id')->where('api_id', $cat->id)->get('tags');
                         $result = $catQuery->row();
                         if (!is_null($result)){
-                            array_push($venue_categories, $result->id);
+                            $venue_categories[] = $result->id;
                         }
                         else{
                             $loadable_venue = FALSE;
