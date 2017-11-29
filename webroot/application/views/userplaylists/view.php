@@ -18,7 +18,7 @@
 				<?php } ?>
 			</ol>
 			<a href="<?php echo site_url('/userplaylists/edit/'.$playlist['id']); ?>" class="btn btn-secondary">Edit</a>
-			<a class="btn btn-outline-primary" href="<?php echo site_url('/'); ?>">Go back</a>
+			<a class="btn btn-outline-primary" href="<?php echo site_url('/userplaylists/'); ?>">Go back</a>
 		</div>
 	</div>
 </div>

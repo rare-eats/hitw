@@ -27,7 +27,11 @@
 		<div class="row">
 		<div class="form-group">
 			<label for="private_playlist">Is this playlist private?</label>
-			<?php echo form_checkbox('private', 'accept', $playlist['private']); ?>
+			<?php if ($playlist['private'] == '1'){ ?>
+				<input type="checkbox" value="true" name="private" checked>
+			<?php } else { ?>
+				<input type="checkbox" value="true" name="private">
+			<?php } ?>
 		</div>
 	</div>
 		
