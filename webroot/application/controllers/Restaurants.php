@@ -34,6 +34,8 @@ class Restaurants extends CI_Controller {
 			TRUE
 		);
 
+		$data['photos'] = $this->restaurants_model->get_restaurant_photos($id);
+
 		$data['user_left_review'] = $this->reviews_model->count_reviews(
 			[
 				'restaurant_id'	=>	$id,
@@ -42,6 +44,7 @@ class Restaurants extends CI_Controller {
 		);
 
 		$data['user_id'] = $this->session->id;
+		$data['admin'] = $this->users_model->is_admin();
 
 		$data['title'] = $data['restaurant']['name'];
 		$data['javascript'] = ['/script/restaurant_view'];
@@ -105,10 +108,14 @@ class Restaurants extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 
+		if($this->users_model->is_admin() === FALSE) {
+			show_404();
+		}
+
 		$data['restaurant'] = $this->restaurants_model->get_restaurant($id)[0];
 
 		if (empty($data['restaurant'])) {
-			redirect('/restaurants');
+			redirect('/restaurants/search');
 		}
 
 		$data['title'] = 'Edit Restaurant';
@@ -143,7 +150,9 @@ class Restaurants extends CI_Controller {
 		}
 
 		# Check for proper authentication first
-		$this->restaurants_model->delete_restaurant($id);
+		if ($this->users_model->is_admin()) {
+			$this->restaurants_model->delete_restaurant($id);
+		}
 		redirect(base_url());
 	}
 

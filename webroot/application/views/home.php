@@ -56,8 +56,10 @@
 	<div class="row d-flex flex-row">
 		<div class="col d-lg-flex justify-content-sm-center">
 		<?php foreach ($restaurants as $restaurant): ?>
-			<div class="card">
-				<img class="card-img-top" src="http://via.placeholder.com/350x150" alt="Card image cap">
+			<div class="card align-top">
+				<div class="restaurant-image">
+					<img class="card-img-top align-middle" src="<?php echo $restaurant['image_url'][0]; ?>" alt="Restaurant Image">
+				</div>
 				<div class="card-body">
 					<h4 class="card-title"><?php echo $restaurant['name']; ?></h4>
 					<p class="card-text">(<?php
@@ -70,7 +72,7 @@
 							echo '/5';
 						}
 						?>)</p>
-					<a href="<?php echo site_url('restaurants/'.$restaurant['id']); ?>" class="btn btn-primary">Dig in</a>
+					<a href="<?php echo '/restaurants/'.$restaurant['id']; ?>" class="btn btn-primary">Dig in</a>
 				</div>
 			</div>
 		<?php endforeach; ?>
