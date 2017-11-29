@@ -15,6 +15,13 @@
 			<label for="playlist_description">Playlist Description</label>
 			<input type="text" id="desc" name="desc" class="form-control" value="<?php echo $playlist['desc']; ?>">
 		</div>
+		<div>
+		<ol>
+		<?php foreach ($restaurants as $restaurant) { ?>
+			<li><?php echo $restaurant['name']; ?><a class="btn btn-danger" href="<?php echo site_url('userplaylists/').$playlist['id'].'/content/'.$restaurant['content_id'].'/delete'; ?>">Remove</a></li>
+		<?php } ?>
+		</ol>
+		</div>
 		<div class="row">
 		<div class="form-group">
 			<label for="private_playlist">Is this playlist private?</label>

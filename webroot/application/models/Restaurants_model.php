@@ -313,4 +313,17 @@ class Restaurants_model extends CI_Model {
 		$this->db->where('id', $id);
 		return $this->db->delete('restaurants');
 	}
+	
+	# Returns the name of a single restaurant (for playlists)
+	public function get_name($id = NULL) {
+		
+		if (!isset($id)){
+			return FALSE;
+		}
+		
+		$this->db->where('restaurants.id', $id);
+		$result = $this->db->get('restaurants')->row()->name;
+		
+		return $result;
+	}
 }

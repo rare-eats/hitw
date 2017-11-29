@@ -6,3 +6,7 @@
 .remove_tag_button {
 	color: white;
 }
+
+.chosen-select{
+	width:150px;
+}

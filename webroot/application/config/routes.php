@@ -52,9 +52,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $route['userplaylists/create'] = 'userplaylists/create';
 $route['userplaylists/edit/(:any)'] = 'userplaylists/edit/$1';
+$route['userplaylists/add_to_list'] = 'userplaylists/add_to_list';
+$route['userplaylists/(:num)/content/(:num)/delete'] = 'userplaylists/content_delete/$1/$2';
 $route['userplaylists/(:any)'] = 'userplaylists/view/$1';
 $route['userplaylists'] = 'userplaylists/view';
-// remove 'user in userplaylists routes possibly (left side)'
 
 $route['default_controller'] = 'home';
 $route['404_override'] = '';
@@ -79,9 +80,8 @@ $route['restaurants'] = 'restaurants/search';
 $route['restaurants/(:num)/reviews'] = 'restaurants/reviews/$1';
 
 // I'd use HTTP verbs for this, but I didn't feel like making the JS for it
+$route['restaurants/(:num)/review/(:num)/edit'] = 'reviews/edit/$1/$2';
 $route['restaurants/(:num)/review/(:num)/delete'] = 'reviews/delete/$1/$2';
 $route['restaurants/(:num)/review/put'] = 'reviews/put/$1';
 
 $route['reviews/edit/(:num)'] = 'reviews/edit/$1';
-
-$route['restaurants'] = 'restaurants/view';
