@@ -80,8 +80,8 @@ sql
                 'user_id'   => $user_id,
                 'title'     => 'Weekly Recommendations'
             ], 1);
+            return $query->row_array();
         }
-        return $query->row_array();
 
     }
 
@@ -89,9 +89,9 @@ sql
         $query = FALSE;
         if (isset($id)) {
             $query = $this->db->get_where('auto_playlists', ['id' => $id]);
+            return $query->row_array();
         }
 
-        return $query->row_array();
     }
 
     public function get_restaurants($id) {
@@ -99,9 +99,8 @@ sql
         if (isset($id)) {
             $this->db->select('restaurant_id');
             $query = $this->db->get_where('auto_playlist_contents', ['playlist_id' => $id]);
+            return $query->result_array();
         }
-
-        return $query->result_array();
     }
 
     public function initiate_recommendation($author_id) {
