@@ -31,6 +31,12 @@ class Home extends CI_Controller {
 
 		$data['restaurants'] = $this->restaurants_model->get_amount_of_restaurants(4);
 
+		$data['restaurant_images'] = [];
+
+		foreach ($data['restaurants'] as $restaurant) {
+			$data['restaurant_images'][] = $this->restaurants_model->get_restaurant_photos((string)$restaurant['id'],1,'RANDOM')[0];
+		}
+
 		$data['recommended'] = array(
 			array(
 				"title" => "Grove And Chew",

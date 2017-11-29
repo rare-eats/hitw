@@ -98,6 +98,19 @@ class Restaurants_model extends CI_Model {
         }
     }
 
+    public function get_restaurant_photos($restaurant_id, $limit = 5, $order = 'ASC'){
+    	$this->db->where('restaurant_id', $restaurant_id);
+    	$this->db->limit($limit);
+    	$this->db->order_by('id', $order);
+    	$query = $this->db->get('photos');
+    	
+    	if (empty($query)) {
+    		return FALSE;
+    	}
+
+    	return $query->result_array();
+    }
+
     private function preload_reviews($fourSearch, $restaurant_table_id){
         #Parse through the resulting JSON and load it into the database.
         $parsedJson = json_decode($fourSearch);

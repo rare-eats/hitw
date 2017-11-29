@@ -31,9 +31,11 @@
 	</div>
 	<div class="row d-flex flex-row">
 		<div class="col d-lg-flex justify-content-sm-center">
-		<?php foreach ($restaurants as $restaurant): ?>
-			<div class="card">
-				<img class="card-img-top" src="http://via.placeholder.com/350x150" alt="Card image cap">
+		<?php foreach($restaurants as $restaurant): ?>
+			<div class="card align-top">
+				<div class="restaurant-image">
+					<img class="card-img-top align-middle" src="<?php echo ($restaurant_images['restaurant_id' == $restaurant['id']]['image_url']); ?>" alt="Restaurant Image">
+				</div>
 				<div class="card-body">
 					<h4 class="card-title"><?php echo $restaurant['name']; ?></h4>
 					<p class="card-text">(<?php

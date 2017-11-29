@@ -54,6 +54,7 @@ class Reviews_model extends CI_Model {
 			$this->db->offset($offset);
 		}
 
+		$this->db->order_by('t_created', 'ASC');
 		$query = $this->db->get('reviews');
 		return $query->result_array();
 	}
