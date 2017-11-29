@@ -67,11 +67,11 @@ class Userplaylists_model extends CI_Model {
 		}
 
 		$this->db->where('id', $id);
-		$query = $this->db->delete('user_playlists');
+		$query = $this->db->delete('user_playlist_contents');
 
 		if ($query) {
 			$this->db->where('id', $id);
-			$this->db->delete('user_playlist_contents');
+			$this->db->delete('user_playlists');
 		}
 	}
 
