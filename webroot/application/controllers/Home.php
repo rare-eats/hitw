@@ -37,8 +37,6 @@ class Home extends CI_Controller {
 			$data['restaurants'][$key]['image_url'][] = $this->restaurants_model->get_restaurant_photos((string)$restaurant['id'],1,'RANDOM')[0]['image_url'];
 		}
 
-		var_dump($data['restaurants']);
-
 		$data['recommended'] = array(
 			array(
 				"title" => "Grove And Chew",
