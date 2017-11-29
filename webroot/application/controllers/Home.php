@@ -34,14 +34,14 @@ class Home extends CI_Controller {
 		$author_id = $this->session->id;
 
 		if (isset($author_id)) {
-        	$data['recommended'] = $this->autoplaylists_model->get_recommended_playlist($author_id);
+
 			$data['playlists'] = $this->userplaylists_model->get_by_author($author_id, 4);
         	$data['author_id'] = $author_id;
 		}
 
-        if (!isset($data['recommended']) || $data['recommended']['t_created'] - date("Y-m-d H:i:s") >= 7) {
-        	$this->autoplaylists_model->initiate_recommendation($author_id);
-        }
+        // if (!isset($data['recommended']) || $data['recommended']['t_created'] - date("Y-m-d H:i:s") >= 7) {
+        $data['recommended'] = $this->autoplaylists_model->initiate_recommendation($author_id);
+        // }
 
 		$this->load->view('partials/header.php', $data);
 		$this->load->view('home.php', $data);

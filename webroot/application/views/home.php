@@ -26,7 +26,7 @@
 		        </div>
 	        </div>
 	    </div>
-		<?php endif ?>
+	<?php endif ?>
 	<div class="row">
 		<div class="col">
 			<span>

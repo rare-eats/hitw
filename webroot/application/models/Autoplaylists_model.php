@@ -105,28 +105,35 @@ sql
     }
 
     public function initiate_recommendation($author_id) {
-        $tag_count = $this->autoplaylists_model->get_most_popular_tag($author_id);
+        $get_recommendations = $this->autoplaylists_model->get_recommended_playlist($author_id);
 
-        if ($tag_count) {
-            $restaurant_tags = $this->tags_model->get_tags_by_id($tag_count[0]['tag_id']);
-            $restaurant_users = $this->autoplaylists_model->get_user_restaurants($author_id);
-            $ru = [];
-            $rt = [];
+        if (!isset($get_recommendations) || $get_recommendations['t_created'] - date("Y-m-d H:i:s") >= 7) {
 
-            array_walk_recursive($restaurant_users, function($a) use (&$ru) { $ru[] = $a; });
-            array_walk_recursive($restaurant_tags, function($a) use (&$rt) { $rt[] = $a; });
+            $tag_count = $this->autoplaylists_model->get_most_popular_tag($author_id);
 
-            //find restaurants that are not in restaurants_users
-            $recommended = [];
-            foreach ($rt as $r) {
-                if (!in_array($r, $ru)) {
-                    $recommended[] = $r;
+            if ($tag_count) {
+                $restaurant_tags = $this->tags_model->get_tags_by_id($tag_count[0]['tag_id']);
+                $restaurant_users = $this->autoplaylists_model->get_user_restaurants($author_id);
+                $ru = [];
+                $rt = [];
+
+                array_walk_recursive($restaurant_users, function($a) use (&$ru) { $ru[] = $a; });
+                array_walk_recursive($restaurant_tags, function($a) use (&$rt) { $rt[] = $a; });
+
+                //find restaurants that are not in restaurants_users
+                $recommended = [];
+                foreach ($rt as $r) {
+                    if (!in_array($r, $ru)) {
+                        $recommended[] = $r;
+                    }
+                }
+
+                if ($recommended) {
+                    $this->autoplaylists_model->create_recommendation_list($author_id, $recommended);
                 }
             }
-
-            if ($recommended) {
-                $this->autoplaylists_model->create_recommendation_list($author_id, $recommended);
-            }
+        } else {
+            return $get_recommendations;
         }
 
     }
