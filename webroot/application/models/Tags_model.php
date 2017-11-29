@@ -4,7 +4,7 @@ class Tags_model extends CI_Model {
 		$this->load->database();
 	}
 
-	public function add_tag($data) 
+	public function add_tag($data)
 	{
 		if( !isset($data) )
 		{
@@ -61,6 +61,18 @@ class Tags_model extends CI_Model {
 			'data'=>$query->result_array()
 		];
 	}
+
+    // get tags by id not in any of user's lists
+    // not enough tags attached to work with atm
+    public function get_tags_by_id($tag_id = NULL) {
+        $query = FALSE;
+        if (isset($tag_id)) {
+            $this->db->select('restaurant_id');
+            $query = $this->db->get_where('restaurant_tags', ['tag_id' => $tag_id]);
+        }
+
+        return $query->result_array();
+    }
 
     #a temporary function that will block loading more tags from the API if there are already 5 - this is currently required
     #until we figure out a graceful way to deal with api_id collisions when adding tags.
@@ -148,15 +160,20 @@ class Tags_model extends CI_Model {
     }
 
     public function load_tag($name, $api_id){
+        //Filter out food categories we don't want.
+        if (in_array(strtolower($name), array('food', 'coffee shop', 'restaurant', 'bubble tea shop', 'cafeteria', 'deli / bodega', 'diner', 'fast food', 'food court', 'labour canteen', 'hot dog joint', 'juice bar', 'tea room', 'truck stop', 'market', 'grocery store', 'food & drink shop', 'supermarket')))
+        {
+            return;
+        }
+
         $data = array(
             'name' => $name,
             'api_id' => $api_id
         );
 
-        #should have some sort of try/catch here.
         try{
-        $this->db->insert('tags', $data);
-        return $this->db->insert_id();
+            $this->db->insert('tags', $data);
+            return $this->db->insert_id();
         }catch(Exception $e){
             return;
         }

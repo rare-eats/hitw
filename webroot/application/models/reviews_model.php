@@ -85,6 +85,7 @@ class Reviews_model extends CI_Model {
 		]);
 		if ($review_count < 1)
 		{
+			unset($data['javascript']);
 			$this->db->insert('reviews', $data);
 		}
 		else
@@ -93,6 +94,7 @@ class Reviews_model extends CI_Model {
 				'restaurant_id'	=>	$data['restaurant_id'],
 				'author_id'	=>	$data['author_id']
 			]);
+			unset($data['javascript']);
 			$this->db->update('reviews', $data);
 		}
 	}

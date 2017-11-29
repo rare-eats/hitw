@@ -48,6 +48,7 @@
 			<?php endif; ?>
 			</p>
 			<a href="<?php echo site_url('/restaurants/edit/'.$restaurant['id']); ?>" class="btn btn-secondary">Edit</a>
+			<a class="btn btn-outline-primary" href="/restaurants">Restaurant List</a>
 			<hr />
 
 			<p class="card-text text-center">
@@ -73,18 +74,22 @@
 						<div class="row">
 							<div class="col-10">
 								<blockquote class="blockquote">
-									<div id="show-review"> <?php echo $review['body']; ?> </div>
-									<form action="/restaurants/<?php echo $restaurant_id; ?>/review/put" method="post" accept-charset="utf-8">
-										<input id="edit-review" type="hidden" name="body" value="<?php echo $review['body']; ?>" class="form_control">
-										<button id = "edit-review-btn" style="visibility: hidden" type="submit" class = "btn btn-primary">Submit</button>
-									</form>
+									<?php if($review['author_id'] == $user_id): ?>
+										<p id="show-review" style="display: block"> <?php echo $review['body']; ?> </p>
+										<form id="edit-form" class="edit-form" style="display:none" action="/restaurants/<?php echo $restaurant_id; ?>/review/put" method="post" accept-charset="utf-8">
+											<input id="edit-field" name="body" value="<?php echo $review['body']; ?>" class="form_control">
+											<button id = "submit-edit-btn" type="submit" class = "btn btn-primary">Submit</button>
+										</form>
+									<?php else: ?>
+										 <p> <?php echo $review['body']; ?> </p>
+									<?php endif; ?>
 									<footer class="blockquote-footer"><?php echo $review['first_name']." ".$review['last_name'];?></footer>
 								</blockquote>
 							</div>
 							<?php if($review['author_id'] == $user_id): ?>
 							<div class='btn-group col-2'>
-								<form action="/restaurants/<?php echo $restaurant_id; ?>/review/<?php echo $review['id']; ?>/put" method="post">
-									<button id="edit-btn" onclick="editReview()" type="button" class="btn btn-danger edit-btn" style="margin-right:5px">Edit</button>
+								<form class="edit_reviews" action="/restaurants/<?php echo $restaurant_id; ?>/review/<?php echo $review['id']; ?>/put" method="post">
+									<button id="edit-btn" type="button" class="btn btn-secondary edit_reviews" style="margin-right:5px">Edit</button>
 								</form>
 								<form action="/restaurants/<?php echo $restaurant_id; ?>/review/<?php echo $review['id']; ?>/delete" method="post">
 									<button type="submit" class="btn btn-danger">Delete</button>
@@ -108,17 +113,4 @@
 			<!-- End user reviews and recommendations -->
 		</div>
 	</div>
-	<div class="row" style="margin-top: 1rem;">
-		<div class="col text-center">
-			<a class="btn btn-outline-primary" href="<?php echo site_url('/'); ?>">Go back</a>
-		</div>
-	</div>
 </div>
-
-<script type="text/javascript">
-	function editReview() {
-		document.getElementById('show-review').style = "visibility: hidden";
-		document.getElementById('edit-review').type = "text";
-		document.getElementById('edit-review-btn').style = "visibility: none";
-	}
-</script>

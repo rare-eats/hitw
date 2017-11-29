@@ -19,6 +19,7 @@ class Userplaylists extends CI_Controller {
 		}
 		else{
 			$data['playlist'] = $this->userplaylists_model->get_playlist($id);
+			$data['restaurants'] = $this->userplaylists_model->get_restaurants($id);
 
 			if (empty($data['playlist'])) {
 				show_404();
