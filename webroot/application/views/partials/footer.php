@@ -8,5 +8,5 @@
 			<script src="<?php echo $js.".js"; ?>"></script>
 		<?php endforeach; ?>
 	<?php endif; ?>
-</body>
+  </body>
 </html>
