@@ -4,7 +4,7 @@ class Tags_model extends CI_Model {
 		$this->load->database();
 	}
 
-	public function add_tag($data) 
+	public function add_tag($data)
 	{
 		if( !isset($data) )
 		{
@@ -61,6 +61,18 @@ class Tags_model extends CI_Model {
 			'data'=>$query->result_array()
 		];
 	}
+
+    // get tags by id not in any of user's lists
+    // not enough tags attached to work with atm
+    public function get_tags_by_id($tag_id = NULL) {
+        $query = FALSE;
+        if (isset($tag_id)) {
+            $this->db->select('restaurant_id');
+            $query = $this->db->get_where('restaurant_tags', ['tag_id' => $tag_id]);
+        }
+
+        return $query->result_array();
+    }
 
     #a temporary function that will block loading more tags from the API if there are already 5 - this is currently required
     #until we figure out a graceful way to deal with api_id collisions when adding tags.
