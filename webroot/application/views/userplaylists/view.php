@@ -8,8 +8,8 @@
 				</small>
 			</h2>
 			<p class="card-text">
-				<?php 
-				echo $playlist['desc']; 
+				<?php
+				echo $playlist['desc'];
 				?>
 			</p>
 			<ul>
