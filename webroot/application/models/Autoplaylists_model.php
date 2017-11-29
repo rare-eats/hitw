@@ -2,31 +2,34 @@
 class Autoplaylists_model extends CI_Model {
     public function __construct() {
         $this->load->database();
-
+        $this->load->model('tags_model');
     }
 
     public function get_most_popular_tag($author_id) {
-        $query = $this->db->query(<<<sql
-            SELECT
-                COUNT(rt.tag_id) as tag_count,
-                tag_id
-            FROM
-                user_playlist_contents as upc,
-                user_playlists as up,
-                restaurant_tags as rt
-            WHERE
-                upc.playlist_id = up.id and
-                upc.restaurant_id = rt.restaurant_id and
-                up.author_id = {$author_id}
-            GROUP BY
-                tag_id
-            ORDER BY
-                tag_count DESC
-            LIMIT 1
+        if ($author_id) {
+            $query = $this->db->query(<<<sql
+                SELECT
+                    COUNT(rt.tag_id) as tag_count,
+                    tag_id
+                FROM
+                    user_playlist_contents as upc,
+                    user_playlists as up,
+                    restaurant_tags as rt
+                WHERE
+                    upc.playlist_id = up.id and
+                    upc.restaurant_id = rt.restaurant_id and
+                    up.author_id = {$author_id}
+                GROUP BY
+                    tag_id
+                ORDER BY
+                    tag_count DESC
+                LIMIT 1
 sql
-        );
-        $row = $query->result_array();
-        return $row;
+            );
+            $row = $query->result_array();
+            return $row;
+        }
+
     }
 
     public function get_user_restaurants($author_id) {
@@ -71,7 +74,7 @@ sql
 
     public function get_recommended_playlist($user_id) {
         $query = [];
-        if ($user_id) {
+        if (isset($user_id)) {
             $this->db->order_by('t_created', 'DESC');
             $query = $this->db->get_where('auto_playlists', [
                 'user_id'   => $user_id,
@@ -100,6 +103,34 @@ sql
 
         return $query->result_array();
     }
+
+    public function initiate_recommendation($author_id) {
+        $tag_count = $this->autoplaylists_model->get_most_popular_tag($author_id);
+
+        if ($tag_count) {
+            $restaurant_tags = $this->tags_model->get_tags_by_id($tag_count[0]['tag_id']);
+            $restaurant_users = $this->autoplaylists_model->get_user_restaurants($author_id);
+            $ru = [];
+            $rt = [];
+
+            array_walk_recursive($restaurant_users, function($a) use (&$ru) { $ru[] = $a; });
+            array_walk_recursive($restaurant_tags, function($a) use (&$rt) { $rt[] = $a; });
+
+            //find restaurants that are not in restaurants_users
+            $recommended = [];
+            foreach ($rt as $r) {
+                if (!in_array($r, $ru)) {
+                    $recommended[] = $r;
+                }
+            }
+
+            if ($recommended) {
+                $this->autoplaylists_model->create_recommendation_list($author_id, $recommended);
+            }
+        }
+
+    }
+
 
 
 }

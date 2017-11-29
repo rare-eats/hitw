@@ -125,7 +125,7 @@ class Restaurants_model extends CI_Model {
             }
         }
     }
-	
+
 	#do a load of restaurants from the API (this data is static for demonstration purposes).
 	private function preload_restaurants($srJson){
 		$parsedJson = json_decode($srJson);
@@ -395,4 +395,14 @@ class Restaurants_model extends CI_Model {
             }
         }
     }
+
+    public function get_restaurants_by_ids($ids) {
+        if (isset($ids)) {
+            $this->db->where_in('id', $ids);
+            $query = $this->db->get('restaurants');
+            return $query->result_array();
+        }
+    }
+
+
 }

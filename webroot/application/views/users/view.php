@@ -56,7 +56,7 @@
             </div>
         </div>
         <?php else: ?>
-            <a href="/userplaylists/create">Create New Playlist</a>
+            <p class="text-muted">You currently have no lists</p>
         <?php endif; ?>
     </div>
 </div>
