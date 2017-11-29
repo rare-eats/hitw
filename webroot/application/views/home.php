@@ -9,13 +9,13 @@
 <div class="container-fluid">
 <?php if (isset($author_id)): ?>
 	<?php if (isset($recommended)): ?>
-    <div class="row">
-	    <div class="col">
-			<h2 class="display-2">Explore</h2>
+	   	<div class="row heading">
+			<div class="col text-center">
+				<h2 class="display-2">Explore</h2>
+			</div>
 		</div>
-	</div>
-		<div class="row">
-	        <div class="col d-lg-flex justify-content-sm-left">
+		<div class="row d-flex flex-row">
+	        <div class="col d-lg-flex justify-content-sm-center">
 		        <div class="card" style="width: 20rem; display: inline-block; margin: 1rem;">
 		            <img class="card-img-top" src="http://via.placeholder.com/350x150" alt="Card image cap">
 		            <div class="card-body">
@@ -27,14 +27,12 @@
 	        </div>
 	    </div>
 	<?php endif ?>
-	<div class="row">
-		<div class="col">
-			<span>
-                <h2 class="display-2">My Lists <small>
-                <a href="/userplaylists/create">&plus;</a></small></h2>
-            </span>
-			<a href="/users/view/">View More</a>
+	<div class="row heading">
+		<div class="col text-center">
+			<h2 class="display-2">My Lists</h2>
 		</div>
+	</div>
+	<div class="row d-flex flex-row">
 		<div class="col d-lg-flex justify-content-sm-center">
 		<?php foreach ($playlists as $playlist): ?>
 			<div class="card">
