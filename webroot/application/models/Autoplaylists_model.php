@@ -103,7 +103,7 @@ sql
         }
     }
 
-    public function initiate_recommendation($author_id) {
+    public function initiate_recommendations($author_id) {
         $get_recommendations = $this->autoplaylists_model->get_recommended_playlist($author_id);
 
         if (!isset($get_recommendations) || $get_recommendations['t_created'] - date("Y-m-d H:i:s") >= 7) {
