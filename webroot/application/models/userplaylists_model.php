@@ -12,8 +12,7 @@ class Userplaylists_model extends CI_Model {
 	}
 	# Create or update playlist (update if id is provided)
 	public function set_playlist($id = FALSE) {
-		$private = ($this->input->post('private') === 'accept');
-		$data = [];
+		$private = ($this->input->post('private') === 'true');
 		$restaurant = $this->input->post('restaurant');
 
 		if ($id === FALSE) {
@@ -83,11 +82,34 @@ class Userplaylists_model extends CI_Model {
 			return $query->result_array();
 		}
 	}
+	
+	# Add a restaurant to a playlist by adding a row to user_playlist_contents
+	public function add_restaurant($data = NULL) {
+		if ($data === NULL) {
+			return False;
+		}
 
+		$this->db->insert('user_playlist_contents', $data);
+		return $this->db->insert_id();
+	}
+	
+	# Returns all playlist contents for the given playlist id
+	public function get_contents($id = FALSE) {
+		if ($id === FALSE) {
+			return False;
+		}
+		$this->db->where('playlist_id', $id);
+		$query = $this->db->get('user_playlist_contents');
+		return $query->result_array();
+	}
+	
+	# Delete a user_playlist_contents entry, removing the restaurant from the playlist
+	public function delete_content($id = FALSE) {
+		if ($id === FALSE) {
+			show_404();
+		}
 
-
-	// public function count_tags($author_id) {
-	// 	$query = $this->db->query('SELECT name, title, email FROM my_table');
-	// }
-
+		$this->db->where('id', $id);
+		return $this->db->delete('user_playlist_contents');
+	}
 }

@@ -7,6 +7,7 @@ class Restaurants extends CI_Controller {
 		$this->load->model('tags_model');
 		$this->load->model('reviews_model');
 		$this->load->helper('url_helper');
+		$this->load->helper('form');
 	}
 
 	public function view($id = NULL) {
@@ -34,6 +35,8 @@ class Restaurants extends CI_Controller {
 			TRUE
 		);
 
+		$data['photos'] = $this->restaurants_model->get_restaurant_photos($id);
+
 		$data['user_left_review'] = $this->reviews_model->count_reviews(
 			[
 				'restaurant_id'	=>	$id,
@@ -42,19 +45,37 @@ class Restaurants extends CI_Controller {
 		);
 
 		$data['user_id'] = $this->session->id;
+		$data['admin'] = $this->users_model->is_admin();
 
 		$data['title'] = $data['restaurant']['name'];
-		$data['javascript'] = ['/script/restaurant_view'];
+
+		$data['css'] = [
+			'/css/restaurants',
+			'/css/chosen.min'
+		];
+		$data['javascript'] = [
+			'/script/chosen.min',
+			'/script/add_to_playlist',
+			'/script/init_chosen',
+			'/script/restaurant_view'
+		];
+
+		// Get current user's playlists, so restaurant can be added to them.
+		$this->load->model('userplaylists_model');
+		$data['playlists'] = $this->userplaylists_model->get_by_author($data['user_id']);
+
 
 		$this->load->view('partials/header', $data);
 		$this->load->view('restaurants/view', $data);
-		$this->load->view('partials/footer');
+		$this->load->view('partials/footer', $data);
 	}
+
 
 	public function search() {
 		$this->load->helper('form');
 
 		$data['title'] = "Restaurants";
+		$data['css'] = ['/css/restaurants'];
 
 		if (!isset($_GET['terms'])) {
 			$data['restaurants'] = $this->restaurants_model->get_restaurant();
@@ -105,10 +126,14 @@ class Restaurants extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 
+		if($this->users_model->is_admin() === FALSE) {
+			show_404();
+		}
+
 		$data['restaurant'] = $this->restaurants_model->get_restaurant($id)[0];
 
 		if (empty($data['restaurant'])) {
-			redirect('/restaurants');
+			redirect('/restaurants/search');
 		}
 
 		$data['title'] = 'Edit Restaurant';
@@ -143,7 +168,9 @@ class Restaurants extends CI_Controller {
 		}
 
 		# Check for proper authentication first
-		$this->restaurants_model->delete_restaurant($id);
+		if ($this->users_model->is_admin()) {
+			$this->restaurants_model->delete_restaurant($id);
+		}
 		redirect(base_url());
 	}
 
@@ -157,7 +184,6 @@ class Restaurants extends CI_Controller {
 		];
 		echo json_encode($response);
 	}
-
 	public function upvote($restaurant_id)
 	{
 		var_dump('restaurants controller');

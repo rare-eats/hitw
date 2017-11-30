@@ -64,16 +64,61 @@ input:focus, .btn:focus, .btn:active {
 	margin: none !important;
 }
 
+.carousel-item {
+		height: 200px;
+}
+
+@media (min-width: 576px) { 
+	.carousel-item {
+		height: 200px;
+	}
+}
+
+@media (min-width: 768px) { 
+	.carousel-item {
+		height: 300px;
+	}
+}
+
+@media (min-width: 992px) { 
+	.carousel-item {
+		height: 400px;
+	}
+}
+
+@media (min-width: 1200px) { 
+	.carousel-item {
+		height: 600px;
+	}
+}
+
+.carousel-item img {
+	vertical-align: middle;
+}
+
 .card {
 	margin: 1rem;
 }
 
-a .card:hover {
+a .card:hover, .own-review {
 	background: #E0E0E0;
+}
+
+.own-review {
+	border-radius: 6px;
+}
+
+.own-review .col-md-10 {
+	padding-top: 1rem;
 }
 
 .card-img-top {
 	margin: 0;
+}
+
+.restaurant-image {
+	height: 150px;
+	overflow: hidden;
 }
 
 .remove_tag_button {
