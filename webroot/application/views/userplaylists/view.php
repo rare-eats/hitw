@@ -12,12 +12,13 @@
 				echo $playlist['desc'];
 				?>
 			</p>
-			<ul>
-				<li> Put a link to a Restaurant here! Probably also the restaurant's display image/icon!</li>
-				<li> Here's another restaurant in this playlist! </li>
-			</ul>
+			<ol>
+				<?php foreach ($restaurants as $restaurant): ?>
+					<?php echo '<li><a href=' . site_url('/restaurants/'.$restaurant['id']).'>'.$restaurant['name'].'</a></li>'; ?>
+				<?php endforeach; ?>
+			</ol>
 			<a href="<?php echo site_url('/userplaylists/edit/'.$playlist['id']); ?>" class="btn btn-secondary">Edit</a>
-			<a class="btn btn-outline-primary" href="<?php echo site_url('/'); ?>">Go back</a>
+			<a class="btn btn-outline-primary" href="<?php echo site_url('/userplaylists/'); ?>">Go back</a>
 		</div>
 	</div>
 </div>

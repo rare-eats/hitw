@@ -7,6 +7,7 @@ class Restaurants extends CI_Controller {
 		$this->load->model('tags_model');
 		$this->load->model('reviews_model');
 		$this->load->helper('url_helper');
+		$this->load->helper('form');
 	}
 
 	public function view($id = NULL) {
@@ -47,18 +48,35 @@ class Restaurants extends CI_Controller {
 		$data['admin'] = $this->users_model->is_admin();
 
 		$data['title'] = $data['restaurant']['name'];
-		$data['javascript'] = ['/script/restaurant_view'];
+		
+		$data['css'] = [
+			'/css/restaurants',
+			'/css/chosen.min'
+		];
+		$data['javascript'] = [
+			'/script/chosen.min',
+			'/script/add_to_playlist',
+			'/script/init_chosen',
+			'/script/restaurant_view'
+		];
+		
+		// Get current user's playlists, so restaurant can be added to them.
+		$this->load->model('userplaylists_model');
+		$data['playlists'] = $this->userplaylists_model->get_by_author($data['user_id']);
+		
 
 		$this->load->view('partials/header', $data);
 		$this->load->view('restaurants/view', $data);
-		$this->load->view('partials/footer');
+		$this->load->view('partials/footer', $data);
 	}
+	
 
 	public function search() {
 		$this->load->helper('form');
 
 		$data['title'] = "Restaurants";
-
+		$data['css'] = ['/css/restaurants'];
+		
 		if (!isset($_GET['terms'])) {
 			$data['restaurants'] = $this->restaurants_model->get_restaurant();
 		}

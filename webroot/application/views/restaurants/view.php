@@ -79,11 +79,23 @@
 			</a> 
 			<?php endif; ?>
 		</div>
-
-
-
-
-
+			<a href="<?php echo site_url('/restaurants/edit/'.$restaurant['id']); ?>" class="btn btn-secondary">Edit</a>
+			<a class="btn btn-outline-primary" href="/restaurants">Restaurant List</a>
+			<hr />
+			
+			
+			<!-- Adding to user-defined playlists -->
+			<div id="added-message"></div>
+			<form action="" method="POST" id="playlist-add" class="form-group" data-restaurant_id="<?php echo $restaurant['id']; ?>">
+				<select data-placeholder="add to playlist" class="chosen-select" id="playlist-select" name="playlist">
+				<?php foreach($playlists as $row){ ?>
+					<option value="<?php echo $row['id'] ?>"><?php echo $row['title'] ?></option>
+				<?php }?>
+				</select>
+				<br><br><input id="submit-p" class="btn btn-primary" type="submit" value="Add to selected playlist">
+			</form>
+			<hr />
+			
 		<div class="card-body">
 			<h3 class="card-title text-center">User Reviews</h3>
 			<?php if(!empty($reviews)): ?>
