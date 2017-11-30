@@ -4,14 +4,18 @@
 		<div class="card-body">
 			<h3><?php echo $restaurant['name']; ?>
 				<small class="text-muted">(<?php
-					if (empty($restaurant['rating']))
-					{
-						echo 'No ratings yet';
+					if (empty($restaurant['upvotes'])){
+						echo 'No upvotes ';
+						$restaurant;
 					}
-					else
-					{
-						echo $restaurant['rating'];
-						echo '/5';
+					else{
+						var_dump($restaurant['upvotes'], 'upvotes ');
+					}
+					if (empty($restaurant['downvotes'])){
+						echo 'no downvotes';
+					}
+					else{
+						var_dump($restaurant['downvotes'], 'downvotes');
 					}
 					?>)</small></h3>
 			<p class="card-text">
@@ -34,11 +38,14 @@
 				echo $restaurant['country'];
 				?>
 			</p>
-			<form action="/restaurants/<?php echo $restaurant_id; ?>/review/leave_rating" method="post">
-				<button type="button" class="btn btn-info btn-lg">
-	          <span class="glyphicon glyphicon-thumbs-up"></span>
+			<div class='btn-group col-2'>
+				<button id = "thumbs_up" type="submit" class="btn btn-info btn-lg" data-restaurant_id="<?php echo $restaurant['id']; ?>" style="margin-right:5px">
+	          <span class="glyphicon glyphicon-thumbs-up">like</span>
 	      </button>
-			</form>
+				<button id = "thumbs_down" type="submit" class="btn btn-info btn-lg" data-restaurant_id="<?php echo $restaurant['id']; ?>">
+	          <span class="glyphicon glyphicon-thumbs-down">dislike</span>
+	      </button>
+			</div>
 			<?php if (!empty($restaurant['tags'])): ?>
 				<?php foreach($restaurant['tags'] as $tag): ?>
 					<span class="badge badge-pill badge-primary"><?php echo $tag['name']; ?> <a href="#" class="remove_tag_button" data-tag_id="<?php echo $tag['id']; ?>" data-restaurant_id="<?php echo $restaurant['id']; ?>">&times;</a></span>

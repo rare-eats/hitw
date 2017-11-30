@@ -98,16 +98,32 @@ class Reviews_model extends CI_Model {
 			$this->db->update('reviews', $data);
 		}
 	}
-	public function leave_rating($author_id, $restaurant_id){
-		$this->db->where('reviews.author_id'==$author_id, 'reviews.restaurant_id'==$author_id);
-		$rating = $this->db->select("reviews.rating");
-		if ($rating = 0){
-			$this->db->update('reviews.rating', 1);
-			return 1;
+	public function thumbs_up($author_id, $restaurant_id){
+		echo("thumbs up model");
+		var_dump("author id: ", $author_id, "restaurant id:", $restaurant_id);
+		$this->db->where('reviews.author_id',$author_id);
+		$this->db->where('reviews.restaurant_id',$restaurant_id);
+		$this->db->select('rating');
+		$rating = $this->db->get("reviews");
+		if ($rating === NULL){
+			$this->db->update('rating', false);
 		}
 		else{
-			$this->db->update('reviews.rating', 0);
-			return 0;
+			$this->db->update('rating', NULL);
+		}
+	}
+	public function thumbs_down($author_id, $restaurant_id){
+		echo("thumbs down model");
+		var_dump("author id: ", $author_id, "restaurant id:", $restaurant_id);
+		$this->db->where('reviews.author_id',$author_id);
+		$this->db->where('reviews.restaurant_id',$restaurant_id);
+		$this->db->select('rating');
+		$rating = $this->db->get("reviews");
+		if ($rating === NULL){
+			$this->db->update('rating', false);
+		}
+		else{
+			$this->db->update('rating', NULL);
 		}
 	}
 }

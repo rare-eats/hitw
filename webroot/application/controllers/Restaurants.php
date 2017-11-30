@@ -157,4 +157,41 @@ class Restaurants extends CI_Controller {
 		];
 		echo json_encode($response);
 	}
+
+	public function upvote($restaurant_id)
+	{
+		var_dump('restaurants controller');
+		header('Content-type: application/json');
+		// $restaurant_id->$this->input->input_stream('restaurant_id');
+		$result = $this->restaurants_model->upvote($restaurant_id);
+		if($result)
+		{
+			$response = [
+				'success'=>TRUE,
+				'message' => 'upvoted',
+				'data'=>$result['data']
+			];
+		}
+		else
+		{
+			$response = [
+				'success'=>FALSE,
+				'message'=>"Unable to leave rating",
+				'data'=> $response['data']
+			];
+		}
+		echo json_encode($response);
+	}
+
+	public function downvote($restaurant_id)
+	{
+		echo 'restaurants controller';
+		header('Content-type: application/json');
+		$this->restaurants_model->downvote($restaurant_id);
+		$response = [
+			'success' => TRUE,
+			'message' => 'downvoted'
+		];
+		echo json_encode($response);
+	}
 }

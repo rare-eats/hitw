@@ -384,25 +384,50 @@ class Restaurants_model extends CI_Model {
 		return $this->db->delete('restaurants');
 	}
 
-    public function check_response_code($meta){
-        if (is_numeric($meta->code)){
-            if ((int)$meta->code == 200){
-                return TRUE;
-            }else{
-                var_dump($meta->code);
-                var_dump($meta->errorDetail);
-                return FALSE;
-            }
-        }
-    }
+  public function check_response_code($meta){
+      if (is_numeric($meta->code)){
+          if ((int)$meta->code == 200){
+              return TRUE;
+          }else{
+              var_dump($meta->code);
+              var_dump($meta->errorDetail);
+              return FALSE;
+          }
+      }
+  }
 
-    public function get_restaurants_by_ids($ids) {
-        if (isset($ids)) {
-            $this->db->where_in('id', $ids);
-            $query = $this->db->get('restaurants');
-            return $query->result_array();
-        }
-    }
+  public function get_restaurants_by_ids($ids) {
+      if (isset($ids)) {
+          $this->db->where_in('id', $ids);
+          $query = $this->db->get('restaurants');
+          return $query->result_array();
+      }
+  }
 
+	public function upvote($restaurant_id){
+		echo 'restaurants_model';
+		if (!isset($restaurant_id)) {
+			return FALSE;
+		}
+		$this->db->set('upvotes', 'upvotes+1', FALSE);
+		$this->db->where('id', $restaurant_id);
+		$this->db->update('restaurants');
+		return TRUE;
+	}
+
+	public function downvote($restaurant_id){
+		echo 'restaurants_model';
+		if (!isset($restaurant_id)) {
+			return [
+				'success' => FALSE
+			];
+		}
+		$this->db->set('downvotes', 'downvotes+1', FALSE);
+		$this->db->where('id', $restaurant_id);
+		$this->db->update('restaurants');
+		return [
+			'success'=>TRUE
+		];
+	}
 
 }

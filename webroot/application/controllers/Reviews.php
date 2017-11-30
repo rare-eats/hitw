@@ -20,12 +20,18 @@ class Reviews extends CI_Controller {
 		redirect("/restaurants/".$restaurant_id);
 	}
 
-	public function leave_rating($restaurant_id, $author_id)
+	public function thumbs_up($restaurant_id)
 	{
-			$this->reviews_model->leave_rating($restaurant_id, $author_id);
-			redirect("/restaurants/".$restaurant_id);
+			echo("thumbs up controller");
+			$author_id = $this->session->id;
+			$this->reviews_model->thumbs_up($restaurant_id, $author_id);
 	}
-
+	public function thumbs_down($restaurant_id)
+	{
+			echo("thumbs down controller");
+			$author_id = $this->session->id;
+			$this->reviews_model->thumbs_down($restaurant_id, $author_id);
+	}
 	// Needs restaurant_id so we can redirect
 	public function delete($restaurant_id, $review_id)
 	{

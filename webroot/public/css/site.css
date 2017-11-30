@@ -1,4 +1,4 @@
-body, html { 
+body, html {
 	margin: 0;
 	padding: 0;
 	background-color: #A0A0A0;
@@ -25,7 +25,7 @@ h1, h2, h3 {
 }
 
 input:focus {
-	border-color: #cd775a !important; 
+	border-color: #cd775a !important;
 }
 
 input:focus, .btn:focus, .btn:active {
@@ -59,8 +59,8 @@ input:focus, .btn:focus, .btn:active {
 }
 
 .d-lg-flex>.card {
-	width: 20rem; 
-	display: inline-block; 
+	width: 20rem;
+	display: inline-block;
 	margin: none !important;
 }
 
