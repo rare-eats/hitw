@@ -38,5 +38,3 @@
 	<h4 class="text-danger">Please Log In to Create a List</h4>
 <?php endif ?>
 </div>
-
-<script>$(".chosen-select").chosen();</script>

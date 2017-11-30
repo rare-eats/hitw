@@ -8,9 +8,9 @@ class Userplaylists extends CI_Controller {
 	}
 
 	public function view($id = NULL) {
+		$data['title'] = "Playlists";
+		$data['user_id'] = $this->session->id;
 		if ($id === NULL) {
-			$data['title'] = "Playlists";
-			$data['user_id'] = $this->session->id;
 			
 			$this->load->model('users_model');
 			$playlists = $this->userplaylists_model->get_playlist();
@@ -62,7 +62,10 @@ class Userplaylists extends CI_Controller {
 		$this->load->model('restaurants_model');
 
 		$data['css'] = ["/css/chosen.min"];
-		// $data['javascript'] = ["/script/chosen.min"];
+		$data['javascript'] = [
+			'/script/chosen.min', 
+			'/script/init_chosen'
+		];
 		$data['title'] = 'Add New Playlist';
 		$data['restaurants'] = $this->restaurants_model->get_restaurant();
 

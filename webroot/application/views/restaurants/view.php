@@ -50,7 +50,7 @@
 			
 			<!-- Adding to user-defined playlists -->
 			<div id="added-message"></div>
-			<form action="" method="POST" id="playlist-add" class="form-group">
+			<form action="" method="POST" id="playlist-add" class="form-group" data-restaurant_id="<?php echo $restaurant['id']; ?>">
 				<select data-placeholder="add to playlist" class="chosen-select" id="playlist-select" name="playlist">
 				<?php foreach($playlists as $row){ ?>
 					<option value="<?php echo $row['id'] ?>"><?php echo $row['title'] ?></option>
@@ -124,26 +124,3 @@
 		</div>
 	</div>
 </div>
-
-<script>$(".chosen-select").chosen();</script>
-<script>
-$("#playlist-add").submit(function(e){
-	e.preventDefault();
-	var playlist_id = $("#playlist-select").val();
-	var restaurant_id = <?php echo $restaurant['id'] ?>;
-	$.ajax({
-		type: "POST",
-		url: '<?php echo base_url() ?>userplaylists/add_to_list',
-		data: {playlist_id:playlist_id,restaurant_id:restaurant_id},
-		success:function(data)
-		{
-			$("#added-message").replaceWith("<p>Added to playlist!</p>");
-		},
-		error:function()
-		{
-			alert('Failed to add restaurant to playlist!');
-		}
-	});
-});
-</script>
-

@@ -50,7 +50,9 @@ class Restaurants extends CI_Controller {
 			'/css/chosen.min'
 		];
 		$data['javascript'] = [
-			// '/script/add_to_playlist',
+			'/script/chosen.min',
+			'/script/add_to_playlist',
+			'/script/init_chosen',
 			'/script/restaurant_view'
 		];
 		

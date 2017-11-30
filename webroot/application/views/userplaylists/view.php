@@ -13,9 +13,9 @@
 				?>
 			</p>
 			<ol>
-				<?php foreach ($restaurants as $restaurant) { ?>
+				<?php foreach ($restaurants as $restaurant): ?>
 					<?php echo '<li><a href=' . site_url('/restaurants/'.$restaurant['id']).'>'.$restaurant['name'].'</a></li>'; ?>
-				<?php } ?>
+				<?php endforeach; ?>
 			</ol>
 			<a href="<?php echo site_url('/userplaylists/edit/'.$playlist['id']); ?>" class="btn btn-secondary">Edit</a>
 			<a class="btn btn-outline-primary" href="<?php echo site_url('/userplaylists/'); ?>">Go back</a>
