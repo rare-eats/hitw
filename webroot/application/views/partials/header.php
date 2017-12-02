@@ -35,14 +35,18 @@
 				</li>
 		<?php endif; ?>
 				<li class="nav-item">
-					<a class="nav-link" href="#">Recommended</a>
+					<a class="nav-link" href="/userplaylists/search">Search for Playlists</a>
 				</li>
+		<?php if($this->session->has_userdata('id')): ?>
 				<li class="nav-item">
 					<a class="nav-link" href="/restaurants/create">Add a Restaurant</a>
 				</li>
+			<?php if($this->users_model->is_admin()): ?>
 				<li class="nav-item">
 					<a class="nav-link" href="/restaurants/tags">Modify a Tag</a>
 				</li>
+			<?php endif; ?>
+		<?php endif; ?>
 			</ul>
 			<ul class="navbar-nav ml-auto">
 			<?php if($this->session->has_userdata('id')): ?>

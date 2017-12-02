@@ -43,7 +43,7 @@ class Users extends CI_Controller {
         $title['title'] = 'View My Profile';
 
         $user = $this->users_model->get_user($id);
-        $data['playlists'] = $this->userplaylists_model->get_by_author($id);
+        $data['playlists'] = $this->security->xss_clean($this->userplaylists_model->get_by_author($id));
 
         if ($user) {
             $data['user'] = $user[0];
