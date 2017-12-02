@@ -10,51 +10,69 @@ class Userplaylists extends CI_Controller {
 	public function view($id = NULL) {
 		$data['title'] = "Playlists";
 		$data['user_id'] = $this->session->id;
+		$data['admin'] = $this->users_model->is_admin();
+		
 		if ($id === NULL) {
-			
-			$this->load->model('users_model');
-			$playlists = $this->userplaylists_model->get_playlist();
-			foreach ($playlists as $playlist){
-				$author = ($this->users_model->get_user($playlist['author_id']))[0];
-				$playlist['author_name'] = $author['first_name'] . ' ' . $author['last_name'];
-				$data['playlists'][] = $playlist;
-			}
-			$this->load->view('partials/header', $data);
-			$this->load->view('userplaylists/view_all', $data);
-			$this->load->view('partials/footer');
+			redirect('/userplaylists/search');
+			return;
 		}
-		else{
-			$data['playlist'] = $this->userplaylists_model->get_playlist($id);
-			$data['restaurants'] = $this->userplaylists_model->get_restaurants($id);
-
-			if (empty($data['playlist'])) {
-				show_404();
-			}
-			
-			// Load contents from user_playlist_contents table, each row is id, playlist_id, restaurant_id
-			$contents = $this->userplaylists_model->get_contents($id);
-			
-			// Get restaurant name and id from contents
-			$this->load->model('restaurants_model');
-			$restaurants = array();
-			foreach ($contents as $content_row){
-				$restaurant = [
-					'id' => $content_row['restaurant_id'],
-					'name' => $this->restaurants_model->get_name($content_row['restaurant_id']),
-				];
-				$restaurants[] = $restaurant;
-			}
-			$data['restaurants'] = $restaurants;
-
-			$this->load->model('users_model');
-			$author = ($this->users_model->get_user($data['playlist']['author_id']))[0];
-			$data['author_name'] = $author['first_name'] . ' ' . $author['last_name'];
-			$data['author_id'] = $author['id'];
-
-			$this->load->view('partials/header', $data);
-			$this->load->view('userplaylists/view', $data);
-			$this->load->view('partials/footer');
+		
+		$data['playlist'] = $this->security->xss_clean($this->userplaylists_model->get_playlist($id));
+		if (empty($data['playlist'])) {
+			redirect('/userplaylists/search');
+			return;
 		}
+
+		$data['restaurants'] = $this->security->xss_clean($this->userplaylists_model->get_restaurants($id));
+		
+		// Load contents from user_playlist_contents table, each row is id, playlist_id, restaurant_id
+		$contents = $this->security->xss_clean($this->userplaylists_model->get_contents($id));
+		
+		// Get restaurant name and id from contents
+		$this->load->model('restaurants_model');
+		$data['restaurants'] = [];
+		foreach ($contents as $content_row){
+			$data['restaurants'][] = [
+				'id' => $content_row['restaurant_id'],
+				'name' => $this->security->xss_clean($this->restaurants_model->get_name($content_row['restaurant_id'])),
+			];
+		}
+		// $data['restaurants'] = $restaurants;
+
+		$author = ($this->users_model->get_user($data['playlist']['author_id']))[0];
+		$data['author_name'] = $author['first_name'] . ' ' . $author['last_name'];
+		$data['author_id'] = $author['id'];
+
+		$this->load->view('partials/header', $data);
+		$this->load->view('userplaylists/view', $data);
+		$this->load->view('partials/footer');
+	}
+
+	public function search() {
+		$this->load->helper('form');
+
+		$data['title'] = "User Playlists";
+		
+		if (!isset($_GET['terms'])) {
+			$data['playlists'] = $this->userplaylists_model->get_playlist();
+		}
+		else
+		{
+			$data['terms'] = $this->input->get('terms');
+			$data['playlists'] = $this->security->xss_clean($this->userplaylists_model->search_playlists($data['terms']));
+		}
+
+		foreach ($data['playlists'] as $key => $playlist) {
+			$author = $this->security->xss_clean(($this->users_model->get_user($playlist['author_id']))[0]);
+			$author_name = $author['first_name'] . ' ' . $author['last_name'];
+			
+			$data['playlists'][$key]['author_name'] = [];
+			$data['playlists'][$key]['author_name'][] = (string)$author_name;	
+		}
+
+		$this->load->view('partials/header', $data);
+		$this->load->view('userplaylists/search', $data);
+		$this->load->view('partials/footer');
 	}
 
 	public function create() {
@@ -68,10 +86,12 @@ class Userplaylists extends CI_Controller {
 			'/script/init_chosen'
 		];
 		$data['title'] = 'Add New Playlist';
-		$data['restaurants'] = $this->restaurants_model->get_restaurant();
+		$data['restaurants'] = $this->security->xss_clean($this->restaurants_model->get_restaurant());
 
-		$this->form_validation->set_rules('title', 'Playlist Name', 'required');
-		$this->form_validation->set_rules('desc', 'Description', 'required');
+		$this->form_validation->set_rules(
+			'title', 'Playlist Name', 'required|max_length[100]');
+		$this->form_validation->set_rules(
+			'desc', 'Description', 'required|max_length[255]');
 
 		if ($this->form_validation->run() === FALSE) {
 			$this->load->view('partials/header', $data);
@@ -105,7 +125,7 @@ class Userplaylists extends CI_Controller {
 		}
 		
 		// Load contents from user_playlist_contents table, each row is id, playlist_id, restaurant_id
-		$contents = $this->userplaylists_model->get_contents($id);
+		$contents = $this->security->xss_clean($this->userplaylists_model->get_contents($id));
 		
 		// Get restaurant name and id from contents
 		$this->load->model('restaurants_model');
@@ -122,8 +142,8 @@ class Userplaylists extends CI_Controller {
 
 		$data['title'] = 'Edit Playlist';
 
-		$this->form_validation->set_rules('title', 'Playlist Name', 'required');
-		$this->form_validation->set_rules('desc', 'Description', 'required');
+		$this->form_validation->set_rules('title', 'Playlist Name', 'required|max_length[100]');
+		$this->form_validation->set_rules('desc', 'Description', 'required|max_length[255]');
 
 		if ($this->form_validation->run() === FALSE) {
 			$this->load->view('partials/header', $data);
@@ -164,5 +184,28 @@ class Userplaylists extends CI_Controller {
 		# Check for proper authentication first
 		$this->userplaylists_model->delete_content($content_id);
 		redirect('/userplaylists/edit/'.$playlist_id);
+	}
+	
+	public function user($id = NULL) {
+		if ($id === NULL) {
+			show_404();
+			return;
+		}
+		
+		$author = $this->security->xss_clean(($this->users_model->get_user($id))[0]);
+		$author_name = $author['first_name'] . ' ' . $author['last_name'];
+		
+		$data['title'] = "Playlists by " . $author_name;
+		
+		$data['playlists'] = $this->userplaylists_model->get_by_author($id);
+		
+		foreach ($data['playlists'] as $key => $playlist) {
+			$data['playlists'][$key]['author_name'] = [];
+			$data['playlists'][$key]['author_name'][] = (string)$author_name;	
+		}
+
+		$this->load->view('partials/header', $data);
+		$this->load->view('userplaylists/view_user', $data);
+		$this->load->view('partials/footer');
 	}
 }

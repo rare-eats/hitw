@@ -53,9 +53,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['userplaylists/create'] = 'userplaylists/create';
 $route['userplaylists/edit/(:any)'] = 'userplaylists/edit/$1';
 $route['userplaylists/add_to_list'] = 'userplaylists/add_to_list';
+$route['userplaylists/user/(:num)'] = 'userplaylists/user/$1';
 $route['userplaylists/(:num)/content/(:num)/delete'] = 'userplaylists/content_delete/$1/$2';
+$route['userplaylists/search'] = 'userplaylists/search';
 $route['userplaylists/(:any)'] = 'userplaylists/view/$1';
-$route['userplaylists'] = 'userplaylists/view';
+$route['userplaylists'] = 'userplaylists/search';
 
 $route['default_controller'] = 'home';
 $route['404_override'] = '';

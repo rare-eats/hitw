@@ -2,10 +2,9 @@
 	<div class="card">
 		<div class="card-body">
 		<h3 class="text-center"><?php echo $title; ?></h3>
-	<?php echo validation_errors(); ?>
+	<div class="text-danger"><?php echo validation_errors(); ?></div>
 
 	<?php echo form_open('restaurants/create'); ?>
-		<p class="text-center">Fields marked with an asterisk (*) are mandatory.</p>
 		<div class="form-group">
 			<label for="name">Restaurant Name*</label>
 			<input type="text" id="name" name="name" class="form-control" placeholder="Sloppy Joe's" required>			

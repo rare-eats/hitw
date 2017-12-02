@@ -37,26 +37,51 @@ class Userplaylists_model extends CI_Model {
 		}
 	}
 
+	# Returns all if no terms specified
+	public function search_playlists($terms = FALSE) {
+		if ($terms === FALSE) {
+			return get_playlist();
+		}
+		$user_id = $this->session->id;
+
+		$term = strtolower($terms);
+
+		$this->db->like('LOWER(title)', $term);
+		$this->db->or_like('desc', $term);
+		$this->db->where('author_id', $user_id);	
+		$this->db->or_where('private', 'FALSE');
+		$this->db->limit(64);
+		$query = $this->db->get('user_playlists');
+		return $query->result_array();
+	}
 
 	# Returns all playlists if no id is specified
 	public function get_playlist($id = FALSE) {
+		$user_id = $this->session->id;
+
 		if ($id === FALSE) {
+			$this->db->where('author_id', $user_id);
+			if (!$this->users_model->is_admin()) {
+				$this->db->or_where('private', 'FALSE');
+			}
+			$this->db->limit(64);
 			$query = $this->db->get('user_playlists');
 			return $query->result_array();
 		}
 
+		# Check for authentication to view inside the controller
 		$this->db->where('id', $id);
 		$query = $this->db->get('user_playlists');
 		return $query->row_array();
 	}
 
+	# Returns all restaurants in the specified playlist
 	public function get_restaurants($id = FALSE) {
 		$query = FALSE;
 		if ($id !== FALSE) {
 			$query = $this->db->get_where('user_playlist_contents', ['playlist_id' => $id]);
+			return $query->result_array();
 		}
-
-		return $query->result_array();
 	}
 
 	# Delete a playlist
@@ -74,11 +99,23 @@ class Userplaylists_model extends CI_Model {
 		}
 	}
 
+	# Returns a specific author's playlists, only returning those that the current user is authorized to see
 	public function get_by_author($author_id, $limit = FALSE) {
 		if (!isset($author_id)) {
 			return False;
 		} else {
-			$query = $this->db->get_where('user_playlists', ['author_id' => $author_id], $limit);
+			$user_id = $this->session->id;
+			if (!isset($user_id)){
+				$user_id = -1;
+			}
+			
+			$query = $this->db
+				->group_start()
+				->where('author_id =', $user_id)
+				->or_where('private =', 'FALSE')
+				->group_end()
+				->where('author_id', $author_id)
+				->get('user_playlists', $limit);
 			return $query->result_array();
 		}
 	}

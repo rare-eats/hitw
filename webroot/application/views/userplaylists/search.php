@@ -2,9 +2,9 @@
 
 <div class="card">
 	<div class="card-body">
-		<h2 class="text-center">Restaurants Search</h2>
+		<h2 class="text-center">User Playlists</h2>
 <?php $attr = [ 'class' => 'form-inline', 'method' => 'get'];
-	echo form_open('restaurants/search', $attr); 
+	echo form_open('userplaylists/search', $attr); 
 ?>
 <div class="container-fluid">
 	<div class="form-control-lg input-group">
@@ -21,27 +21,20 @@
 </div>
 </form>
 
-<?php if(empty($restaurants)): ?>
-	<h3 class="text-center text-muted">No restaurants available.</h3>
+<?php if(empty($playlists)): ?>
+	<h3 class="text-center text-muted">No playlists available.</h3>
 <?php endif; ?>
-<?php foreach ($restaurants as $restaurant): ?>
-	<a style="text-decoration: none;" href="<?php echo site_url('restaurants/'.$restaurant['id']); ?>">
+<?php foreach ($playlists as $playlist): ?>
+	<a style="text-decoration: none;" href="<?php echo site_url('userplaylists/'.$playlist['id']); ?>">
 		<div class="card">
 			<div class="card-body">
-			<h3><?php echo $restaurant['name']; ?>
-			<small class="text-muted">(<?php 
-				if (empty($restaurant['rating'])) 
-				{
-					echo 'No ratings yet';
-				}
-				else
-				{
-					echo $restaurant['rating'];
-					echo '/5'; 
-				}
-			?>)</small></h3>
+				<h3><?php echo $playlist['title']; ?> 
+					<small class="text-muted">
+						by <?php echo $playlist['author_name'][0]; ?>
+					</small></h3>
+				<p class="card-text text-dark"><?php echo $playlist['desc']; ?></p>
+			</div>
 		</div>
-	</div>
 	</a>
 <?php endforeach; ?>
 </div>
