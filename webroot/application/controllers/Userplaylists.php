@@ -185,4 +185,27 @@ class Userplaylists extends CI_Controller {
 		$this->userplaylists_model->delete_content($content_id);
 		redirect('/userplaylists/edit/'.$playlist_id);
 	}
+	
+	public function user($id = NULL) {
+		if ($id === NULL) {
+			show_404();
+			return;
+		}
+		
+		$author = $this->security->xss_clean(($this->users_model->get_user($id))[0]);
+		$author_name = $author['first_name'] . ' ' . $author['last_name'];
+		
+		$data['title'] = "Playlists by " . $author_name;
+		
+		$data['playlists'] = $this->userplaylists_model->get_by_author($id);
+		
+		foreach ($data['playlists'] as $key => $playlist) {
+			$data['playlists'][$key]['author_name'] = [];
+			$data['playlists'][$key]['author_name'][] = (string)$author_name;	
+		}
+
+		$this->load->view('partials/header', $data);
+		$this->load->view('userplaylists/view_user', $data);
+		$this->load->view('partials/footer');
+	}
 }

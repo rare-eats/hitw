@@ -5,9 +5,7 @@
 				<a class="btn btn-secondary float-right" aria-label="Return to Playlist Search" href="/userplaylists">&times;</a>
 				<h2><?php echo $playlist['title']; ?>
 					<br><small class="text-muted">
-					<!-- Uncomment the following once we have public profiles available to view -->
-					<!-- <a href="<?php echo site_url('/users/'.$author_id); ?>">author: <?php echo $author_name?></a> -->
-					<?php echo $author_name; ?>
+					author: <a href="<?php echo site_url('userplaylists/user/'.$author_id); ?>"><?php echo $author_name?></a>
 				</small></h2>
 			</div>
 			<p class="card-text">
