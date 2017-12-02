@@ -22,45 +22,48 @@ class Reviews extends CI_Controller {
 
 	public function thumbs_up($restaurant_id)
 	{
+			header('Content-type: application/json');
 			$this->load->model('restaurants_model');
 			$author_id = $this->session->id;
-			$result = $this->reviews_model->thumbs_up($restaurant_id, $author_id);
-			$message = $result['message'];
+			$response = $this->reviews_model->thumbs_up($restaurant_id, $author_id);
+			$message = $response['message'];
 			if($message === "liked"){
 				// var_dump('message', $message);
-				$this->restaurants_model->update_rating($restaurant_id, 'upvote', TRUE);
+				$result = $this->restaurants_model->update_rating($restaurant_id, 'upvote', TRUE);
 			}
 			if($message === "unliked"){
 				// var_dump('message', $message);
-				$this->restaurants_model->update_rating($restaurant_id, 'upvote', FALSE);
+				$result = $this->restaurants_model->update_rating($restaurant_id, 'upvote', FALSE);
 			}
 			if($message === "changed mind"){
 					// var_dump('message', $message);
-					$this->restaurants_model->update_rating($restaurant_id, 'upvote', TRUE);
-					$this->restaurants_model->update_rating($restaurant_id, 'downvote', FALSE);
+				$result = $this->restaurants_model->update_rating($restaurant_id, 'upvote', TRUE);
+				$result = $this->restaurants_model->update_rating($restaurant_id, 'downvote', FALSE);
+
 			}
-			return $result;
+			echo json_encode($result);
 	}
 	public function thumbs_down($restaurant_id)
 	{
+			header('Content-type: application/json');
 			$this->load->model('restaurants_model');
 			$author_id = $this->session->id;
-			$result = $this->reviews_model->thumbs_down($restaurant_id, $author_id);
-			$message = $result['message'];
+			$response = $this->reviews_model->thumbs_down($restaurant_id, $author_id);
+			$message = $response['message'];
 			if($message === "disliked"){
 				// var_dump('message', $message);
-				$this->restaurants_model->update_rating($restaurant_id, 'downvote', TRUE);
+				$result = $this->restaurants_model->update_rating($restaurant_id, 'downvote', TRUE);
 			}
 			if($message === "undisliked"){
 				// var_dump('message', $message);
-				$this->restaurants_model->update_rating($restaurant_id, 'downvote', FALSE);
+				$result = $this->restaurants_model->update_rating($restaurant_id, 'downvote', FALSE);
 			}
 			if($message === "changed mind"){
 					// var_dump('message', $message);
-					$this->restaurants_model->update_rating($restaurant_id, 'downvote', TRUE);
-					$this->restaurants_model->update_rating($restaurant_id, 'upvote', FALSE);
+					$result = $this->restaurants_model->update_rating($restaurant_id, 'downvote', TRUE);
+					$result = $this->restaurants_model->update_rating($restaurant_id, 'upvote', FALSE);
 			}
-			return $result;
+			echo json_encode($result);
 	}
 
 	// Needs restaurant_id so we can redirect
