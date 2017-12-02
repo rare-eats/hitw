@@ -27,19 +27,22 @@ class Home extends CI_Controller {
 
 		$data['title'] = "Home";
 
-		$data['restaurants'] = $this->restaurants_model->get_amount_of_restaurants(4);
+		$data['restaurants'] = $this->security->xss_clean($this->restaurants_model->get_amount_of_restaurants(4));
 
 		$author_id = $this->session->id;
 
 		foreach ($data['restaurants'] as $key => $restaurant) {
 			$data['restaurants'][$key]['image_url'] = [];
-			$data['restaurants'][$key]['image_url'][] = $this->restaurants_model->get_restaurant_photos((string)$restaurant['id'],1,'RANDOM')[0]['image_url'];
+			$photo = $this->restaurants_model->get_restaurant_photos((string)$restaurant['id'],1,'RANDOM');
+			if (!empty($photo)) {
+				$data['restaurants'][$key]['image_url'][] = $photo[0]['image_url'];
+			}
 		}
 
 		if (isset($author_id)) {
 			$data['author_id'] = $author_id;
 			$data['recommended'] = $this->autoplaylists_model->initiate_recommendations($author_id);
-			$data['playlists'] = $this->userplaylists_model->get_by_author($author_id, 4);
+			$data['playlists'] = $this->security->xss_clean($this->userplaylists_model->get_by_author($author_id, 4));
 			
 		}
 

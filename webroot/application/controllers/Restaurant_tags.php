@@ -9,6 +9,11 @@ class Restaurant_tags extends CI_Controller {
 
 	public function index()
 	{
+		if (!$this->session->is_admin()) {
+			redirect('/restaurants');
+			return;
+		}
+
 		$data['title'] = "Restaurant Tags";
 
 		$result = $this->tags_model->get_tags();

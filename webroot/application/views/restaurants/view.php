@@ -81,22 +81,22 @@
 		<?php endif; ?>
 		</div>
 
+		<?php if(empty($photos)): ?>
+			<img src="http://via.placeholder.com/800x300" alt="Placeholder">
+		<?php else: ?>
 		<div id="image_carousel" class="carousel slide" data-ride="carousel">
-			<?php if(empty($photos)): ?>
-				<img src="http://via.placeholder.com/800x300" alt="Placeholder">
-			<?php else: ?>
 			<ol class="carousel-indicators">
-				<?php for($i = 0; $i < count($photos); $i++): ?>
+			<?php for($i = 0; $i < count($photos); $i++): ?>
 				<li data-target="#image_carousel" data-slide-to="<?php echo $i; ?>"
 					<?php if($i == 0) {echo 'class="active"'; }; ?>></li>
 				<?php endfor; ?>
 			</ol>
 			<div class="carousel-inner">
-			<?php for($i = 0; $i < count($photos); $i++): ?>
+				<?php for($i = 0; $i < count($photos); $i++): ?>
 				<div class="carousel-item w-100 <?php if($i == 0) echo 'active'; ?>">
 					<img class="d-block align-middle w-100" src="<?php echo $photos[$i]['image_url']; ?>" alt="Slide <?php echo $i+1; ?>">
 				</div>
-			<?php endfor; ?>
+				<?php endfor; ?>
  			</div>
 			<a class="carousel-control-prev" href="#image_carousel" role="button" data-slide="prev">
 				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -105,8 +105,7 @@
 			<a class="carousel-control-next" href="#image_carousel" role="button" data-slide="next">
 				<span class="carousel-control-next-icon" aria-hidden="true"></span>
 				<span class="sr-only">Next</span>
-			</a>
-			<?php endif; ?>
+
 		</div>
 			<a href="<?php echo site_url('/restaurants/edit/'.$restaurant['id']); ?>" class="btn btn-secondary">Edit</a>
 			<a class="btn btn-outline-primary" href="/restaurants">Restaurant List</a>
@@ -126,9 +125,24 @@
 			<hr />
 
 		<div class="card-body">
-			<h3 class="card-title text-center">User Reviews</h3>
+			<?php if (isset($user_id)): ?>
+			<h3 class="card-title text-center">Add to Playlist</h3>
+			<div class="text-success" id="added-message"></div>
+			<div class="text-center">
+				<form action="" method="POST" id="playlist-add" class="form-group form-inline" data-restaurant_id="<?php echo $restaurant['id']; ?>">
+					<select data-placeholder="Add to Playlist" class="chosen-select" id="playlist-select" name="playlist">
+					<?php foreach($playlists as $row): ?>
+						<option value="<?php echo $row['id'] ?>"><?php echo $row['title'] ?></option>
+					<?php endforeach; ?>
+					</select>
+					<input id="submit-p" class="btn btn-primary" type="submit" value="&plus;" aria-label="Add restaurant to selected playlist">
+				</form>
+			</div>
+			<hr />
+			<?php endif; ?>
+		<h3 class="card-title text-center">User Reviews</h3>
+			<div class="container-fluid">
 			<?php if(!empty($reviews)): ?>
-				<div class="container-fluid">
 					<?php foreach($reviews as $review): ?>
 						<div class="row <?php
 							if($review['author_id'] == $user_id) {echo 'own-review';};
@@ -138,7 +152,7 @@
 									<?php if(($review['author_id'] == $user_id) || ($admin)): ?>
 										<p id="show-review" style="display: block"> <?php echo $review['body']; ?> </p>
 										<form id="edit-form" class="edit-form" style="display:none" action="/restaurants/<?php echo $restaurant_id; ?>/review/put" method="post" accept-charset="utf-8">
-											<input id="edit-field" name="body" class="form_control" value="<?php echo $review['body']; ?>">
+											<input id="edit-field" name="body" class="form_control" value="<?php echo html_escape($review['body']); ?>">
 											<button id = "submit-edit-btn" type="submit" class = "btn btn-primary">Submit</button>
 										</form>
 									<?php else: ?>
@@ -159,7 +173,8 @@
 							<?php endif; ?>
 						</div>
 					<?php endforeach; ?>
-				</div>
+			<?php else: ?>
+				<p class="text-muted text-center">There don't seem to be any reviews yet.</p>
 			<?php endif; ?>
 
 			<?php if(empty($user_id)): ?>
@@ -174,6 +189,7 @@
 					</form>
 			<?php endif; ?>
 			<!-- End user reviews and recommendations -->
+			</div>
 		</div>
 	</div>
 </div>

@@ -103,11 +103,6 @@ class Restaurants_model extends CI_Model {
     	$this->db->limit($limit);
     	$this->db->order_by('id', $order);
     	$query = $this->db->get('photos');
-
-    	if (empty($query)) {
-    		return FALSE;
-    	}
-
     	return $query->result_array();
     }
 
@@ -378,16 +373,11 @@ class Restaurants_model extends CI_Model {
 		return $query->result_array();
 	}
 
-	# Get a list of [amt] restaurants by list of [terms]
-	public function get_restaurant_by_search($terms, $ord_col, $ord_val) {
-		$query = search_restaurant('all', $terms, $ord_col, $ord_val);
-		return $query;
-	}
-
 	# Delete a restaurant
 	public function delete_restaurant($id = FALSE) {
-		if ($id === FALSE) {
+		if ($id === FALSE || !$this->users_model->isadmin()) {
 			show_404();
+			return;
 		}
 
 		$this->clear_tags_from_restaurant($id);

@@ -16,7 +16,7 @@ a:hover, .btn-link:hover {
 	color: #ec1046;
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4, card-title, text-primary, h2 a {
 	color: #ec1046;
 }
 
@@ -65,13 +65,22 @@ input:focus, .btn:focus, .btn:active {
 }
 
 .carousel-item {
-		height: 200px;
+	height: 200px;
+}
+
+.chosen-container, .chosen-select, .chosen-single {
+	background: none !important;
+}
+
+.chosen-single span {
+	font-size: 1.2rem;
 }
 
 @media (min-width: 576px) { 
 	.carousel-item {
 		height: 200px;
 	}
+
 }
 
 @media (min-width: 768px) { 
@@ -119,6 +128,10 @@ a .card:hover, .own-review {
 .restaurant-image {
 	height: 150px;
 	overflow: hidden;
+}
+
+.search-result {
+	text-decoration: none !important;
 }
 
 .remove_tag_button {
