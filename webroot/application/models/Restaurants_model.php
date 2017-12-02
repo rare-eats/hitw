@@ -98,7 +98,7 @@ class Restaurants_model extends CI_Model {
                 );
                 $this->load_item('photos', $data);
             }catch(Exception $e){
-                var_dump($e);
+                #var_dump($e);
             }
         }
     }
@@ -126,7 +126,7 @@ class Restaurants_model extends CI_Model {
                 $this->load_item('reviews', $data);
                 #'author_id' = $author_id,
             }catch(Exception $e){
-                var_dump($e);
+                #var_dump($e);
             }
         }
     }
@@ -188,7 +188,7 @@ class Restaurants_model extends CI_Model {
                 }
 			}
 			catch(Exception $e){
-                var_dump($e);
+                #var_dump($e);
 			}
 		}
 	}

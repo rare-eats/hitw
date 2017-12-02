@@ -4,7 +4,6 @@
     <list default="true" id="49b1eead-e2de-47d2-af8a-e59528e4548b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/application/models/Restaurants_model.php" afterPath="$PROJECT_DIR$/webroot/application/models/Restaurants_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/application/views/home.php" afterPath="$PROJECT_DIR$/webroot/application/views/home.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,7 +20,7 @@
       <file leaf-file-name="Home.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/webroot/application/controllers/Home.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
+            <state relative-caret-position="136">
               <caret line="8" column="8" lean-forward="false" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
               <folding />
             </state>
@@ -61,8 +60,8 @@
       <file leaf-file-name="Restaurants_model.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/webroot/application/models/Restaurants_model.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="486">
-              <caret line="152" column="62" lean-forward="false" selection-start-line="152" selection-start-column="62" selection-end-line="152" selection-end-column="62" />
+            <state relative-caret-position="186">
+              <caret line="357" column="24" lean-forward="false" selection-start-line="357" selection-start-column="16" selection-end-line="357" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -114,7 +113,6 @@
       <find>file_get_contents</find>
       <find>preload_</find>
       <find>check_response_code</find>
-      <find>var_dump</find>
       <find>Exception $e</find>
       <find>load_restaurant_tag</find>
       <find>load_item</find>
@@ -135,6 +133,7 @@
       <find>[]</find>
       <find>push</find>
       <find>array_push</find>
+      <find>var_dump</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -225,6 +224,22 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches">
+        <subPane>
+          <expand>
+            <path>
+              <item name="" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+              <item name="Extensions" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
+            </path>
+            <path>
+              <item name="" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+              <item name="Extensions" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
+              <item name="com.intellij.database" type="61db50fb:ScratchProjectViewPane$MyPsiNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -291,22 +306,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches">
-        <subPane>
-          <expand>
-            <path>
-              <item name="" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
-              <item name="Extensions" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
-            </path>
-            <path>
-              <item name="" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
-              <item name="Extensions" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
-              <item name="com.intellij.database" type="61db50fb:ScratchProjectViewPane$MyPsiNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -347,12 +346,13 @@
       <workItem from="1511483966142" duration="19300000" />
       <workItem from="1511659013184" duration="23256000" />
       <workItem from="1511738066170" duration="9037000" />
-      <workItem from="1511988138528" duration="3204000" />
+      <workItem from="1511988138528" duration="4107000" />
+      <workItem from="1512241550056" duration="628000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="87244000" />
+    <option name="totallyTimeSpent" value="88775000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -362,7 +362,6 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -374,6 +373,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -765,7 +765,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/webroot/application/controllers/Home.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
+        <state relative-caret-position="136">
           <caret line="8" column="8" lean-forward="false" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
           <folding />
         </state>
@@ -792,8 +792,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/webroot/application/models/Restaurants_model.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="152" column="62" lean-forward="false" selection-start-line="152" selection-start-column="62" selection-end-line="152" selection-end-column="62" />
+        <state relative-caret-position="186">
+          <caret line="357" column="24" lean-forward="false" selection-start-line="357" selection-start-column="16" selection-end-line="357" selection-end-column="24" />
           <folding />
         </state>
       </provider>
