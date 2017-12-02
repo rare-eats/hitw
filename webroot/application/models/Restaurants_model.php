@@ -124,6 +124,11 @@ class Restaurants_model extends CI_Model {
     	$this->db->limit($limit);
     	$this->db->order_by('id', $order);
     	$query = $this->db->get('photos');
+
+    	if (empty($query)) {
+    		return FALSE;
+    	}
+
     	return $query->result_array();
     }
 
@@ -415,14 +420,14 @@ class Restaurants_model extends CI_Model {
 	}
 	# Returns the name of a single restaurant (for playlists)
 	public function get_name($id = NULL) {
-		
+
 		if (!isset($id)){
 			return FALSE;
 		}
-		
+
 		$this->db->where('restaurants.id', $id);
 		$result = $this->db->get('restaurants')->row()->name;
-		
+
 		return $result;
 	}
 
@@ -439,7 +444,7 @@ class Restaurants_model extends CI_Model {
     }
 
     public function get_restaurants_by_ids($ids) {
-        if (isset($ids)) {
+        if (!empty($ids)) {
             $this->db->where_in('id', $ids);
             $query = $this->db->get('restaurants');
             return $query->result_array();

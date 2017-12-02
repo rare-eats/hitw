@@ -1,14 +1,5 @@
-<?php
-	#$this->restaurants_model->load_food_categories();
-    $this->tags_model->make_tags_api_call();
-    #Get restaurants, and within restaurants get a few associated reviews if available.
-    $this->restaurants_model->make_restaurants_api_call();
-    #$this->restaurants_model->associate_restaurants_with_tags();
-?>
-
 <div class="container-fluid">
 <?php if (isset($author_id)): ?>
-	<?php if (isset($recommended)): ?>
 	   	<div class="row heading">
 			<div class="col text-center">
 				<h2 class="display-2">Explore</h2>
@@ -16,17 +7,28 @@
 		</div>
 		<div class="row d-flex flex-row">
 	        <div class="col d-lg-flex justify-content-sm-center">
+			<?php if (isset($recommended)): ?>
 		        <div class="card" style="width: 20rem; display: inline-block; margin: 1rem;">
 		            <a style="text-decoration: none;" href="/autoplaylists/view/<?php echo $recommended['id'] ?>">
 		            <div class="card-body">
 		            	<h4 class="card-title text-dark"><?php echo $recommended['title']; ?></h4>
 						<p class="card-text text-dark"><?php echo $recommended['desc']; ?></p>
-		            </a>
 		            </div>
+		            </a>
 		        </div>
+		    <?php endif ?>
+		   	<?php if (isset($time_list)): ?>
+		        <div class="card" style="width: 20rem; display: inline-block; margin: 1rem;">
+	        		<a style="text-decoration: none;" href="/autoplaylists/view/<?php echo $time_list['id'] ?>">
+		        	<div class="card-body">
+		            	<h4 class="card-title text-dark"><?php echo $time_list['title']; ?></h4>
+						<p class="card-text text-dark"><?php echo $time_list['desc']; ?></p>
+		            </div>
+					</a>
+		        </div>
+		    <?php endif ?>
 	        </div>
 	    </div>
-	<?php endif ?>
 	<div class="row heading">
 		<div class="col text-center">
 			<h2 class="display-2"><a style="text-decoration: none; color: #ec1046" href="/users/view">My Lists</a> <a href="/userplaylists/create">&plus;</a></h2>
@@ -70,11 +72,11 @@
 			<div class="card align-top">
 				<a style="text-decoration: none;" href="<?php echo '/restaurants/'.$restaurant['id']; ?>">
 				<div class="restaurant-image">
-					<img class="card-img-top align-middle" src="<?php 
-						if (!empty($restaurant['image_url'])) { 
-							echo $restaurant['image_url'][0]; 
+					<img class="card-img-top align-middle" src="<?php
+						if (!empty($restaurant['image_url'])) {
+							echo $restaurant['image_url'][0];
 						}
-						else 
+						else
 						{
 							echo 'http://via.placeholder.com/300x150';
 						}

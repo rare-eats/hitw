@@ -8,9 +8,7 @@
                 </small></h2>
             </div>
             <p class="card-text">
-                <?php
-                echo $playlist['desc'];
-                ?>
+                <?php echo $playlist['desc']; ?>
             </p>
             <table class="table">
                 <?php foreach ($restaurants as $key => $restaurant): ?>
@@ -19,7 +17,7 @@
                     <td><a href="<?php echo site_url('/restaurants/'.$restaurant['id']); ?>"><?php echo $restaurant['name']; ?></a></td>
                 </tr>
                 <?php endforeach; ?>
-            </table> 
+            </table>
         </div>
     </div>
 </div>
