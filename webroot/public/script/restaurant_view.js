@@ -27,8 +27,18 @@ $("#thumbs_up").click(function(){
 		data: { }
 		// success:
 	}).done(function( data ) {
-			$("#thumbs_up").disabled = true;
-			change_button_text(data);
+			// $("#thumbs_up").attr("disabled", true);
+			if(data.message =="unliked"){
+				// $("#thumbs_down").attr("active", true);
+				$('#thumbs_up').removeClass("active");
+			}
+			else{
+				$('#thumbs_up').addClass("active");
+				if(data.message == "changed mind"){
+					$('#thumbs_down').removeClass("active");
+				}
+			}
+			update_btn(data);
 	});
 })
 
@@ -39,12 +49,21 @@ $("#thumbs_down").click(function(){
 		url: "/restaurants/"+ data.restaurant_id +"/reviews/thumbs_down",
 		data:{ }
 	}).done(function(data) {
-		$("#thumbs_down").disabled = true;
-		change_button_text(data);
+		// $("#thumbs_down").attr("disabled", true);
+		if(data.message=="undisliked"){
+			$('#thumbs_down').removeClass("active");
+		}
+		else{
+			$('#thumbs_down').addClass("active");
+			if(data.message == "changed mind"){
+				$('#thumbs_up').removeClass("active");
+			}
+		}
+		update_btn(data);
 	});
 })
 
-function change_button_text(data){
+function update_btn(data){
 	if(data.upvotes==1){
 		$("#thumbs_up").text(String(data.upvotes)+" like");
 	}

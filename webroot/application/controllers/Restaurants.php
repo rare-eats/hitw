@@ -34,7 +34,7 @@ class Restaurants extends CI_Controller {
 			],
 			TRUE
 		));
-		$data['user_review'] = $this->reviews_model->get_reviews(['author_id' => $this->session->id],FALSE);
+		$data['user_review'] = $this->reviews_model->get_reviews(['author_id' => $this->session->id, 'restaurant_id'=>$id],FALSE);
 		$data['photos'] = $this->restaurants_model->get_restaurant_photos($id);
 
 		$data['user_left_review'] = $this->reviews_model->count_reviews(

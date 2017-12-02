@@ -41,6 +41,7 @@ class Reviews extends CI_Controller {
 				$result = $this->restaurants_model->update_rating($restaurant_id, 'downvote', FALSE);
 
 			}
+			$result['message'] = $message;
 			echo json_encode($result);
 	}
 	public function thumbs_down($restaurant_id)
@@ -63,6 +64,7 @@ class Reviews extends CI_Controller {
 					$result = $this->restaurants_model->update_rating($restaurant_id, 'downvote', TRUE);
 					$result = $this->restaurants_model->update_rating($restaurant_id, 'upvote', FALSE);
 			}
+			$result['message'] = $message;
 			echo json_encode($result);
 	}
 

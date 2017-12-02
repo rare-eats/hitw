@@ -7,12 +7,12 @@
 				<small class="text-muted">
 					<div class='btn-group col-2'>
 						<button id = "thumbs_up" type="submit" class="btn btn-info btn-xs" data-restaurant_id="<?php echo $restaurant['id']; ?>"
-							style="margin-right:5px" <?php if(empty($user_id)){ echo 'disabled';} if(isset($user_review['rating']) && $user_review['rating']===true){ echo 'active'; }?>>
+							style="margin-right:5px" <?php if(empty($user_id)){ echo 'disabled';} if(!empty($user_review) && isset($user_review['rating']) && $user_review['rating']==TRUE){ echo 'active'; }?>>
 			          <span class="glyphicon glyphicon-thumbs-up"> <?php	if (($restaurant['upvotes'])==1){ echo '1 like ';} else{ echo $restaurant['upvotes'], ' likes ';}?>
 							</span>
 			      </button>
 						<button id = "thumbs_down" type="submit" class="btn btn-info btn-xs" data-restaurant_id="<?php echo $restaurant['id']; ?>"
-							<?php if(empty($user_id)){ echo 'disabled'; } if(isset($user_review['rating']) && $user_review['rating']===false){ echo 'active'; }?>>
+							<?php if(empty($user_id)){ echo 'disabled'; } if(!empty($user_review) && isset($user_review['rating']) && $user_review['rating']==FALSE){ echo 'active'; }?>>
 			          <span class="glyphicon glyphicon-thumbs-down"> <?php	if (($restaurant['downvotes'])==1){ echo '1 dislike ';} else{ echo $restaurant['downvotes'], ' dislikes ';}?>
 								</span>
 			      </button>
@@ -156,7 +156,7 @@
 
 			<?php if(empty($user_id)): ?>
 				<p class="text-center"><a href="/users/login">Log in to leave a review.</a></p>
-			<?php elseif(empty($reviews) || !isset($user_review['body'])): ?>
+			<?php elseif(empty($user_review) || !isset($user_review[0]['body'])): ?>
 				<p class="text-center">Let your voice be heard, leave a review now!</p>
 					<form action="/restaurants/<?php echo $restaurant_id; ?>/review/put" method="post" accept-charset="utf-8">
 						<div class="form-group">
