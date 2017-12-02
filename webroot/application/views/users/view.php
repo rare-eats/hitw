@@ -12,32 +12,44 @@
 			<button type="submit" class="btn btn-primary">Search</button>
 		</form>
 	</div>
-	<div class="my-sm-3 mx-sm-3">
-		<h3>User Profile</h3>
-		<table class="table">
-			<tr>
-				<td>First Name</td>
-				<td><?php echo $user['first_name'];?></td>
-			</tr>
-			<tr>
-				<td>Last Name</td>
-				<td><?php echo $user['last_name'];?></td>
-			</tr>
-			<tr>
-				<td>Email</td>
-				<td><?php echo $user['email'];?></td>
-			</tr>
-		</table>
-		<a href="edit/<?php echo $user['id'];?>" class="btn btn-primary">Edit</a>
-		<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete_modal">Delete Account</button>
+
+	<div class="card">
+		<div class="card-header" role="tab" id="headingOne">
+			<a style="text-decoration: none;" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+				<div class="clearfix">
+					<span class="float-right text-muted">&#9660;</span>
+					<h4 class="mb-0 text-center">Account Details</h4>
+				</div>
+			</a>
+		</div>
+
+		<div id="collapseOne" class="collapse hide" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+			<div class="card-body">
+				<table class="table">
+					<tr>
+						<th scope="row">First Name</th>
+						<td><?php echo $user['first_name'];?></td>
+					</tr>
+					<tr>
+						<th scope="row">Last Name</th>
+						<td><?php echo $user['last_name'];?></td>
+					</tr>
+					<tr>
+						<th scope="row">Email</th>
+						<td><?php echo $user['email'];?></td>
+					</tr>
+				</table>
+			<a href="edit/<?php echo $user['id'];?>" class="btn btn-primary">Edit</a>
+			<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete_modal">Delete Account</button>
+			</div>
+		</div>
 	</div>
 	<div class="my-sm-3 mx-sm-3">
 		<div class="row">
 			<div class="col">
-				<span>
-					<h2>My Lists <small>
-					<a href="/userplaylists/create" aria-label="Create a playlist">&plus;</a></small></h2>
-				</span>
+				<h2 class="text-center">My Lists 
+					<small><a href="/userplaylists/create" aria-label="Create a playlist">&plus;</a></small>
+				</h2>
 			</div>
 		</div>
 <?php if(!empty($playlists)):?>

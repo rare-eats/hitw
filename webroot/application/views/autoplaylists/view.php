@@ -12,13 +12,14 @@
                 echo $playlist['desc'];
                 ?>
             </p>
-            <ul>
-            <?php foreach ($restaurants as $restaurant): ?>
-                <li>
-                    <a href="/restaurants/<?php echo $restaurant['id'];  ?>"><?php echo $restaurant['name']; ?></a>
-                </li>
-            <?php endforeach ?>
-            </ul>
+            <table class="table">
+                <?php foreach ($restaurants as $key => $restaurant): ?>
+                <tr>
+                    <th scope="row"><?php echo $key+1; ?></th>
+                    <td><a href="<?php echo site_url('/restaurants/'.$restaurant['id']); ?>"><?php echo $restaurant['name']; ?></a></td>
+                </tr>
+                <?php endforeach; ?>
+            </table> 
         </div>
     </div>
 </div>

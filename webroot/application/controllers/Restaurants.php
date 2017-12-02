@@ -131,7 +131,8 @@ class Restaurants extends CI_Controller {
 		$this->load->library('form_validation');
 
 		if($this->users_model->is_admin() === FALSE) {
-			show_404();
+			redirect('/restaurants');
+			return;
 		}
 
 		$data['restaurant'] = $this->restaurants_model->get_restaurant($id)[0];
@@ -171,7 +172,8 @@ class Restaurants extends CI_Controller {
 
 	public function delete($id = NULL) {
 		if (empty($id)) {
-			show_404();
+			redirect('/restaurants');
+			return;
 		}
 
 		# Check for proper authentication first
