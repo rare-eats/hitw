@@ -7,37 +7,13 @@
 				<small class="text-muted">
 					<div class='btn-group col-2'>
 						<button id = "thumbs_up" type="submit" class="btn btn-info btn-xs" data-restaurant_id="<?php echo $restaurant['id']; ?>"
-							style="margin-right:5px" <?php
-							if(empty($user_id)){
-								echo 'disabled';
-							}
-							if(isset($user_review['rating'])){
-								if ($user_review['rating']===FALSE){
-									echo 'disabled';
-								}
-								if($user_review['rating']===true){
-									echo 'active';
-								}
-						}?>>
-			          <span class="glyphicon glyphicon-thumbs-up">
-									<?php	if (empty($restaurant['upvotes'])){
-													echo 'No upvotes ';
-												}
-												else{
-													echo $restaurant['upvotes'], ' upvotes ';
-												}?>
+							style="margin-right:5px" <?php if(empty($user_id)){ echo 'disabled';} if(isset($user_review['rating']) && $user_review['rating']===true){ echo 'active'; }?>>
+			          <span class="glyphicon glyphicon-thumbs-up"> <?php	if (($restaurant['upvotes'])==1){ echo '1 like ';} else{ echo $restaurant['upvotes'], ' likes ';}?>
 							</span>
 			      </button>
 						<button id = "thumbs_down" type="submit" class="btn btn-info btn-xs" data-restaurant_id="<?php echo $restaurant['id']; ?>"
-							<?php if(empty($user_id)|| ((isset($user_review['rating']) && $user_review['rating']===true))){ echo 'disabled'; }
-							if((isset($user_review['rating']) && $user_review['rating']===false)){ echo 'active'; }?>>
-			          <span class="glyphicon glyphicon-thumbs-down">
-									<?php if (empty($restaurant['downvotes'])){
-										echo 'no downvotes';
-									}
-									else{
-										echo $restaurant['downvotes'], ' downvotes';
-									}?>
+							<?php if(empty($user_id)){ echo 'disabled'; } if(isset($user_review['rating']) && $user_review['rating']===false){ echo 'active'; }?>>
+			          <span class="glyphicon glyphicon-thumbs-down"> <?php	if (($restaurant['downvotes'])==1){ echo '1 dislike ';} else{ echo $restaurant['downvotes'], ' dislikes ';}?>
 								</span>
 			      </button>
 					</div>
@@ -145,10 +121,9 @@
 		<h3 class="card-title text-center">User Reviews</h3>
 			<div class="container-fluid">
 			<?php if(!empty($reviews)): ?>
-					<?php foreach($reviews as $review): ?>
-						<div class="row <?php
-							if($review['author_id'] == $user_id) {echo 'own-review';};
-						?>">
+					<?php foreach($reviews as $review):
+							if (!empty($review['body'])):?>
+						<div class="row <?php if($review['author_id'] == $user_id) {echo 'own-review';};?>">
 							<div class="col-md-10 col-sm-12">
 								<blockquote class="blockquote">
 									<?php if(($review['author_id'] == $user_id) || ($admin)): ?>
@@ -174,14 +149,14 @@
 							</div>
 							<?php endif; ?>
 						</div>
-					<?php endforeach; ?>
+					<?php endif; endforeach; ?>
 			<?php else: ?>
 				<p class="text-muted text-center">There don't seem to be any reviews yet.</p>
 			<?php endif; ?>
 
 			<?php if(empty($user_id)): ?>
 				<p class="text-center"><a href="/users/login">Log in to leave a review.</a></p>
-			<?php elseif(empty($reviews) || (isset($user_left_review) && $user_left_review < 1) ): ?>
+			<?php elseif(empty($reviews) || !isset($user_review['body'])): ?>
 				<p class="text-center">Let your voice be heard, leave a review now!</p>
 					<form action="/restaurants/<?php echo $restaurant_id; ?>/review/put" method="post" accept-charset="utf-8">
 						<div class="form-group">
