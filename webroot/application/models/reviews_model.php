@@ -99,32 +99,84 @@ class Reviews_model extends CI_Model {
 			$this->db->update('reviews', $data);
 		}
 	}
-	public function thumbs_up($author_id, $restaurant_id){
-		echo("thumbs up model");
-		var_dump("author id: ", $author_id, "restaurant id:", $restaurant_id);
-		$this->db->where('reviews.author_id',$author_id);
-		$this->db->where('reviews.restaurant_id',$restaurant_id);
-		$this->db->select('rating');
-		$rating = $this->db->get("reviews");
-		if ($rating === NULL){
-			$this->db->update('rating', false);
+	public function thumbs_up($restaurant_id, $author_id){
+		$this->db->where('author_id',$author_id);
+		$this->db->where('restaurant_id',$restaurant_id);
+		$query = $this->db->get("reviews");
+		$result_array = $query->result_array();
+		//if no review exists
+		if(empty($result_array)){
+			$data = [
+				"restaurant_id" => $restaurant_id,
+				"author_id" => $author_id,
+				"rating" => TRUE
+			];
+			$this->put_review($data);
+			$response = ['message'=> 'liked'];
 		}
 		else{
-			$this->db->update('rating', NULL);
+			if(isset($result_array[0]['rating'])){
+				//rating is true
+				if ($result_array[0]['rating'] === TRUE){
+					$this->db->set('rating', NULL);
+					// $this->db->set('upvotes', 'upvotes-1', FALSE);
+					$response = ['message'=> 'unliked'];
+				}
+				//rating is false
+				else{
+					$this->db->set('rating', TRUE);
+					// $this->db->set('upvotes', 'upvotes+1', FALSE);
+					// $this->db->set('downvotes', 'downvotes-1', FALSE);
+					$response = ['message' => 'changed mind'];
+				}
+			}
+			//rating is null
+			else{
+				$this->db->set('rating', TRUE);
+				$response = ['message' => 'liked'];
+			}
+			$this->db->where('author_id',$author_id);
+			$this->db->where('restaurant_id',$restaurant_id);
+			$this->db->update('reviews');
+			// $this->db->where('id', $restaurant_id);
+			// $this->db->update('restaurants');
+			return $response;
 		}
 	}
-	public function thumbs_down($author_id, $restaurant_id){
-		echo("thumbs down model");
-		var_dump("author id: ", $author_id, "restaurant id:", $restaurant_id);
-		$this->db->where('reviews.author_id',$author_id);
-		$this->db->where('reviews.restaurant_id',$restaurant_id);
-		$this->db->select('rating');
-		$rating = $this->db->get("reviews");
-		if ($rating === NULL){
-			$this->db->update('rating', false);
+	public function thumbs_down($restaurant_id, $author_id){
+		$this->db->where('author_id',$author_id);
+		$this->db->where('restaurant_id',$restaurant_id);
+		$query = $this->db->get("reviews");
+		$result_array = $query->result_array();
+		if(empty($result_array)){
+			$data = [
+				"restaurant_id" => $restaurant_id,
+				"author_id" => $author_id,
+				"rating" => FALSE
+			];
+			$this->put_review($data);
+			$response = ['message' => 'disliked'];
 		}
 		else{
-			$this->db->update('rating', NULL);
+			if(isset($result_array[0]['rating'])){
+				if ($result_array[0]['rating'] === FALSE){
+					$this->db->set('rating',NULL);
+					$response = ['message'=>'undisliked'];
+
+				}
+				else{
+					$this->db->set('rating', FALSE);
+					$response = ['message'=>'changed mind'];
+				}
+			}
+			else{
+				$this->db->set('rating', FALSE);
+				$response = ['message'=>'disliked'];
+			}
+			$this->db->where('author_id',$author_id);
+			$this->db->where('restaurant_id',$restaurant_id);
+			$this->db->update('reviews');
+			return $response;
 		}
 	}
 }

@@ -22,16 +22,47 @@ class Reviews extends CI_Controller {
 
 	public function thumbs_up($restaurant_id)
 	{
-			echo("thumbs up controller");
+			$this->load->model('restaurants_model');
 			$author_id = $this->session->id;
-			$this->reviews_model->thumbs_up($restaurant_id, $author_id);
+			$result = $this->reviews_model->thumbs_up($restaurant_id, $author_id);
+			$message = $result['message'];
+			if($message === "liked"){
+				// var_dump('message', $message);
+				$this->restaurants_model->update_rating($restaurant_id, 'upvote', TRUE);
+			}
+			if($message === "unliked"){
+				// var_dump('message', $message);
+				$this->restaurants_model->update_rating($restaurant_id, 'upvote', FALSE);
+			}
+			if($message === "changed mind"){
+					// var_dump('message', $message);
+					$this->restaurants_model->update_rating($restaurant_id, 'upvote', TRUE);
+					$this->restaurants_model->update_rating($restaurant_id, 'downvote', FALSE);
+			}
+			return $result;
 	}
 	public function thumbs_down($restaurant_id)
 	{
-			echo("thumbs down controller");
+			$this->load->model('restaurants_model');
 			$author_id = $this->session->id;
-			$this->reviews_model->thumbs_down($restaurant_id, $author_id);
+			$result = $this->reviews_model->thumbs_down($restaurant_id, $author_id);
+			$message = $result['message'];
+			if($message === "disliked"){
+				// var_dump('message', $message);
+				$this->restaurants_model->update_rating($restaurant_id, 'downvote', TRUE);
+			}
+			if($message === "undisliked"){
+				// var_dump('message', $message);
+				$this->restaurants_model->update_rating($restaurant_id, 'downvote', FALSE);
+			}
+			if($message === "changed mind"){
+					// var_dump('message', $message);
+					$this->restaurants_model->update_rating($restaurant_id, 'downvote', TRUE);
+					$this->restaurants_model->update_rating($restaurant_id, 'upvote', FALSE);
+			}
+			return $result;
 	}
+
 	// Needs restaurant_id so we can redirect
 	public function delete($restaurant_id, $review_id)
 	{

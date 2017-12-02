@@ -1,5 +1,4 @@
 $(".remove_tag_button").click(function(){
-	console.log($(this).data());
 
 	var self = $(this);
 	var data = $(this).data();
@@ -20,48 +19,43 @@ $(".edit_reviews").click(function(){
 	$("#edit-form").css("display", "block");
 })
 
-
 $("#thumbs_up").click(function(){
 	var data = $(this).data();
-	// $.ajax({
-	// 	method: "POST",
-	// 	url: "/restaurants/"+ restaurant_id+"/reviews/thumbs_up",
-	// 	data:{restaurant_id}
-	// }).done(function(result){
-	// 			// console.log(data.restaurant_id);
-  //       $("#thumbs_up").html();
-	// });
 	$.ajax({
 		method: "PUT",
-		url: "/restaurants/"+ data.restaurant_id +"/upvote",
+		url: "/restaurants/"+ data.restaurant_id+"/reviews/thumbs_up",
 		data: { }
-	}).done(function(result){
-		if (result.success)
-		{
-			location.reload();
-			console.log(result);
-		}
-	});
+	}).done($(this).disabled = true)
+	// $.ajax({
+	// 	method: "PUT",
+	// 	url: "/restaurants/"+ data.restaurant_id +"/upvote",
+	// 	data: { }
+	// }).done(
+	// 	$.ajax({
+	// 		method: "PUT",
+	// 		url: "/restaurants/"+ data.restaurant_id+"/reviews/thumbs_up",
+	// 		data: { }
+	// 	}).done($(this).disabled = true)
+	// );
+		// $(this).load(result);
 })
 
 $("#thumbs_down").click(function(){
 	var data = $(this).data();
-	// $.ajax({
-	// 	method: "POST",
-	// 	url: "/restaurants/"+ restaurant_id +"/reviews/thumbs_down",
-	// 	data:{restaurant_id}
-	// }).done(function(result){
-	// 		// console.log(data.restaurant_id);
-  //     $("#thumbs_down").html();
-  //   });
 	$.ajax({
 		method: "PUT",
-		url: "/restaurants/"+ data.restaurant_id +"/downvote",
-		data: { }
-	}).done(function(result){
-		if(result.success)
-		{
-			console.log(result);
-		}
-	});
+		url: "/restaurants/"+ data.restaurant_id +"/reviews/thumbs_down",
+		data:{ }
+	}).done($(this).disabled = true)
+	// $.ajax({
+	// 	method: "PUT",
+	// 	url: "/restaurants/"+ data.restaurant_id +"/downvote",
+	// 	data: { }
+	// }).done(
+	// 	$.ajax({
+	// 		method: "PUT",
+	// 		url: "/restaurants/"+ data.restaurant_id +"/reviews/thumbs_down",
+	// 		data:{ }
+	// 	}).done($(this).disabled = true)
+	// );
 })

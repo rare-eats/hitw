@@ -34,7 +34,7 @@ class Restaurants extends CI_Controller {
 			],
 			TRUE
 		);
-
+		$data['user_review'] = $this->reviews_model->get_reviews(['author_id' => $this->session->id],FALSE);
 		$data['photos'] = $this->restaurants_model->get_restaurant_photos($id);
 
 		$data['user_left_review'] = $this->reviews_model->count_reviews(
@@ -43,7 +43,6 @@ class Restaurants extends CI_Controller {
 				'author_id'		=>	$this->session->id
 			]
 		);
-
 		$data['user_id'] = $this->session->id;
 		$data['admin'] = $this->users_model->is_admin();
 
@@ -186,32 +185,31 @@ class Restaurants extends CI_Controller {
 	}
 	public function upvote($restaurant_id)
 	{
-		var_dump('restaurants controller');
 		header('Content-type: application/json');
 		// $restaurant_id->$this->input->input_stream('restaurant_id');
 		$result = $this->restaurants_model->upvote($restaurant_id);
-		if($result)
-		{
-			$response = [
-				'success'=>TRUE,
-				'message' => 'upvoted',
-				'data'=>$result['data']
-			];
-		}
-		else
-		{
-			$response = [
-				'success'=>FALSE,
-				'message'=>"Unable to leave rating",
-				'data'=> $response['data']
-			];
-		}
-		echo json_encode($response);
+		// if($result)
+		// {
+		// 	$response = [
+		// 		'success'=>TRUE,
+		// 		'message' => 'upvoted',
+		// 		'data'=>$result
+		// 	];
+		// }
+		// else
+		// {
+		// 	$response = [
+		// 		'success'=>FALSE,
+		// 		'message'=>"Unable to leave rating",
+		// 		'data'=> $result
+		// 	];
+		// }
+		var_dump($result);
+		echo json_encode($result[0]['message']);
 	}
 
 	public function downvote($restaurant_id)
 	{
-		echo 'restaurants controller';
 		header('Content-type: application/json');
 		$this->restaurants_model->downvote($restaurant_id);
 		$response = [

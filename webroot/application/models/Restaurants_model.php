@@ -103,7 +103,7 @@ class Restaurants_model extends CI_Model {
     	$this->db->limit($limit);
     	$this->db->order_by('id', $order);
     	$query = $this->db->get('photos');
-    	
+
     	if (empty($query)) {
     		return FALSE;
     	}
@@ -363,7 +363,6 @@ class Restaurants_model extends CI_Model {
 		$search_amount = 100;
 		$term = strtolower($terms);
 
-		// echo var_dump($term);
 		if ($column == 'all') {
 			$this->db->like('LOWER(name)', $term);
 			$this->db->or_like('LOWER(restaurant_type)', $term);
@@ -398,14 +397,14 @@ class Restaurants_model extends CI_Model {
 	}
 	# Returns the name of a single restaurant (for playlists)
 	public function get_name($id = NULL) {
-		
+
 		if (!isset($id)){
 			return FALSE;
 		}
-		
+
 		$this->db->where('restaurants.id', $id);
 		$result = $this->db->get('restaurants')->row()->name;
-		
+
 		return $result;
 	}
 
@@ -429,30 +428,107 @@ class Restaurants_model extends CI_Model {
       }
   }
 
-	public function upvote($restaurant_id){
-		echo 'restaurants_model';
+	// public function upvote($restaurant_id){
+	// 	if (!isset($restaurant_id)) {
+	// 		return FALSE;
+	// 	}
+	// 	//check if this user has already rated the restaurant
+	// 	$this->db->select('rating');
+	// 	$query =	$this->db->get_where('reviews', ['author_id'=> $this->session->id, 'restaurant_id' => $restaurant_id]);
+	// 	$result_array = $query->result_array();
+  //
+	// 	if(empty($result_array)){
+	// 		$this->db->set('upvotes', 'upvotes+1', FALSE);
+	// 		$response = ['message' => "liked"];
+	// 	}
+	// 	else{
+	// 		//rating was null
+	// 		if(!isset($result_array[0]['rating'])){
+	// 			$this->db->set('upvotes', 'upvotes+1', FALSE);
+	// 			$response = ['message' => "liked"];
+	// 		}
+	// 		//rating was positive
+	// 		if($result_array[0]['rating'] === TRUE){
+	// 			$this->db->set('upvotes', 'upvotes-1', FALSE);
+	// 			$response = ['message' => "unliked"];
+	// 		}
+	// 		//rating was negative
+	// 		if($result_array[0]['rating'] === FALSE){
+	// 			$this->db->set('upvotes', 'upvotes+1', FALSE);
+	// 			$this->db->set('downvotes', 'downvotes-1', FALSE);
+	// 			$response = ['message' => "changed mind"];
+	// 		}
+	// 	}
+	// 	$this->db->where('id', $restaurant_id);
+	// 	$this->db->update('restaurants');
+	// 	return $response;
+	// }
+  //
+	// public function downvote($restaurant_id, $sign){
+  //
+	// 	if (!isset($restaurant_id)) {
+	// 		return ['message'=>"no restaurant"];
+	// 	}
+	// 	if($sign == TRUE){
+	// 		$this->db->set('downvotes', 'downvotes+1');
+	// 	}
+	// 	if($sign == FALSE){
+	// 		$this->db->set('downvotes', 'downvotes-1');
+	// 	}
+	// 	$this->db->where('id', $restaurant_id);
+	// 	$this->db->update('restaurants');
+		// $this->db->select('rating');
+		// $query =	$this->db->get_where('reviews', ['author_id'=> $this->session->id, 'restaurant_id' => $restaurant_id]);
+		// $result_array = $query->result_array();
+    //
+		// if(empty($result_array)){
+		// 	$this->db->set('downvotes', 'downvotes+1', FALSE);
+		// 	$response = ['message' => "disliked"];
+		// }
+		// else{
+		// 	//rating was null
+		// 	if(!isset($result_array[0]['rating'])){
+		// 		$this->db->set('downvotes', 'downvotes+1', FALSE);
+		// 		$response = ['message' => "disliked"];
+		// 	}
+		// 	//rating was negative
+		// 	if($result_array[0]['rating'] === FALSE){
+		// 		$this->db->set('downvotes', 'downvotes-1', FALSE);
+		// 		$response = ['message' => "undisliked"];
+		// 	}
+		// 	//rating was positive
+		// 	if($result_array[0]['rating'] === TRUE){ //liked previously
+		// 		$this->db->set('downvotes', 'downvotes+1', FALSE);
+		// 		$this->db->set('upvotes', 'upvotes-1', FALSE);
+		// 		$response = ['message' => "changed mind"];
+		// 	}
+		// }
+		// $this->db->where('id', $restaurant_id);
+		// $this->db->update('restaurants');
+	// 	return $response;
+	// }
+	public function update_rating($restaurant_id, $mode, $sign){
 		if (!isset($restaurant_id)) {
-			return FALSE;
+			return ['message'=>"no restaurant"];
 		}
-		$this->db->set('upvotes', 'upvotes+1', FALSE);
+		if($mode == 'upvote'){
+			if($sign == TRUE){
+				$this->db->set('upvotes','upvotes+1', FALSE);
+			}
+			else{
+				$this->db->set('upvotes', 'upvotes-1', FALSE);
+			}
+		}
+		else{
+			if($sign == TRUE){
+				$this->db->set('downvotes', 'downvotes+1', FALSE);
+			}
+			else{
+				$this->db->set('downvotes', 'downvotes-1', FALSE);
+			}
+		}
 		$this->db->where('id', $restaurant_id);
 		$this->db->update('restaurants');
-		return TRUE;
-	}
-
-	public function downvote($restaurant_id){
-		echo 'restaurants_model';
-		if (!isset($restaurant_id)) {
-			return [
-				'success' => FALSE
-			];
-		}
-		$this->db->set('downvotes', 'downvotes+1', FALSE);
-		$this->db->where('id', $restaurant_id);
-		$this->db->update('restaurants');
-		return [
-			'success'=>TRUE
-		];
 	}
 
 }

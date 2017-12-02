@@ -4,21 +4,44 @@
 			<div class="clearfix">
 				<a class="btn btn-secondary float-right" aria-label="Return to Restaurant List" href="/restaurants">&times;</a>
 			<h2><?php echo $restaurant['name']; ?>
-				<small class="text-muted">(<?php
-					if (empty($restaurant['upvotes'])){
-						echo 'No upvotes ';
-						$restaurant;
-					}
-					else{
-						var_dump($restaurant['upvotes'], 'upvotes ');
-					}
-					if (empty($restaurant['downvotes'])){
-						echo 'no downvotes';
-					}
-					else{
-						var_dump($restaurant['downvotes'], 'downvotes');
-					}
-					?>)</small>
+				<small class="text-muted">
+					<div class='btn-group col-2'>
+						<button id = "thumbs_up" type="submit" class="btn btn-info btn-xs" data-restaurant_id="<?php echo $restaurant['id']; ?>"
+							style="margin-right:5px" <?php
+							if(empty($user_id)){
+								echo 'disabled';
+							}
+							if(isset($user_review['rating'])){
+								if ($user_review['rating']===FALSE){
+									echo 'disabled';
+								}
+								if($user_review['rating']===true){
+									echo 'active';
+								}
+						}?>>
+			          <span class="glyphicon glyphicon-thumbs-up">
+									<?php	if (empty($restaurant['upvotes'])){
+													echo 'No upvotes ';
+												}
+												else{
+													echo $restaurant['upvotes'], ' upvotes ';
+												}?>
+							</span>
+			      </button>
+						<button id = "thumbs_down" type="submit" class="btn btn-info btn-xs" data-restaurant_id="<?php echo $restaurant['id']; ?>"
+							<?php if(empty($user_id)|| ((isset($user_review['rating']) && $user_review['rating']===true))){ echo 'disabled'; }
+							if((isset($user_review['rating']) && $user_review['rating']===false)){ echo 'active'; }?>>
+			          <span class="glyphicon glyphicon-thumbs-down">
+									<?php if (empty($restaurant['downvotes'])){
+										echo 'no downvotes';
+									}
+									else{
+										echo $restaurant['downvotes'], ' downvotes';
+									}?>
+								</span>
+			      </button>
+					</div>
+				</small>
 			</h2>
 			</div>
 			<p class="card-text">
@@ -41,14 +64,7 @@
 				echo $restaurant['country'];
 				?>
 			</p>
-			<div class='btn-group col-2'>
-				<button id = "thumbs_up" type="submit" class="btn btn-info btn-lg" data-restaurant_id="<?php echo $restaurant['id']; ?>" style="margin-right:5px">
-	          <span class="glyphicon glyphicon-thumbs-up">like</span>
-	      </button>
-				<button id = "thumbs_down" type="submit" class="btn btn-info btn-lg" data-restaurant_id="<?php echo $restaurant['id']; ?>">
-	          <span class="glyphicon glyphicon-thumbs-down">dislike</span>
-	      </button>
-			</div>
+
 			<?php if (!empty($restaurant['tags'])): ?>
 				<?php foreach($restaurant['tags'] as $tag): ?>
 					<span class="badge badge-pill badge-primary"><?php echo $tag['name']; ?>
