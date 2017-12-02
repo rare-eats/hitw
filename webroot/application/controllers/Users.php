@@ -231,6 +231,7 @@ class Users extends CI_Controller {
                     if (password_verify($this->input->post('password'), $checkLogin['password'])) {
                         $this->session->set_userdata('isUserLoggedIn',TRUE);
                         $this->session->set_userdata('id', $checkLogin['id']);
+                        $this->session->set_userdata('permissions', $checkLogin['permissions']);
                         redirect();
                     } else {
                          $data['error_msg'] = 'Wrong email or password, please try again.';

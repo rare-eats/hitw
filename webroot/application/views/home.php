@@ -1,14 +1,5 @@
-<?php
-	#$this->restaurants_model->load_food_categories();
-    $this->tags_model->make_tags_api_call();
-    #Get restaurants, and within restaurants get a few associated reviews if available.
-    $this->restaurants_model->make_restaurants_api_call();
-    #$this->restaurants_model->associate_restaurants_with_tags();
-?>
-
 <div class="container-fluid">
 <?php if (isset($author_id)): ?>
-	<?php if (isset($recommended)): ?>
 	   	<div class="row heading">
 			<div class="col text-center">
 				<h2 class="display-2">Explore</h2>
@@ -16,16 +7,27 @@
 		</div>
 		<div class="row d-flex flex-row">
 	        <div class="col d-lg-flex justify-content-sm-center">
+			<?php if (isset($recommended)): ?>
 		        <div class="card" style="width: 20rem; display: inline-block; margin: 1rem;">
 		            <div class="card-body">
 		            	<h4 class="card-title"><?php echo $recommended['title']; ?></h4>
 						<p class="card-text"><?php echo $recommended['desc']; ?></p>
 		                <a href="/autoplaylists/view/<?php echo $recommended['id'] ?>" class="btn btn-primary">Taste It</a>
 		            </div>
+
 		        </div>
+		    <?php endif ?>
+		   	<?php if (isset($time_list)): ?>
+		        <div class="card" style="width: 20rem; display: inline-block; margin: 1rem;">
+		        	<div class="card-body">
+		            	<h4 class="card-title"><?php echo $time_list['title']; ?></h4>
+						<p class="card-text"><?php echo $time_list['desc']; ?></p>
+		                <a href="/autoplaylists/view/<?php echo $time_list['id'] ?>" class="btn btn-primary">Taste It</a>
+		            </div>
+		        </div>
+		    <?php endif ?>
 	        </div>
 	    </div>
-	<?php endif ?>
 	<div class="row heading">
 		<div class="col text-center">
 			<h2 class="display-2">My Lists <a href="/userplaylists/create">&plus;</a></h2>

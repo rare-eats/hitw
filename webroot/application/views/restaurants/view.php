@@ -1,10 +1,10 @@
 <div class="container">
-	<div class="card">		
+	<div class="card">
 		<div class="card-body">
 			<div class="clearfix">
 				<a class="btn btn-secondary float-right" aria-label="Return to Restaurant List" href="/restaurants">&times;</a>
 			<h2><?php echo $restaurant['name']; ?>
-				<small class="text-muted">(<?php if (empty($restaurant['rating'])) 
+				<small class="text-muted">(<?php if (empty($restaurant['rating']))
 				{
 					echo 'No ratings yet';
 				}
@@ -39,7 +39,7 @@
 			<?php if (!empty($restaurant['tags'])): ?>
 				<?php foreach($restaurant['tags'] as $tag): ?>
 					<span class="badge badge-pill badge-primary"><?php echo $tag['name']; ?>
-					<?php if($admin): ?> 
+					<?php if($admin): ?>
 						<a href="#" class="remove_tag_button" data-tag_id="<?php echo $tag['id']; ?>" data-restaurant_id="<?php echo $restaurant['id']; ?>">&times;</a>
 					<?php endif; ?></span>
 				<?php endforeach; ?>
@@ -47,7 +47,7 @@
 				<p>No tags.</p>
 			<?php endif; ?>
 			</p>
-		<?php if($admin): ?>
+		<?php if(!empty($admin)): ?>
 			<a href="<?php echo site_url('/restaurants/edit/'.$restaurant['id']); ?>" class="btn btn-primary">Edit</a>
 		<?php endif; ?>
 		</div>
@@ -58,7 +58,7 @@
 			<?php else: ?>
 			<ol class="carousel-indicators">
 				<?php for($i = 0; $i < count($photos); $i++): ?>
-				<li data-target="#image_carousel" data-slide-to="<?php echo $i; ?>" 
+				<li data-target="#image_carousel" data-slide-to="<?php echo $i; ?>"
 					<?php if($i == 0) {echo 'class="active"'; }; ?>></li>
 				<?php endfor; ?>
 			</ol>
@@ -76,14 +76,13 @@
 			<a class="carousel-control-next" href="#image_carousel" role="button" data-slide="next">
 				<span class="carousel-control-next-icon" aria-hidden="true"></span>
 				<span class="sr-only">Next</span>
-			</a> 
+			</a>
 			<?php endif; ?>
 		</div>
-			<a href="<?php echo site_url('/restaurants/edit/'.$restaurant['id']); ?>" class="btn btn-secondary">Edit</a>
 			<a class="btn btn-outline-primary" href="/restaurants">Restaurant List</a>
 			<hr />
-			
-			
+
+		<?php if(!empty($user_id)): ?>
 			<!-- Adding to user-defined playlists -->
 			<div id="added-message"></div>
 			<form action="" method="POST" id="playlist-add" class="form-group" data-restaurant_id="<?php echo $restaurant['id']; ?>">
@@ -95,14 +94,14 @@
 				<br><br><input id="submit-p" class="btn btn-primary" type="submit" value="Add to selected playlist">
 			</form>
 			<hr />
-			
+		<?php endif ?>
 		<div class="card-body">
 			<h3 class="card-title text-center">User Reviews</h3>
 			<?php if(!empty($reviews)): ?>
 				<div class="container-fluid">
 					<?php foreach($reviews as $review): ?>
-						<div class="row <?php 
-							if($review['author_id'] == $user_id) {echo 'own-review';}; 
+						<div class="row <?php
+							if($review['author_id'] == $user_id) {echo 'own-review';};
 						?>">
 							<div class="col-md-10 col-sm-12">
 								<blockquote class="blockquote">

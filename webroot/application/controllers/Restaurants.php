@@ -46,9 +46,8 @@ class Restaurants extends CI_Controller {
 
 		$data['user_id'] = $this->session->id;
 		$data['admin'] = $this->users_model->is_admin();
-
 		$data['title'] = $data['restaurant']['name'];
-		
+
 		$data['css'] = [
 			'/css/restaurants',
 			'/css/chosen.min'
@@ -59,24 +58,24 @@ class Restaurants extends CI_Controller {
 			'/script/init_chosen',
 			'/script/restaurant_view'
 		];
-		
+
 		// Get current user's playlists, so restaurant can be added to them.
 		$this->load->model('userplaylists_model');
 		$data['playlists'] = $this->userplaylists_model->get_by_author($data['user_id']);
-		
+
 
 		$this->load->view('partials/header', $data);
 		$this->load->view('restaurants/view', $data);
 		$this->load->view('partials/footer', $data);
 	}
-	
+
 
 	public function search() {
 		$this->load->helper('form');
 
 		$data['title'] = "Restaurants";
 		$data['css'] = ['/css/restaurants'];
-		
+
 		if (!isset($_GET['terms'])) {
 			$data['restaurants'] = $this->restaurants_model->get_restaurant();
 		}
