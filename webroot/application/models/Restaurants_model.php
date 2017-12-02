@@ -6,19 +6,6 @@ class Restaurants_model extends CI_Model {
 		$this->load->database();
 	}
 
-	#a temporary function that will block loading more restaurants if there are already 5 - this is currently required
-    #until we figure out a graceful way to deal with api_id collisions when adding restaurants.
-    #If restaurants are loaded, everything else should be loaded.
-	public function check_if_restaurants_loaded(){
-        $catQuery = $this->db->select('api_id')->where('api_id', '4aa7dce2f964a520ad4d20e3')->get('restaurants');
-        $result = $catQuery->row();
-        if (is_null($result)) {
-            return false;
-        }
-        return true;
-
-    }
-
     private function get_id_and_secret(){
         #backup client id: IREJNTZAUVFPPDAEJ2EY0L4AHKFGYMPUB4RKEHJG5QK20AXS
         #backup secret: WVP24YF0O504XZ4QMOQ3TPKZ3DZI3KYYO3ODP3DR0SKHZ2FX
@@ -30,18 +17,49 @@ class Restaurants_model extends CI_Model {
     //TODO: make this call the api at a static URL.
         //THEN ->> Modify the api call to be modular.
     public function make_restaurants_api_call(){
-        #check if we should load.
-        if ($this->check_if_restaurants_loaded()){
-            return true;
-        }
+
+        #Instead of checking if restaurants are loaded up here, we now do a check for every restaurant if its loaded or not.  Slow, but guaranteed to work.
         $id_secret = $this->get_id_and_secret();
 
         #this is the general 'food' category.  All other restaurant categories we want sit inside of it.
+        #$categoryId = "4d4b7105d754a06374d81259";
+        #"Food": 4d4b7105d754a06374d81259
         $categoryId = "4d4b7105d754a06374d81259";
         $fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/search?client_id=" . $id_secret[0] .
             "&client_secret=" . $id_secret[1] . "&categoryId=" . $categoryId .
-            "&v=20171111&limit=50&intent=browse&near=Vancouver%2C%20BC");
+            "&v=20171111&limit=25&intent=browse&near=Vancouver%2C%20BC");
+        if (is_null($fourSearch)){return;}
+        $this->preload_restaurants($fourSearch);
 
+        #"Breakfast Spot": 4bf58dd8d48988d143941735
+        $categoryId = "4bf58dd8d48988d143941735";
+        $fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/search?client_id=" . $id_secret[0] .
+            "&client_secret=" . $id_secret[1] . "&categoryId=" . $categoryId .
+            "&v=20171111&limit=25&intent=browse&near=Vancouver%2C%20BC");
+        if (is_null($fourSearch)){return;}
+        $this->preload_restaurants($fourSearch);
+
+        #'Sandwich Place': 4bf58dd8d48988d1c5941735
+        $categoryId = "4bf58dd8d48988d1c5941735";
+        $fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/search?client_id=" . $id_secret[0] .
+            "&client_secret=" . $id_secret[1] . "&categoryId=" . $categoryId .
+            "&v=20171111&limit=25&intent=browse&near=Vancouver%2C%20BC");
+        if (is_null($fourSearch)){return;}
+        $this->preload_restaurants($fourSearch);
+
+        #'Comfort Food': 52e81612bcbc57f1066b7a00
+        $categoryId = "52e81612bcbc57f1066b7a00";
+        $fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/search?client_id=" . $id_secret[0] .
+            "&client_secret=" . $id_secret[1] . "&categoryId=" . $categoryId .
+            "&v=20171111&limit=25&intent=browse&near=Vancouver%2C%20BC");
+        if (is_null($fourSearch)){return;}
+        $this->preload_restaurants($fourSearch);
+
+        #'Cafe': 4bf58dd8d48988d16d941735
+        $categoryId = "4bf58dd8d48988d16d941735";
+        $fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/search?client_id=" . $id_secret[0] .
+            "&client_secret=" . $id_secret[1] . "&categoryId=" . $categoryId .
+            "&v=20171111&limit=25&intent=browse&near=Vancouver%2C%20BC");
         if (is_null($fourSearch)){return;}
         $this->preload_restaurants($fourSearch);
     }
@@ -65,6 +83,9 @@ class Restaurants_model extends CI_Model {
     #Example: "I want 3 general photos from this venue".  check if photos exist for this restaurant, if they do, don't load in more.
     #https://api.foursquare.com/v2/venues/4aa7f646f964a5203d4e20e3/photos?v=20171125&client_id=WCJXKICZZ3FVGLCCQNJQ3XL3WXDCX5GVFRF5E1PYLQ5MUEMI&client_secret=WQU20OQPUUCLSTZUFNL5C3DH52JZ3AHFT1XQ1WYIRZM3QTMH&group=venue&limit=5
     #{"meta":{"code":200,"requestId":"5a19f690f594df3e1542aeae"},"response":{"photos":{"count":1830,"items":[{"id":"5a080569bed483485caa0db3","createdAt":1510475113,"source":{"name":"Swarm for iOS","url":"https:\/\/www.swarmapp.com"},"prefix":"https:\/\/igx.4sqi.net\/img\/general\/","suffix":"\/129685696_sc_R5gl5efHuHtuNmY1sA_AtorTxfyIdYfcRxxTEsbk.jpg","width":1920,"height":1279,"user":{"id":"129685696","firstName":"Polina","lastName":"Komisarova","gender":"female","photo":{"prefix":"https:\/\/igx.4sqi.net\/img\/user\/","suffix":"\/129685696-VP2OK4NSBQQM2YKH.jpg"}},"visibility":"public"},{"id":"5a0769e80802d42aa2d5fa94","createdAt":1510435304,"source":{"name":"Swarm for iOS","url":"https:\/\/www.swarmapp.com"},"prefix":"https:\/\/igx.4sqi.net\/img\/general\/","suffix":"\/1771373_fSqYkTY8b8Z-smAs55-3R0H3jcpBoTWC9gOMkkjbKLg.jpg","width":1920,"height":1440,"user":{"id":"1771373","firstName":"Stanford","gender":"male","photo":{"prefix":"https:\/\/igx.4sqi.net\/img\/user\/","suffix":"\/JEPKZYXLYV02KOJV.jpg"}},"visibility":"public"},{"id":"5a076530c0f16370f3a110ab","createdAt":1510434096,"source":{"name":"Swarm for iOS","url":"https:\/\/www.swarmapp.com"},"prefix":"https:\/\/igx.4sqi.net\/img\/general\/","suffix":"\/804080_cMHcsfH9VAEkxF3jXBHLVDhvmEO5AU4nLNxH8Fwvr5g.jpg","width":1920,"height":1440,"user":{"id":"804080","firstName":"Runar","lastName":"Petursson","gender":"male","photo":{"prefix":"https:\/\/igx.4sqi.net\/img\/user\/","suffix":"\/804080-PSS0EQO4ZEG5PHN3.jpg"}},"visibility":"public"}]}}}
+
+    #If we want ratings as well, we can expand this photos api call by removing the /photos endpoint and taking just /venues/{venue_id}.
+    #  This will give us rating, as well as other information for the api we may need.
     public function make_photos_api_call($restaurant_table_id, $restaurant_id){
         $id_secret = $this->get_id_and_secret();
         $fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/" .
@@ -93,7 +114,7 @@ class Restaurants_model extends CI_Model {
                 );
                 $this->load_item('photos', $data);
             }catch(Exception $e){
-                var_dump($e);
+                #var_dump($e);
             }
         }
     }
@@ -129,7 +150,7 @@ class Restaurants_model extends CI_Model {
                 $this->load_item('reviews', $data);
                 #'author_id' = $author_id,
             }catch(Exception $e){
-                var_dump($e);
+                #var_dump($e);
             }
         }
     }
@@ -153,11 +174,17 @@ class Restaurants_model extends CI_Model {
                         $catQuery = $this->db->select('id')->where('api_id', $cat->id)->get('tags');
                         $result = $catQuery->row();
                         if (!is_null($result)){
-                            array_push($venue_categories, $result->id);
+                            $venue_categories[] = $result->id;
                         }
                         else{
                             $loadable_venue = FALSE;
                         }
+                    }
+
+                    $restQuery = $this->db->select('id')->where('api_id', $v->id)->get('restaurants');
+                    $restResult = $restQuery->row();
+                    if (!is_null($restResult)){
+                        $loadable_venue = FALSE;
                     }
                     if (!$loadable_venue){continue;}
                     $data = array(
@@ -191,7 +218,7 @@ class Restaurants_model extends CI_Model {
                 }
 			}
 			catch(Exception $e){
-                var_dump($e);
+                #var_dump($e);
 			}
 		}
 	}
