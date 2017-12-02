@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49b1eead-e2de-47d2-af8a-e59528e4548b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/application/views/home.php" afterPath="$PROJECT_DIR$/webroot/application/views/home.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webroot/application/models/Restaurants_model.php" afterPath="$PROJECT_DIR$/webroot/application/models/Restaurants_model.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -36,7 +37,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Restaurant_tags.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Restaurant_tags.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/webroot/application/controllers/Restaurant_tags.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
@@ -56,11 +57,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Restaurants_model.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Restaurants_model.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/webroot/application/models/Restaurants_model.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
-              <caret line="357" column="24" lean-forward="false" selection-start-line="357" selection-start-column="16" selection-end-line="357" selection-end-column="24" />
+            <state relative-caret-position="170">
+              <caret line="26" column="48" lean-forward="true" selection-start-line="26" selection-start-column="48" selection-end-line="26" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -72,8 +73,8 @@
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
-                <marker date="1512243156692" expanded="true" signature="76:96" ph="..." />
-                <marker date="1512243156692" expanded="true" signature="1971:2308" ph="..." />
+                <marker date="1512256227049" expanded="true" signature="76:96" ph="..." />
+                <marker date="1512256227049" expanded="true" signature="1971:2308" ph="..." />
               </folding>
             </state>
           </provider>
@@ -82,7 +83,7 @@
       <file leaf-file-name="migration.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/webroot/application/config/migration.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="552">
+            <state relative-caret-position="1207">
               <caret line="71" column="45" lean-forward="false" selection-start-line="71" selection-start-column="45" selection-end-line="71" selection-end-column="45" />
               <folding />
             </state>
@@ -92,8 +93,8 @@
       <file leaf-file-name="20171127003802_seed_db.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/webroot/application/migrations/20171127003802_seed_db.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="13" column="62" lean-forward="true" selection-start-line="8" selection-start-column="8" selection-end-line="13" selection-end-column="62" />
+            <state relative-caret-position="34">
+              <caret line="2" column="63" lean-forward="true" selection-start-line="2" selection-start-column="63" selection-end-line="2" selection-end-column="63" />
               <folding />
             </state>
           </provider>
@@ -103,9 +104,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>check_if_restaurants_loaded</find>
-      <find>check_if_reviews_loaded</find>
-      <find>load_</find>
       <find>load_reviews</find>
       <find>load_photo</find>
       <find>make_reviews_api_call</find>
@@ -128,11 +126,14 @@
       <find>edit</find>
       <find>4bf58dd8d48988d120951735</find>
       <find>make_reviews_api</find>
-      <find>preload_restaurants</find>
       <find>[]</find>
       <find>push</find>
       <find>array_push</find>
       <find>var_dump</find>
+      <find>make_restaurants</find>
+      <find>preload_restaurants</find>
+      <find>25</find>
+      <find>result</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -158,8 +159,8 @@
         <option value="$PROJECT_DIR$/webroot/application/migrations/20171127003801_seed_db.php" />
         <option value="$PROJECT_DIR$/webroot/application/config/migration.php" />
         <option value="$PROJECT_DIR$/webroot/application/migrations/20171127003802_seed_db.php" />
-        <option value="$PROJECT_DIR$/webroot/application/models/Restaurants_model.php" />
         <option value="$PROJECT_DIR$/webroot/application/views/home.php" />
+        <option value="$PROJECT_DIR$/webroot/application/models/Restaurants_model.php" />
       </list>
     </option>
   </component>
@@ -223,6 +224,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="Scratches">
         <subPane>
           <expand>
@@ -239,7 +241,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -346,12 +347,13 @@
       <workItem from="1511659013184" duration="23256000" />
       <workItem from="1511738066170" duration="9037000" />
       <workItem from="1511988138528" duration="4107000" />
-      <workItem from="1512241550056" duration="1163000" />
+      <workItem from="1512241550056" duration="1642000" />
+      <workItem from="1512253091867" duration="3141000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="89310000" />
+    <option name="totallyTimeSpent" value="92930000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -472,8 +474,8 @@
         <state relative-caret-position="85">
           <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding>
-            <marker date="1512243156692" expanded="true" signature="76:96" ph="..." />
-            <marker date="1512243156692" expanded="true" signature="1971:2308" ph="..." />
+            <marker date="1512256227049" expanded="true" signature="76:96" ph="..." />
+            <marker date="1512256227049" expanded="true" signature="1971:2308" ph="..." />
           </folding>
         </state>
       </provider>
@@ -557,8 +559,8 @@
         <state relative-caret-position="646">
           <caret line="38" column="6" lean-forward="false" selection-start-line="38" selection-start-column="6" selection-end-line="38" selection-end-column="6" />
           <folding>
-            <marker date="1512243156692" expanded="true" signature="76:96" ph="..." />
-            <marker date="1512243156692" expanded="true" signature="1971:2308" ph="..." />
+            <marker date="1512256227049" expanded="true" signature="76:96" ph="..." />
+            <marker date="1512256227049" expanded="true" signature="1971:2308" ph="..." />
           </folding>
         </state>
       </provider>
@@ -754,10 +756,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/webroot/application/models/Restaurants_model.php">
+    <entry file="file://$PROJECT_DIR$/webroot/application/config/migration.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="357" column="24" lean-forward="false" selection-start-line="357" selection-start-column="16" selection-end-line="357" selection-end-column="24" />
+        <state relative-caret-position="1207">
+          <caret line="71" column="45" lean-forward="false" selection-start-line="71" selection-start-column="45" selection-end-line="71" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webroot/application/controllers/Restaurant_tags.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webroot/application/migrations/20171127003802_seed_db.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="63" lean-forward="true" selection-start-line="2" selection-start-column="63" selection-end-line="2" selection-end-column="63" />
           <folding />
         </state>
       </provider>
@@ -767,32 +785,16 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1512243156692" expanded="true" signature="76:96" ph="..." />
-            <marker date="1512243156692" expanded="true" signature="1971:2308" ph="..." />
+            <marker date="1512256227049" expanded="true" signature="76:96" ph="..." />
+            <marker date="1512256227049" expanded="true" signature="1971:2308" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/webroot/application/config/migration.php">
+    <entry file="file://$PROJECT_DIR$/webroot/application/models/Restaurants_model.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="552">
-          <caret line="71" column="45" lean-forward="false" selection-start-line="71" selection-start-column="45" selection-end-line="71" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/webroot/application/migrations/20171127003802_seed_db.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="62" lean-forward="true" selection-start-line="8" selection-start-column="8" selection-end-line="13" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/webroot/application/controllers/Restaurant_tags.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="170">
+          <caret line="26" column="48" lean-forward="true" selection-start-line="26" selection-start-column="48" selection-end-line="26" selection-end-column="48" />
           <folding />
         </state>
       </provider>

@@ -6,19 +6,6 @@ class Restaurants_model extends CI_Model {
 		$this->load->database();
 	}
 
-	#a temporary function that will block loading more restaurants if there are already 5 - this is currently required
-    #until we figure out a graceful way to deal with api_id collisions when adding restaurants.
-    #If restaurants are loaded, everything else should be loaded.
-	public function check_if_restaurants_loaded(){
-        $catQuery = $this->db->select('api_id')->where('api_id', '4aa7dce2f964a520ad4d20e3')->get('restaurants');
-        $result = $catQuery->row();
-        if (is_null($result)) {
-            return false;
-        }
-        return true;
-
-    }
-
     private function get_id_and_secret(){
         #backup client id: IREJNTZAUVFPPDAEJ2EY0L4AHKFGYMPUB4RKEHJG5QK20AXS
         #backup secret: WVP24YF0O504XZ4QMOQ3TPKZ3DZI3KYYO3ODP3DR0SKHZ2FX
@@ -30,20 +17,49 @@ class Restaurants_model extends CI_Model {
     //TODO: make this call the api at a static URL.
         //THEN ->> Modify the api call to be modular.
     public function make_restaurants_api_call(){
-        #check if we should load.
-        if ($this->check_if_restaurants_loaded()){
-            return true;
-        }
+
+        #Instead of checking if restaurants are loaded up here, we now do a check for every restaurant if its loaded or not.  Slow, but guaranteed to work.
         $id_secret = $this->get_id_and_secret();
 
         #this is the general 'food' category.  All other restaurant categories we want sit inside of it.
+        #$categoryId = "4d4b7105d754a06374d81259";
+        #"Food": 4d4b7105d754a06374d81259
         $categoryId = "4d4b7105d754a06374d81259";
         $fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/search?client_id=" . $id_secret[0] .
             "&client_secret=" . $id_secret[1] . "&categoryId=" . $categoryId .
-            "&v=20171111&limit=50&intent=browse&near=Vancouver%2C%20BC");
+            "&v=20171111&limit=25&intent=browse&near=Vancouver%2C%20BC");
+        if (is_null($fourSearch)){return;}
+        $this->preload_restaurants($fourSearch);
 
+        #"Breakfast Spot": 4bf58dd8d48988d143941735
+        $categoryId = "4bf58dd8d48988d143941735";
+        $fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/search?client_id=" . $id_secret[0] .
+            "&client_secret=" . $id_secret[1] . "&categoryId=" . $categoryId .
+            "&v=20171111&limit=25&intent=browse&near=Vancouver%2C%20BC");
+        if (is_null($fourSearch)){return;}
+        $this->preload_restaurants($fourSearch);
 
+        #'Sandwich Place': 4bf58dd8d48988d1c5941735
+        $categoryId = "4bf58dd8d48988d1c5941735";
+        $fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/search?client_id=" . $id_secret[0] .
+            "&client_secret=" . $id_secret[1] . "&categoryId=" . $categoryId .
+            "&v=20171111&limit=25&intent=browse&near=Vancouver%2C%20BC");
+        if (is_null($fourSearch)){return;}
+        $this->preload_restaurants($fourSearch);
 
+        #'Comfort Food': 52e81612bcbc57f1066b7a00
+        $categoryId = "52e81612bcbc57f1066b7a00";
+        $fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/search?client_id=" . $id_secret[0] .
+            "&client_secret=" . $id_secret[1] . "&categoryId=" . $categoryId .
+            "&v=20171111&limit=25&intent=browse&near=Vancouver%2C%20BC");
+        if (is_null($fourSearch)){return;}
+        $this->preload_restaurants($fourSearch);
+
+        #'Cafe': 4bf58dd8d48988d16d941735
+        $categoryId = "4bf58dd8d48988d16d941735";
+        $fourSearch = file_get_contents("https://api.foursquare.com/v2/venues/search?client_id=" . $id_secret[0] .
+            "&client_secret=" . $id_secret[1] . "&categoryId=" . $categoryId .
+            "&v=20171111&limit=25&intent=browse&near=Vancouver%2C%20BC");
         if (is_null($fourSearch)){return;}
         $this->preload_restaurants($fourSearch);
     }
@@ -155,6 +171,12 @@ class Restaurants_model extends CI_Model {
                         else{
                             $loadable_venue = FALSE;
                         }
+                    }
+
+                    $restQuery = $this->db->select('id')->where('api_id', $v->id)->get('restaurants');
+                    $restResult = $restQuery->row();
+                    if (!is_null($restResult)){
+                        $loadable_venue = FALSE;
                     }
                     if (!$loadable_venue){continue;}
                     $data = array(
