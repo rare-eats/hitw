@@ -1,5 +1,3 @@
-<?php
-?>
 <div class="container-fluid">
 <?php if ($this->session->has_userdata('id')): ?>
 	<div class="row heading">
