@@ -3,7 +3,8 @@
 		<div class="card-body">
 <?php if ($this->session->has_userdata('id')): ?>
 			<h3><?php echo $title; ?></h3>
-		<?php echo validation_errors(); ?>
+		
+		<p class="text-danger"><?php echo validation_errors(); ?></p>
 
 		<?php echo form_open('userplaylists/create'); ?>
 			<div class="form-group">
@@ -30,11 +31,12 @@
 				</select>
 				</div>
 			</div>
-		</div>
-		<button type="submit" class="btn btn-primary">Create</button>
-		<a class="btn btn-secondary" href="<?php echo site_url('/'); ?>">Cancel</a>
-	</div>
+			<button type="submit" class="btn btn-primary">Create</button>
+			<a class="btn btn-secondary" href="<?php echo site_url('/'); ?>">Cancel</a>
 <?php else: ?>
-	<h4 class="text-danger">Please Log In to Create a List</h4>
+	<h4 class="text-danger text-center">	You're not currently logged in!</h4>
+	<p class="card-text text-center">We won't be able to save your list if you don't log in.</p>
 <?php endif ?>
+		</div>
+	</div>
 </div>

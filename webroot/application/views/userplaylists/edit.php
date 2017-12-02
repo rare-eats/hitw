@@ -2,39 +2,53 @@
 	<div class="card">
 		<div class="card-body">
 		<?php if($this->session->id !== $playlist['author_id']): ?>
-			<h3 class="text-danger">You do not have permission to edit</h3>
+			<h3 class="text-danger text-center">You do not have permission to edit this playlist!</h3>
 		<?php else: ?>
-			<h3><?php echo $title; ?></h3>
+			<h3 class="text-center"><?php echo $title; ?></h3>
 			
-			<?php echo validation_errors(); ?>
+			<div class="text-danger">
+				<?php echo validation_errors(); ?>
+			</div>
 
 			<?php echo form_open('userplaylists/edit/'.$playlist['id']); ?>
 			<div class="form-group">
 				<label for="title">Playlist Title</label>
-				<input type="text" id="title" name="title" class="form-control" value="<?php echo $playlist['title']; ?>" required>
+				<input type="text" id="title" name="title" class="form-control" value="<?php echo html_escape($playlist['title']); ?>" required>
 			</div>
 			<div class="form-group">
 				<label for="playlist_description">Playlist Description</label>
-				<input type="text" id="desc" name="desc" class="form-control" value="<?php echo $playlist['desc']; ?>">
+				<input type="text" id="desc" name="desc" class="form-control" value="<?php echo html_escape($playlist['desc']); ?>">
 			</div>
-			<div>
-				<ol>
-				<?php foreach ($restaurants as $restaurant): ?>
-					<li><?php echo $restaurant['name']; ?><a class="btn btn-danger" href="<?php echo site_url('userplaylists/').$playlist['id'].'/content/'.$restaurant['content_id'].'/delete'; ?>">Remove</a></li>
+			<div class="form-group">
+				<label for="private_playlist">Is this playlist private?</label>
+				<?php if ($playlist['private'] == '1'): ?>
+					<input type="checkbox" value="true" name="private" checked>
+				<?php else: ?>
+					<input type="checkbox" value="true" name="private">
+				<?php endif; ?>
+			</div>
+			<?php if (empty($restaurants)): ?>
+				<p class="card-text text-muted">This playlist is currently empty.</p>
+			<?php else: ?>
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Restaurant Name</th>
+							<th scope="col">Remove</th>
+						</tr>
+					</thead>
+					<tbody class="table-striped">
+				<?php foreach ($restaurants as $key => $restaurant): ?>
+					<tr>
+						<th scope="row"><?php echo $key+1; ?></th>
+						<td><?php echo $restaurant['name']; ?></td>
+						<td><a class="btn btn-secondary" href="<?php echo site_url('userplaylists/').$playlist['id'].'/content/'.$restaurant['content_id'].'/delete'; ?>">&times;</a></td>
+					</tr>
 				<?php endforeach; ?>
-				</ol>
-			</div>
-			<div class="row">
-				<div class="form-group">
-					<label for="private_playlist">Is this playlist private?</label>
-					<?php if ($playlist['private'] == '1'): ?>
-						<input type="checkbox" value="true" name="private" checked>
-					<?php else: ?>
-						<input type="checkbox" value="true" name="private">
-					<?php endif; ?>
-				</div>
-			</div>
-			
+					</tbody>
+				</table>
+				<?php endif; ?>			
 			<button type="submit" class="btn btn-primary">Save Changes</button>
 			<a class="btn btn-secondary" href="<?php echo site_url('userplaylists/view/'.$playlist['id']); ?>">Cancel</a>
 			<!-- Button trigger modal -->

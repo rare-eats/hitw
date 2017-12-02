@@ -35,7 +35,7 @@
 				</li>
 		<?php endif; ?>
 				<li class="nav-item">
-					<a class="nav-link" href="#">Recommended</a>
+					<a class="nav-link" href="/userplaylists/search">Search for Playlists</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="/restaurants/create">Add a Restaurant</a>
