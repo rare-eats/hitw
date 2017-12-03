@@ -6,7 +6,7 @@ class Restaurants_model extends CI_Model {
 		$this->load->database();
 	}
 
-    private function get_id_and_secret(){
+    public function get_id_and_secret(){
         #backup client id: IREJNTZAUVFPPDAEJ2EY0L4AHKFGYMPUB4RKEHJG5QK20AXS
         #backup secret: WVP24YF0O504XZ4QMOQ3TPKZ3DZI3KYYO3ODP3DR0SKHZ2FX
         $client_id = "WCJXKICZZ3FVGLCCQNJQ3XL3WXDCX5GVFRF5E1PYLQ5MUEMI";
