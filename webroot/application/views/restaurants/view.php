@@ -4,15 +4,20 @@
 			<div class="clearfix">
 				<a class="btn btn-secondary float-right" aria-label="Return to Restaurant List" href="/restaurants">&times;</a>
 			<h2><?php echo $restaurant['name']; ?>
-				<small class="text-muted">(<?php if (empty($restaurant['rating']))
-				{
-					echo 'No ratings yet';
-				}
-				else
-				{
-					echo ($restaurant['rating'].'/5');
-				}
-				?>)</small>
+				<small class="text-muted">
+					<div class='btn-group col-md-2 col-sm-12'>
+					<button id = "thumbs_up" type="submit" class="btn btn-primary btn-xs" data-restaurant_id="<?php echo $restaurant['id']; ?>" style="margin-right:5px" 
+						<?php if(empty($user_id)){ echo 'disabled';} if(!empty($user_review) && isset($user_review['rating']) && $user_review['rating']==TRUE){ echo 'active'; }?>>
+			        		<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+			        		<?php if (($restaurant['upvotes'])==1){ echo '1 like ';} else{ echo $restaurant['upvotes'], ' likes ';}?>
+			     	</button>
+						<button id = "thumbs_down" type="submit" class="btn btn-primary btn-xs" data-restaurant_id="<?php echo $restaurant['id']; ?>"
+							<?php if(empty($user_id)){ echo 'disabled'; } if(!empty($user_review) && isset($user_review['rating']) && $user_review['rating']==FALSE){ echo 'active'; }?>>
+							<i class="fa fa-thumbs-o-down" aria-hidden="true"></i> 
+							<?php if (($restaurant['downvotes'])==1){ echo '1 dislike ';} else{ echo $restaurant['downvotes'], ' dislikes ';}?>
+						</button>
+					</div>
+				</small>
 			</h2>
 			</div>
 			<p class="card-text">
@@ -35,7 +40,7 @@
 				echo $restaurant['country'];
 				?>
 			</p>
-			<p class="card-text" id="tags-list">
+
 			<?php if (!empty($restaurant['tags'])): ?>
 				<?php foreach($restaurant['tags'] as $tag): ?>
 					<span class="badge badge-pill badge-primary"><?php echo $tag['name']; ?>
@@ -82,12 +87,13 @@
 
 		<div class="card-body">
 			<?php if (isset($user_id)): ?>
+			<div class="text-center">
 				<h3 class="card-title text-center">Add to Playlist</h3>
 				<?php if(empty($playlists)): ?>
-					<a class="btn btn-primary" href="<?php echo site_url('/userplaylists/create'); ?>">Create a playlist to add this restaurant to</a>
+					<p class="text-center text-muted">You don't have any playlists yet.</p> 
+					<a class="btn btn-primary" href="<?php echo site_url('/userplaylists/create'); ?>">Create a playlist</a>
 				<?php else: ?>
 					<div class="text-success" id="added-message"></div>
-					<div class="text-center">
 						<form action="" method="POST" id="playlist-add" class="form-group form-inline" data-restaurant_id="<?php echo $restaurant['id']; ?>">
 							<select data-placeholder="Add to Playlist" class="chosen-select" id="playlist-select" name="playlist">
 							<?php foreach($playlists as $row): ?>
@@ -96,24 +102,29 @@
 							</select>
 							<input id="submit-p" class="btn btn-primary" type="submit" value="&plus;" aria-label="Add restaurant to selected playlist">
 						</form>
-					</div>
 				<?php endif; ?>
-				<hr />
+				</div>
 			<?php endif; ?>
+		<hr />
 		<h3 class="card-title text-center">User Reviews</h3>
 			<div class="container-fluid">
 			<?php if(!empty($reviews)): ?>
-					<?php foreach($reviews as $review): ?>
-						<div class="row <?php
-							if($review['author_id'] == $user_id) {echo 'own-review';};
-						?>">
+					<?php foreach($reviews as $review):
+							if (!empty($review['body'])):?>
+						<div class="row <?php if($review['author_id'] == $user_id) {echo 'own-review';};?>">
 							<div class="col-md-10 col-sm-12">
 								<blockquote class="blockquote">
 									<?php if(($review['author_id'] == $user_id) || ($admin)): ?>
-										<p id="show-review" style="display: block"> <?php echo $review['body']; ?> </p>
+										<p id="show-review" style="display: block"><?php echo $review['body']; ?></p>
 										<form id="edit-form" class="edit-form" style="display:none" action="/restaurants/<?php echo $restaurant_id; ?>/review/put" method="post" accept-charset="utf-8">
-											<input id="edit-field" name="body" class="form_control" value="<?php echo html_escape($review['body']); ?>">
-											<button id = "submit-edit-btn" type="submit" class = "btn btn-primary">Submit</button>
+											<div class="container-fluid">
+												<div class="form-control-lg input-group">
+													<input id="edit-field" name="body" class="form-control" value="<?php echo html_escape($review['body']); ?>">
+													<span class="input-group-btn">
+														<button id = "submit-edit-btn" type="submit" class = "btn btn-primary">Submit</button>
+													</span>
+												</div>
+											</div>
 										</form>
 									<?php else: ?>
 										 <p> <?php echo $review['body']; ?> </p>
@@ -132,14 +143,14 @@
 							</div>
 							<?php endif; ?>
 						</div>
-					<?php endforeach; ?>
+					<?php endif; endforeach; ?>
 			<?php else: ?>
 				<p class="text-muted text-center">There don't seem to be any reviews yet.</p>
 			<?php endif; ?>
 
 			<?php if(empty($user_id)): ?>
 				<p class="text-center"><a href="/users/login">Log in to leave a review.</a></p>
-			<?php elseif(empty($reviews) || (isset($user_left_review) && $user_left_review < 1) ): ?>
+			<?php elseif(empty($user_review) || !isset($user_review[0]['body'])): ?>
 				<p class="text-center">Let your voice be heard, leave a review now!</p>
 					<form action="/restaurants/<?php echo $restaurant_id; ?>/review/put" method="post" accept-charset="utf-8">
 						<div class="form-group">
