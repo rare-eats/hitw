@@ -44,7 +44,9 @@ class Restaurants extends CI_Controller {
 			return; // Don't continue if there was no data
 		}
 
+		#https://www.google.com/maps/search/?api=1&query=47.5951518,-122.3316393
         $latlng = $this->getLatLng($data['restaurant']['api_id']);
+		$data['restaurant']['latlng'] = $latlng;
 
 		$data['restaurant_id']	= $id;
 

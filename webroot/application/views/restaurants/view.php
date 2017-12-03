@@ -45,6 +45,7 @@
 			</p>
 			<a href="<?php echo site_url('/restaurants/edit/'.$restaurant['id']); ?>" class="btn btn-secondary">Edit</a>
 			<a class="btn btn-outline-primary" href="/restaurants">Restaurant List</a>
+            <a class="btn btn-outline-secondary align-right" href="<?php echo "https://www.google.com/maps/search/?api=1&query=" . $restaurant['latlng'][0] . "," . $restaurant['latlng'][1];?>">Go here or something</a>
 			<hr />
 
 			<p class="card-text text-center">
