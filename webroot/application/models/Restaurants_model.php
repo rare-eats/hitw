@@ -159,7 +159,8 @@ class Restaurants_model extends CI_Model {
 		{
 		    $loadable_venue = TRUE;
 			try{
-			    if ($v != null && $v->categories != null){
+			    #If there is a venue, and it has categories, and it has nothing in the venuechains JSON, it passes muster.
+			    if ($v != null && $v->categories != null && empty($v->venueChains)){
 			        $venue_categories = array();
 			        foreach ($v->categories as $cat){
 			            #Look for this category, associate it with that category in the joining table if it exists.  If it doesn't exist, it's not a restaurant we want.
@@ -416,8 +417,8 @@ class Restaurants_model extends CI_Model {
             if ((int)$meta->code == 200){
                 return TRUE;
             }else{
-                var_dump($meta->code);
-                var_dump($meta->errorDetail);
+                #var_dump($meta->code);
+                #var_dump($meta->errorDetail);
                 return FALSE;
             }
         }
