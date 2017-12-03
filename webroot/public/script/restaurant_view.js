@@ -64,15 +64,15 @@ $("#thumbs_down").click(function(){
 
 function update_btn(data){
 	if(data.upvotes==1){
-		$("#thumbs_up").text(String(data.upvotes)+" like");
+		$("#thumbs_up").html('<i class="fa fa-thumbs-o-up" aria-hidden="true"></i> '+String(data.upvotes)+' like');
 	}
 	else{
-		$("#thumbs_up").text(String(data.upvotes)+" likes");
+		$("#thumbs_up").html('<i class="fa fa-thumbs-o-up" aria-hidden="true"></i> '+String(data.upvotes)+' likes');
 	}
 	if(data.downvotes==1){
-		$("#thumbs_down").text(String(data.downvotes)+" dislike");
+		$("#thumbs_down").html('<i class="fa fa-thumbs-o-down" aria-hidden="true"></i> '+String(data.downvotes)+' dislike');
 	}
 	else{
-		$("#thumbs_down").text(String(data.downvotes)+" dislikes");
+		$("#thumbs_down").html('<i class="fa fa-thumbs-o-down" aria-hidden="true"></i> '+String(data.downvotes)+' dislikes');
 	}
 }

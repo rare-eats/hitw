@@ -6,17 +6,15 @@
 			<h2><?php echo $restaurant['name']; ?>
 				<small class="text-muted">
 					<div class='btn-group col-md-2 col-sm-12'>
-					<button id = "thumbs_up" type="submit" class="btn btn-primary btn-xs" data-restaurant_id="<?php echo $restaurant['id']; ?>" 
-							style="margin-right:5px" <?php if(empty($user_id)){ echo 'disabled';} if(!empty($user_review) && isset($user_review['rating']) && $user_review['rating']==TRUE){ echo 'active'; }?>>
-			          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 
-			          <?php if (($restaurant['upvotes'])==1){ echo '1 like ';} else{ echo $restaurant['upvotes'], ' likes ';}?>
-							</span>
+					<button id = "thumbs_up" type="submit" class="btn btn-primary btn-xs" data-restaurant_id="<?php echo $restaurant['id']; ?>" style="margin-right:5px" 
+						<?php if(empty($user_id)){ echo 'disabled';} if(!empty($user_review) && isset($user_review['rating']) && $user_review['rating']==TRUE){ echo 'active'; }?>>
+			        		<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+			        		<?php if (($restaurant['upvotes'])==1){ echo '1 like ';} else{ echo $restaurant['upvotes'], ' likes ';}?>
 			     	</button>
 						<button id = "thumbs_down" type="submit" class="btn btn-primary btn-xs" data-restaurant_id="<?php echo $restaurant['id']; ?>"
 							<?php if(empty($user_id)){ echo 'disabled'; } if(!empty($user_review) && isset($user_review['rating']) && $user_review['rating']==FALSE){ echo 'active'; }?>>
 							<i class="fa fa-thumbs-o-down" aria-hidden="true"></i> 
 							<?php if (($restaurant['downvotes'])==1){ echo '1 dislike ';} else{ echo $restaurant['downvotes'], ' dislikes ';}?>
-							</span>
 						</button>
 					</div>
 				</small>
