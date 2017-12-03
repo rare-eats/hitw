@@ -1,4 +1,3 @@
-<?php //var_dump($restaurants);?>
 <div class="container">
     <div class="card">
         <div class="card-body">
