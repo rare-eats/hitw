@@ -87,3 +87,9 @@ $route['restaurants/(:num)/review/(:num)/delete'] = 'reviews/delete/$1/$2';
 $route['restaurants/(:num)/review/put'] = 'reviews/put/$1';
 
 $route['reviews/edit/(:num)'] = 'reviews/edit/$1';
+// $route['restaurants/(:num)/reviews/thumbs_up'] = 'reviews/thumbs_up/$1';
+// $route['restaurants/(:num)/reviews/thumbs_down'] = 'reviews/thumbs_down/$1';
+$route['restaurants/(:num)/reviews/thumbs_up']['PUT'] = 'reviews/thumbs_up/$1';
+$route['restaurants/(:num)/reviews/thumbs_down']['PUT'] = 'reviews/thumbs_down/$1';
+$route['restaurants/(:num)/upvote']['PUT'] = 'restaurants/upvote/$1';
+$route['restaurants/(:num)/downvote']['PUT'] = 'restaurants/downvote/$1';

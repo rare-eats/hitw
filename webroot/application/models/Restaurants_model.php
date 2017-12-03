@@ -390,7 +390,6 @@ class Restaurants_model extends CI_Model {
 		$search_amount = 100;
 		$term = strtolower($terms);
 
-		// echo var_dump($term);
 		if ($column == 'all') {
 			$this->db->like('LOWER(name)', $term);
 			$this->db->or_like('LOWER(restaurant_type)', $term);
@@ -430,26 +429,53 @@ class Restaurants_model extends CI_Model {
 
 		return $result;
 	}
+  public function check_response_code($meta){
+      if (is_numeric($meta->code)){
+          if ((int)$meta->code == 200){
+              return TRUE;
+          }else{
+              var_dump($meta->code);
+              var_dump($meta->errorDetail);
+              return FALSE;
+          }
+      }
+  }
 
-    public function check_response_code($meta){
-        if (is_numeric($meta->code)){
-            if ((int)$meta->code == 200){
-                return TRUE;
-            }else{
-                var_dump($meta->code);
-                var_dump($meta->errorDetail);
-                return FALSE;
-            }
-        }
-    }
+  public function get_restaurants_by_ids($ids) {
+      if (isset($ids)) {
+          $this->db->where_in('id', $ids);
+          $query = $this->db->get('restaurants');
+          return $query->result_array();
+      }
+  }
 
-    public function get_restaurants_by_ids($ids) {
-        if (!empty($ids)) {
-            $this->db->where_in('id', $ids);
-            $query = $this->db->get('restaurants');
-            return $query->result_array();
-        }
-    }
+	public function update_rating($restaurant_id, $mode, $sign){
+		if (!isset($restaurant_id)) {
+			return ['message'=>"no restaurant"];
+		}
 
+		if($mode == 'upvote'){
+			if($sign == TRUE){
+				$this->db->set('upvotes','upvotes+1', FALSE);
+			}
+			else{
+				$this->db->set('upvotes', 'upvotes-1', FALSE);
+			}
+		}
+		else{
+			if($sign == TRUE){
+				$this->db->set('downvotes', 'downvotes+1', FALSE);
+			}
+			else{
+				$this->db->set('downvotes', 'downvotes-1', FALSE);
+			}
+		}
+		$this->db->where('id', $restaurant_id);
+		$this->db->update('restaurants');
+		//get the upvotes and the downvotes from restaurants
+		$query = $this->db->select('upvotes, downvotes')->get_where('restaurants',['id'=>$restaurant_id])->result_array();
+		$result = $query[0];
+		return $result;
+	}
 
 }

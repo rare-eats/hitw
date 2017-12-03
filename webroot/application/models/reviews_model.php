@@ -99,4 +99,79 @@ class Reviews_model extends CI_Model {
 			$this->db->update('reviews', $data);
 		}
 	}
+	public function thumbs_up($restaurant_id){
+		$this->db->where('author_id',$this->session->id);
+		$this->db->where('restaurant_id',$restaurant_id);
+		$query = $this->db->get("reviews");
+		$result_array = $query->result_array();
+		//if no review exists
+		if(empty($result_array)){
+			$data = [
+				"restaurant_id" => $restaurant_id,
+				"author_id" => $this->session->id,
+				"rating" => TRUE
+			];
+			$this->put_review($data);
+			$response = ['message'=> 'liked'];
+		}
+		else{
+			if(isset($result_array[0]['rating'])){
+				//rating is true
+				if ($result_array[0]['rating'] === TRUE){
+					$this->db->set('rating', NULL);
+					$response = ['message'=> 'unliked'];
+				}
+				//rating is false
+				else{
+					$this->db->set('rating', TRUE);
+					$response = ['message' => 'changed mind'];
+				}
+			}
+			//rating is null
+			else{
+				$this->db->set('rating', TRUE);
+				$response = ['message' => 'liked'];
+			}
+			$this->db->where('author_id',$this->session->id);
+			$this->db->where('restaurant_id',$restaurant_id);
+			$this->db->update('reviews');
+		}
+		return $response;
+	}
+
+	public function thumbs_down($restaurant_id, $author_id){
+		$this->db->where('author_id',$author_id);
+		$this->db->where('restaurant_id',$restaurant_id);
+		$query = $this->db->get("reviews");
+		$result_array = $query->result_array();
+		if(empty($result_array)){
+			$data = [
+				"restaurant_id" => $restaurant_id,
+				"author_id" => $author_id,
+				"rating" => FALSE
+			];
+			$this->put_review($data);
+			$response = ['message' => 'disliked'];
+		}
+		else{
+			if(isset($result_array[0]['rating'])){
+				if ($result_array[0]['rating'] === FALSE){
+					$this->db->set('rating',NULL);
+					$response = ['message'=>'undisliked'];
+				}
+				else{
+					$this->db->set('rating', FALSE);
+					$response = ['message'=>'changed mind'];
+				}
+			}
+			else{
+				$this->db->set('rating', FALSE);
+				$response = ['message'=>'disliked'];
+			}
+			$this->db->where('author_id',$author_id);
+			$this->db->where('restaurant_id',$restaurant_id);
+			$this->db->update('reviews');
+		}
+		return $response;
+	}
 }

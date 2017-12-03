@@ -10,6 +10,7 @@
             <p class="card-text">
                 <?php echo $playlist['desc']; ?>
             </p>
+            <?php if(!empty($restaurants)): ?>
             <table class="table">
                 <?php foreach ($restaurants as $key => $restaurant): ?>
                 <tr>
@@ -18,6 +19,9 @@
                 </tr>
                 <?php endforeach; ?>
             </table>
+            <?php else: ?>
+                <p class="text-muted">No restaurants available</p>
+            <?php endif ?>
         </div>
     </div>
 </div>
