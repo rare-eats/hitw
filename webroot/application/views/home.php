@@ -27,6 +27,16 @@
 					</a>
 		        </div>
 		    <?php endif ?>
+		   	<?php if (isset($time_list)): ?>
+		   		<div class="card" style="width: 20rem; display: inline-block; margin: 1rem;">
+	        		<a style="text-decoration: none;" href="/autoplaylists/view/<?php echo $season_list['id'] ?>">
+		        	<div class="card-body">
+		            	<h4 class="card-title text-dark"><?php echo $season_list['title']; ?></h4>
+						<p class="card-text text-dark"><?php echo $season_list['desc']; ?></p>
+		            </div>
+					</a>
+		        </div>
+		    <?php endif ?>
 	        </div>
 	    </div>
 	<div class="row heading">

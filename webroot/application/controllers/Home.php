@@ -43,6 +43,7 @@ class Home extends CI_Controller {
 			$data['author_id'] = $author_id;
 			$data['time_list'] = $this->autoplaylists_model->initiate_time_lists($author_id);
 			$data['recommended'] = $this->autoplaylists_model->initiate_recommendations($author_id);
+			$data['season_list'] = $this->autoplaylists_model->initiate_season_lists($author_id);
 
 			$data['playlists'] = $this->security->xss_clean($this->userplaylists_model->get_by_author($author_id, 4));
 

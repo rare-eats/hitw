@@ -98,7 +98,7 @@ sql
         }
     }
 
-    public function create_playlist_by_time($data, $tag_names) {
+    public function create_playlist_by_data($data, $tag_names) {
 
         if (!empty($data)) {
             $this->db->insert('auto_playlists', $data);
@@ -161,12 +161,11 @@ sql
         if (empty($get_recommendations) || $get_recommendations['t_created'] - date("Y-m-d H:i:s") >= 7) {
 
             $tag_count = $this->autoplaylists_model->get_most_popular_tag($author_id);
+            $tc = [];
+            array_walk_recursive($tag_count, function($a) use (&$tc) { $tc[] = $a; });
 
-            if ($tag_count) {
-                $restaurant_tags = $this->tags_model->get_tags_by_id([
-                    $tag_count[0]['tag_id'],
-                    $tag_count[1]['tag_id']
-                ]);
+            if ($tc) {
+                $restaurant_tags = $this->tags_model->get_tags_by_id($tc);
                 $restaurant_users = $this->autoplaylists_model->get_user_restaurants($author_id);
                 $ru = [];
                 $rt = [];
@@ -222,11 +221,86 @@ sql
                 ];
                 $tag_name = ['American', 'Chinese'];
             }
-            $this->autoplaylists_model->create_playlist_by_time($data, $tag_name);
+            $this->autoplaylists_model->create_playlist_by_data($data, $tag_name);
         }
     }
 
 
+    public function get_playlist_by_season($user_id) {
+        date_default_timezone_set('America/Vancouver');
+
+        $now = (int)date('n');
+        $query = FALSE;
+
+        if ($now == 12 || $now <= 2 ) {
+            $query = $this->db->get_where('auto_playlists', [
+                'user_id'   => $user_id,
+                'title'     => 'Its Winter!'
+            ], 1);
+        } elseif ($now > 2 && $now <= 4) {
+            $query = $this->db->get_where('auto_playlists', [
+                'user_id'   => $user_id,
+                'title'     => 'Its Spring'
+            ], 1);
+        } elseif ($now > 4 && $now <= 7) {
+            $query = $this->db->get_where('auto_playlists', [
+                'user_id'   => $user_id,
+                'title'     => 'Its Summer!'
+            ], 1);
+        } else {
+            $query = $this->db->get_where('auto_playlists', [
+                'user_id'   => $user_id,
+                'title'     => 'Its Fall!'
+            ], 1);
+        }
+
+        if (!empty($query)) {
+            return $query->row_array();
+        }
+    }
+
+    public function initiate_season_lists($user_id) {
+
+        $get_playlist_by_season = $this->autoplaylists_model->get_playlist_by_season($user_id);
+
+        if (!empty($get_playlist_by_season)) {
+            return $get_playlist_by_season;
+        } else {
+            $now = (int)date('n');
+            $data = [];
+
+            if ($now == 12 || $now <= 2 ) {
+                $data = [
+                    'user_id'   => $user_id,
+                    'title'     => 'Its Winter!',
+                    'desc'      => 'Get warm at these places'
+                ];
+                $tag_name = ['Comfort Food', 'Cafe'];
+            } elseif ($now > 2 && $now <= 4) {
+                $data = [
+                    'user_id'   => $user_id,
+                    'title'     => 'Its Spring!',
+                    'desc'      => 'Cherry Blossoms everywhere!'
+                ];
+                $tag_name = ['Bakery', 'French'];
+            } elseif ($now > 4 && $now <= 7) {
+                $data = [
+                    'user_id'   => $user_id,
+                    'title'     => 'Its Summer!',
+                    'desc'      => 'Cool off at these places'
+                ];
+                $tag_name = ['Sandwich', 'Salad'];
+            } else {
+                $data = [
+                    'user_id'   => $user_id,
+                    'title'     => 'Its Fall!',
+                    'desc'      => 'Have something pumpkin flavored at these places!'
+                ];
+                $tag_name = ['Cafe', 'Dessert'];
+            }
+            $this->autoplaylists_model->create_playlist_by_data($data, $tag_name);
+        }
+    }
 
 
 }

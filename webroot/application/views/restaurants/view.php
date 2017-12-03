@@ -83,7 +83,6 @@
 				<span class="sr-only">Next</span>
 
 			</a>
-			<?php endif; ?>
 		</div>
 			<a href="<?php echo site_url('/restaurants/edit/'.$restaurant['id']); ?>" class="btn btn-secondary">Edit</a>
 			<a class="btn btn-outline-primary" href="/restaurants">Restaurant List</a>
