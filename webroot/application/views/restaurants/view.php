@@ -93,14 +93,20 @@
 					<p class="text-center text-muted">You don't have any playlists yet.</p> 
 					<a class="btn btn-primary" href="<?php echo site_url('/userplaylists/create'); ?>">Create a playlist</a>
 				<?php else: ?>
-					<div class="text-success" id="added-message"></div>
+					<div class="text-success"><span id="added-message"></span></div>
 						<form action="" method="POST" id="playlist-add" class="form-group form-inline" data-restaurant_id="<?php echo $restaurant['id']; ?>">
-							<select data-placeholder="Add to Playlist" class="chosen-select" id="playlist-select" name="playlist">
-							<?php foreach($playlists as $row): ?>
-								<option value="<?php echo $row['id'] ?>"><?php echo $row['title'] ?></option>
-							<?php endforeach; ?>
-							</select>
-							<input id="submit-p" class="btn btn-primary" type="submit" value="&plus;" aria-label="Add restaurant to selected playlist">
+							<div class="container-fluid">
+								<div class="form-control-lg input-group">
+									<select data-placeholder="Add to Playlist" class="form-control form-control-chosen" id="playlist-select" name="playlist">
+									<?php foreach($playlists as $row): ?>
+										<option value="<?php echo $row['id'] ?>"><?php echo $row['title'] ?></option>
+									<?php endforeach; ?>
+									</select>
+									<span class="input-group-btn">
+										<input id="submit-p" class="btn btn-primary" type="submit" value="&plus;" aria-label="Add restaurant to selected playlist">
+									</span>
+								</div>
+							</div>
 						</form>
 				<?php endif; ?>
 				</div>
@@ -153,10 +159,14 @@
 			<?php elseif(empty($user_review) || !isset($user_review[0]['body'])): ?>
 				<p class="text-center">Let your voice be heard, leave a review now!</p>
 					<form action="/restaurants/<?php echo $restaurant_id; ?>/review/put" method="post" accept-charset="utf-8">
-						<div class="form-group">
-							<input type="text" id="body" name="body" class="form-control" placeholder="What did you think of this location?" value="<?php empty($user_review) || empty($user_review['body']) ? "" : html_escape($user_review['body']); ?>">
+						<!-- <div class="container-fluid"> -->
+							<div class="form-control-lg input-group">
+								<input type="text" id="body" name="body" class="form-control" placeholder="What did you think of this location?" value="<?php empty($user_review) || empty($user_review['body']) ? "" : html_escape($user_review['body']); ?>">
+								<span class="input-group-btn">
+									<button type="submit" class="btn btn-primary">Submit</button>
+								</span>
+							<!-- </div> -->
 						</div>
-						<button type="submit" class="btn btn-primary">Submit</button>
 					</form>
 			<?php endif; ?>
 			<!-- End user reviews and recommendations -->

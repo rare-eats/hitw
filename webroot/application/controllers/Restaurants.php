@@ -47,9 +47,6 @@ class Restaurants extends CI_Controller {
 		$data['admin'] = $this->users_model->is_admin();
 		$data['title'] = $data['restaurant']['name'];
 
-		$data['css'] = [
-			'/css/chosen.min'
-		];
 
 		if (isset($data['user_id'])) {
 			// Get current user's playlists, so restaurant can be added to them.
@@ -62,6 +59,10 @@ class Restaurants extends CI_Controller {
 			'/script/add_to_playlist',
 			'/script/init_chosen',
 			'/script/restaurant_view'
+		];
+
+		$data['css'] = [
+			'/css/component-chosen.min'
 		];
 
 		// Get current user's playlists, so restaurant can be added to them.
@@ -106,6 +107,15 @@ class Restaurants extends CI_Controller {
 		$this->form_validation->set_rules('state_prov_code', 'State/Province', 'required|max_length[100]');
 		$this->form_validation->set_rules('country', 'Country', 'required|max_length[100]');
 
+		$data['javascript'] = [
+			'/script/chosen.min', 
+			'/script/init_chosen'
+		];
+
+		$data['css'] = [
+			'/css/component-chosen.min'
+		];
+
 		if ($this->form_validation->run() === FALSE) {
 			$result = $this->tags_model->get_tags();
 			if ($result['success'])
@@ -144,6 +154,15 @@ class Restaurants extends CI_Controller {
 		}
 
 		$data['title'] = 'Edit Restaurant';
+
+		$data['javascript'] = [
+			'/script/chosen.min', 
+			'/script/init_chosen'
+		];
+
+		$data['css'] = [
+			'/css/component-chosen.min'
+		];
 
 		$this->form_validation->set_rules('name', 'Restaurant Name', 'required|max_length[100]');
 		$this->form_validation->set_rules('city', 'City', 'required|max_length[100]');

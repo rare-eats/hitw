@@ -81,7 +81,8 @@ class Userplaylists extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->load->model('restaurants_model');
 
-		$data['css'] = ["/css/chosen.min"];
+		$data['css'] = ["/css/component-chosen.min"];
+		
 		$data['javascript'] = [
 			'/script/chosen.min', 
 			'/script/init_chosen'

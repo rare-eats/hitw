@@ -23,7 +23,7 @@
 			<div class="form-group">
 				<div>
 				<label>(Optionally) Choose one restaurant to get this playlist started:</label><br>
-				<select data-placeholder="restaurant" class="chosen-select" id="restaurant" name="restaurant">
+				<select data-placeholder="restaurant" class="form-control form-control-chosen" id="restaurant" name="restaurant">
 				<option value="-1">None</option>
 				<?php foreach($restaurants as $row){ ?>
 					<option value="<?php echo $row['id'] ?>"><?php echo $row['name'] ?></option>
@@ -34,7 +34,7 @@
 			<button type="submit" class="btn btn-primary">Create</button>
 			<a class="btn btn-secondary" href="<?php echo site_url('/'); ?>">Cancel</a>
 <?php else: ?>
-	<h4 class="text-danger text-center">	You're not currently logged in!</h4>
+	<h4 class="text-danger text-center">You're not currently logged in!</h4>
 	<p class="card-text text-center">We won't be able to save your list if you don't log in.</p>
 <?php endif ?>
 		</div>
