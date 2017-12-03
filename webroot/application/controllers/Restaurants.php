@@ -45,7 +45,6 @@ class Restaurants extends CI_Controller {
 		);
 		$data['user_id'] = $this->session->id;
 		$data['admin'] = $this->users_model->is_admin();
-
 		$data['title'] = $data['restaurant']['name'];
 
 		$data['css'] = [
@@ -64,6 +63,10 @@ class Restaurants extends CI_Controller {
 			'/script/init_chosen',
 			'/script/restaurant_view'
 		];
+
+		// Get current user's playlists, so restaurant can be added to them.
+		$this->load->model('userplaylists_model');
+		$data['playlists'] = $this->userplaylists_model->get_by_author($data['user_id']);
 
 		$this->load->view('partials/header', $data);
 		$this->load->view('restaurants/view', $data);

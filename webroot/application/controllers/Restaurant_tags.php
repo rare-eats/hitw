@@ -1,6 +1,6 @@
 <?php
 class Restaurant_tags extends CI_Controller {
-	
+
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('tags_model');
@@ -9,7 +9,7 @@ class Restaurant_tags extends CI_Controller {
 
 	public function index()
 	{
-		if (!$this->session->is_admin()) {
+		if (!$this->users_model->is_admin()) {
 			redirect('/restaurants');
 			return;
 		}

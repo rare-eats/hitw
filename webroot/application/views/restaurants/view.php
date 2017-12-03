@@ -52,7 +52,7 @@
 				<p>No tags.</p>
 			<?php endif; ?>
 			</p>
-		<?php if($admin): ?>
+		<?php if(!empty($admin)): ?>
 			<a href="<?php echo site_url('/restaurants/edit/'.$restaurant['id']); ?>" class="btn btn-primary">Edit</a>
 		<?php endif; ?>
 		</div>

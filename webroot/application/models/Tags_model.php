@@ -62,16 +62,35 @@ class Tags_model extends CI_Model {
 		];
 	}
 
-    // get tags by id not in any of user's lists
-    // not enough tags attached to work with atm
-    public function get_tags_by_id($tag_id = NULL) {
+    public function get_restaurants_by_tags($name) {
         $query = FALSE;
-        if (isset($tag_id)) {
+        if (!empty($name)) {
+            $query = $this->db->query(<<<sql
+                SELECT
+                    rt.restaurant_id
+                FROM
+                    tags AS t,
+                    restaurant_tags AS rt
+                WHERE
+                    t.id = rt.tag_id AND
+                    (t.name LIKE '%{$name[0]}%' OR t.name LIKE '%{$name[1]}%')
+sql
+            );
+            $row = $query->result_array();
+            return $row;
+        }
+    }
+
+    // get tags by id
+    public function get_tags_by_id($tag_ids = NULL) {
+        $query = FALSE;
+        if (isset($tag_ids)) {
             $this->db->select('restaurant_id');
-            $query = $this->db->get_where('restaurant_tags', ['tag_id' => $tag_id]);
+            $this->db->where_in('tag_id', $tag_ids);
+            $query = $this->db->get('restaurant_tags');
+            return $query->result_array();
         }
 
-        return $query->result_array();
     }
 
     #a temporary function that will block loading more tags from the API if there are already 5 - this is currently required

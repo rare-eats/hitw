@@ -124,6 +124,11 @@ class Restaurants_model extends CI_Model {
     	$this->db->limit($limit);
     	$this->db->order_by('id', $order);
     	$query = $this->db->get('photos');
+
+    	if (empty($query)) {
+    		return FALSE;
+    	}
+
     	return $query->result_array();
     }
 
@@ -424,7 +429,6 @@ class Restaurants_model extends CI_Model {
 
 		return $result;
 	}
-
   public function check_response_code($meta){
       if (is_numeric($meta->code)){
           if ((int)$meta->code == 200){
