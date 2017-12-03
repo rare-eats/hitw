@@ -49,7 +49,6 @@ $("#thumbs_down").click(function(){
 		url: "/restaurants/"+ data.restaurant_id +"/reviews/thumbs_down",
 		data:{ }
 	}).done(function(data) {
-		// $("#thumbs_down").attr("disabled", true);
 		if(data.message=="undisliked"){
 			$('#thumbs_down').removeClass("active");
 		}

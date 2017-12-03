@@ -99,8 +99,8 @@ class Reviews_model extends CI_Model {
 			$this->db->update('reviews', $data);
 		}
 	}
-	public function thumbs_up($restaurant_id, $author_id){
-		$this->db->where('author_id',$author_id);
+	public function thumbs_up($restaurant_id){
+		$this->db->where('author_id',$this->session->id);
 		$this->db->where('restaurant_id',$restaurant_id);
 		$query = $this->db->get("reviews");
 		$result_array = $query->result_array();
@@ -108,7 +108,7 @@ class Reviews_model extends CI_Model {
 		if(empty($result_array)){
 			$data = [
 				"restaurant_id" => $restaurant_id,
-				"author_id" => $author_id,
+				"author_id" => $this->session->id,
 				"rating" => TRUE
 			];
 			$this->put_review($data);
@@ -119,14 +119,11 @@ class Reviews_model extends CI_Model {
 				//rating is true
 				if ($result_array[0]['rating'] === TRUE){
 					$this->db->set('rating', NULL);
-					// $this->db->set('upvotes', 'upvotes-1', FALSE);
 					$response = ['message'=> 'unliked'];
 				}
 				//rating is false
 				else{
 					$this->db->set('rating', TRUE);
-					// $this->db->set('upvotes', 'upvotes+1', FALSE);
-					// $this->db->set('downvotes', 'downvotes-1', FALSE);
 					$response = ['message' => 'changed mind'];
 				}
 			}
@@ -135,14 +132,13 @@ class Reviews_model extends CI_Model {
 				$this->db->set('rating', TRUE);
 				$response = ['message' => 'liked'];
 			}
-			$this->db->where('author_id',$author_id);
+			$this->db->where('author_id',$this->session->id);
 			$this->db->where('restaurant_id',$restaurant_id);
 			$this->db->update('reviews');
-			// $this->db->where('id', $restaurant_id);
-			// $this->db->update('restaurants');
-			return $response;
 		}
+		return $response;
 	}
+
 	public function thumbs_down($restaurant_id, $author_id){
 		$this->db->where('author_id',$author_id);
 		$this->db->where('restaurant_id',$restaurant_id);
@@ -162,7 +158,6 @@ class Reviews_model extends CI_Model {
 				if ($result_array[0]['rating'] === FALSE){
 					$this->db->set('rating',NULL);
 					$response = ['message'=>'undisliked'];
-
 				}
 				else{
 					$this->db->set('rating', FALSE);
@@ -176,7 +171,7 @@ class Reviews_model extends CI_Model {
 			$this->db->where('author_id',$author_id);
 			$this->db->where('restaurant_id',$restaurant_id);
 			$this->db->update('reviews');
-			return $response;
 		}
+		return $response;
 	}
 }
