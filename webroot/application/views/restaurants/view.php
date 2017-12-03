@@ -77,8 +77,8 @@
 				<span class="carousel-control-next-icon" aria-hidden="true"></span>
 				<span class="sr-only">Next</span>
 			</a>
-			<?php endif; ?>
 		</div>
+		<?php endif; ?>
 
 		<div class="card-body">
 			<?php if (isset($user_id)): ?>
