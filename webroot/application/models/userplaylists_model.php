@@ -90,13 +90,14 @@ class Userplaylists_model extends CI_Model {
 			show_404();
 		}
 
-		$this->db->where('id', $id);
+		$this->db->where('playlist_id', $id);
 		$query = $this->db->delete('user_playlist_contents');
+		
+		$this->db->where('playlist_id', $id);
+		$query = $this->db->delete('user_playlist_subscriptions');
 
-		if ($query) {
-			$this->db->where('id', $id);
-			$this->db->delete('user_playlists');
-		}
+		$this->db->where('id', $id);
+		$this->db->delete('user_playlists');
 	}
 
 	# Returns a specific author's playlists, only returning those that the current user is authorized to see
@@ -148,5 +149,62 @@ class Userplaylists_model extends CI_Model {
 
 		$this->db->where('id', $id);
 		return $this->db->delete('user_playlist_contents');
+	}
+	
+	# Adds a row to user_playlist_subscriptions, subscribing the specified user to the specified playlist
+	public function subscribe_playlist($data = NULL) {
+		if ($data === NULL) {
+			return False;
+		}
+
+		$this->db->insert('user_playlist_subscriptions', $data);
+		return $this->db->insert_id();
+	}
+	
+	# Removes a row from user_playlist_subscriptions, un-subscribing the specified user from the specified playlist
+	public function unsubscribe_playlist($user_id, $playlist_id) {
+		if (!isset($user_id) or !isset($playlist_id)) {
+			return False;
+		}
+
+		$this->db->where('user_id', $user_id);
+		$this->db->where('playlist_id', $playlist_id);
+		return $this->db->delete('user_playlist_subscriptions');
+	}
+	
+	# Returns the id of the user_playlist_subscriptions row for the specified user/playlist if it exists, -1 otherwise
+	public function check_subscribed($user_id, $playlist_id){
+		if (!isset($user_id) or !isset($playlist_id)) {
+			return False;
+		}
+		
+		$this->db->where('user_id', $user_id);
+		$this->db->where('playlist_id', $playlist_id);
+		$query = $this->db->get('user_playlist_subscriptions');
+		
+		if ($query-> num_rows() == 0){
+			$sub_id = -1;
+		} else {
+			$sub_id = $query->row()->id;
+		}
+		
+		return $sub_id;
+	}
+	
+	# Returns ids of all playlists a given user is subscribed to
+	public function get_subscribed($user_id){
+		if (!isset($user_id)) {
+			return False;
+		}
+		
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get('user_playlist_subscriptions');
+		
+		$result = array();
+		foreach($query->result() as $row){
+			$result[] = $row->playlist_id;
+		}
+		
+		return $result;
 	}
 }

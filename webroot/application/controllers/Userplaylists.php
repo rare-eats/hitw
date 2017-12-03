@@ -37,8 +37,9 @@ class Userplaylists extends CI_Controller {
 				'name' => $this->security->xss_clean($this->restaurants_model->get_name($content_row['restaurant_id'])),
 			];
 		}
-		// $data['restaurants'] = $restaurants;
 
+		$data['subscribed'] = $this->userplaylists_model->check_subscribed($this->session->id, $id) != -1;
+			
 		$author = ($this->users_model->get_user($data['playlist']['author_id']))[0];
 		$data['author_name'] = $author['first_name'] . ' ' . $author['last_name'];
 		$data['author_id'] = $author['id'];
@@ -186,6 +187,31 @@ class Userplaylists extends CI_Controller {
 		redirect('/userplaylists/edit/'.$playlist_id);
 	}
 	
+	
+	public function subscribe($id = NULL) {
+		if (empty($id) or !($this->session->has_userdata('id'))) {
+			show_404();
+		}
+		
+		$data = [
+		'user_id' => $this->session->id,
+		'playlist_id' => $id,
+		];
+		
+		$this->userplaylists_model->subscribe_playlist($data);
+		redirect('/userplaylists/'.$id);
+	}
+	
+	public function unsubscribe($id = NULL) {
+		if (empty($id) or !($this->session->has_userdata('id'))) {
+			show_404();
+		}
+		
+		
+		$this->userplaylists_model->unsubscribe_playlist($this->session->id, $id);
+		redirect('/userplaylists/'.$id);
+	}
+
 	public function user($id = NULL) {
 		if ($id === NULL) {
 			show_404();

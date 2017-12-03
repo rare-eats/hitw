@@ -81,11 +81,8 @@
 		</div>
 
 		<div class="card-body">
-			<?php if (isset($user_id)): ?>
+			<?php if (isset($user_id) and !empty($playlists)): ?>
 				<h3 class="card-title text-center">Add to Playlist</h3>
-				<?php if(empty($playlists)): ?>
-					<a class="btn btn-primary" href="<?php echo site_url('/userplaylists/create'); ?>">Create a playlist to add this restaurant to</a>
-				<?php else: ?>
 					<div class="text-success" id="added-message"></div>
 					<div class="text-center">
 						<form action="" method="POST" id="playlist-add" class="form-group form-inline" data-restaurant_id="<?php echo $restaurant['id']; ?>">
@@ -97,7 +94,6 @@
 							<input id="submit-p" class="btn btn-primary" type="submit" value="&plus;" aria-label="Add restaurant to selected playlist">
 						</form>
 					</div>
-				<?php endif; ?>
 				<hr />
 			<?php endif; ?>
 		<h3 class="card-title text-center">User Reviews</h3>

@@ -26,6 +26,13 @@
 					<?php endforeach; ?>
 				</table>
 				<?php endif; ?>
+			<?php if ($this->session->has_userdata('id')): ?>
+				<?php if ($subscribed): ?>
+					<a href="<?php echo site_url('/userplaylists/unsubscribe/'.$playlist['id']); ?>" class="btn btn-primary">unsubscribe</a>
+				<?php else: ?>
+					<a href="<?php echo site_url('/userplaylists/subscribe/'.$playlist['id']); ?>" class="btn btn-primary">Subscribe</a>
+				<?php endif ?>
+			<?php endif ?>
 			<?php if ($user_id === $author_id || $admin): ?>
 				<a href="<?php echo site_url('/userplaylists/edit/'.$playlist['id']); ?>" class="btn btn-secondary">Edit</a>
 			<?php endif; ?>
