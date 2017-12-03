@@ -161,12 +161,11 @@ sql
         if (empty($get_recommendations) || $get_recommendations['t_created'] - date("Y-m-d H:i:s") >= 7) {
 
             $tag_count = $this->autoplaylists_model->get_most_popular_tag($author_id);
+            $tc = [];
+            array_walk_recursive($tag_count, function($a) use (&$tc) { $tc[] = $a; });
 
-            if ($tag_count) {
-                $restaurant_tags = $this->tags_model->get_tags_by_id([
-                    $tag_count[0]['tag_id'],
-                    $tag_count[1]['tag_id']
-                ]);
+            if ($tc) {
+                $restaurant_tags = $this->tags_model->get_tags_by_id($tc);
                 $restaurant_users = $this->autoplaylists_model->get_user_restaurants($author_id);
                 $ru = [];
                 $rt = [];
