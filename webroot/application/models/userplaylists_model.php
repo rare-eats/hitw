@@ -47,10 +47,10 @@ class Userplaylists_model extends CI_Model {
 		$this->db->like('LOWER(title)', $term);
 		$this->db->or_like('desc', $term);
 		
-		// if (!$this->users_model->is_admin()) {
+		if (!$this->users_model->is_admin()) {
 			$this->db->where('private', FALSE);
-		// }
-		// $this->db->where('author_id', $user_id);	
+		}
+		$this->db->where('author_id', $user_id);	
 		$this->db->limit(64);
 		$query = $this->db->get('user_playlists');
 		
