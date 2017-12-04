@@ -30,23 +30,23 @@
 		<div class="collapse navbar-collapse" id="navbarText">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">
-					<a class="nav-link" href="/restaurants/search">Search for Restaurants</a>
+					<a class="nav-link" href="/restaurants/search"><i class="fa fa-search" aria-label="Search"></i> Restaurants</a>
 				</li>
 		<?php if($this->session->has_userdata('id')): ?>
 				<li class="nav-item">
-					<a class="nav-link" href="/users/view">My Playlists</a>
+					<a class="nav-link" href="/users/view"><i class="fa fa-list" aria-hidden="true"></i> My Playlists</a>
 				</li>
 		<?php endif; ?>
 				<li class="nav-item">
-					<a class="nav-link" href="/userplaylists/search">Search for Playlists</a>
+					<a class="nav-link" href="/userplaylists/search"><i class="fa fa-search" aria-label="Search"></i> Playlists</a>
 				</li>
 		<?php if($this->session->has_userdata('id')): ?>
 				<li class="nav-item">
-					<a class="nav-link" href="/restaurants/create">Add a Restaurant</a>
+					<a class="nav-link" href="/restaurants/create"><i class="fa fa-plus" aria-hidden="true"></i> Add a Restaurant</a>
 				</li>
 			<?php if($this->users_model->is_admin()): ?>
 				<li class="nav-item">
-					<a class="nav-link" href="/restaurants/tags">Modify a Tag</a>
+					<a class="nav-link" href="/restaurants/tags"><i class="fa fa-tags" aria-hidden="true"></i> Tag Management</a>
 				</li>
 			<?php endif; ?>
 		<?php endif; ?>
@@ -54,14 +54,14 @@
 			<ul class="navbar-nav ml-auto">
 			<?php if($this->session->has_userdata('id')): ?>
 				<li class="nav-item">
-					<a class="nav-link" href="/users/view">View Profile</a>
+					<a class="nav-link" href="/users/view"><i class="fa fa-user" aria-hidden="true"></i> View Profile</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/users/logout">Logout</a>
+					<a class="nav-link" href="/users/logout"> <i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
 				</li>
 			</ul>
 			<?php else: ?>
-				<a class="nav-link" href="/users/login">Login</a>
+				<a class="nav-link" href="/users/login"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>
 			<?php endif ?>
 		</div>
 	</nav>

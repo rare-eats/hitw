@@ -93,11 +93,11 @@
 				</p>
 			</div>
 			<p class="lead">
-			<a class="btn btn-primary btn-lg" href="/users/create" role="button">Sign Up</a>
+			<a class="btn btn-primary btn-lg" href="/users/create" role="button"><i class="fa fa-cutlery" aria-hidden="true"></i> Sign Up</a>
 			</p>
 			<p class="font-weight-normal">Already Have an Account?</p>
 			<!-- <p class="lead"> -->
-			<a class="btn btn-primary btn-sm" href="/users/login" role="button">Login</a>
+			<a class="btn btn-primary btn-sm" href="/users/login" role="button"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>
 			</p>
 		</div>
 	</div>
