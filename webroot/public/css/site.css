@@ -1,8 +1,17 @@
-body, html { 
+body, html {
 	margin: 0;
 	padding: 0;
 	background-color: #A0A0A0;
 }
+
+
+
+.front-page-img {
+    background-image: linear-gradient(rgba(255,255,255,0.7),rgba(255,255,255,0.7)),url(/front-page.jpg);
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+
 
 .navbar-brand img {
 	width: 42px;
@@ -16,7 +25,7 @@ a:hover, .btn-link:hover {
 	color: #ec1046;
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4, card-title, text-primary, h2 a {
 	color: #ec1046;
 }
 
@@ -24,11 +33,7 @@ h1, h2, h3 {
 	font-weight: 500;
 }
 
-input:focus {
-	border-color: #cd775a !important; 
-}
-
-input:focus, .btn:focus, .btn:active {
+.btn:focus, .btn:active {
 	box-shadow: 0 0 0.5rem rgba(205, 119, 90,.5) !important;
 }
 
@@ -59,21 +64,79 @@ input:focus, .btn:focus, .btn:active {
 }
 
 .d-lg-flex>.card {
-	width: 20rem; 
-	display: inline-block; 
+	width: 20rem;
+	display: inline-block;
 	margin: none !important;
+}
+
+.carousel-item {
+	height: 200px;
+}
+
+.chosen-container, .chosen-select, .chosen-single {
+	background: none !important;
+}
+
+.chosen-single span {
+	font-size: 1.2rem;
+}
+
+@media (min-width: 576px) {
+	.carousel-item {
+		height: 200px;
+	}
+
+}
+
+@media (min-width: 768px) {
+	.carousel-item {
+		height: 300px;
+	}
+}
+
+@media (min-width: 992px) {
+	.carousel-item {
+		height: 400px;
+	}
+}
+
+@media (min-width: 1200px) {
+	.carousel-item {
+		height: 600px;
+	}
+}
+
+.carousel-item img {
+	vertical-align: middle;
 }
 
 .card {
 	margin: 1rem;
 }
 
-a .card:hover {
+a .card:hover, .own-review {
 	background: #E0E0E0;
+}
+
+.own-review {
+	border-radius: 6px;
+}
+
+.own-review .col-md-10 {
+	padding-top: 1rem;
 }
 
 .card-img-top {
 	margin: 0;
+}
+
+.restaurant-image {
+	height: 150px;
+	overflow: hidden;
+}
+
+.search-result {
+	text-decoration: none !important;
 }
 
 .remove_tag_button {

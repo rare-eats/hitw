@@ -52,9 +52,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $route['userplaylists/create'] = 'userplaylists/create';
 $route['userplaylists/edit/(:any)'] = 'userplaylists/edit/$1';
+$route['userplaylists/add_to_list'] = 'userplaylists/add_to_list';
+$route['userplaylists/user/(:num)'] = 'userplaylists/user/$1';
+$route['userplaylists/(:num)/content/(:num)/delete'] = 'userplaylists/content_delete/$1/$2';
+$route['userplaylists/search'] = 'userplaylists/search';
 $route['userplaylists/(:any)'] = 'userplaylists/view/$1';
-$route['userplaylists'] = 'userplaylists/view';
-// remove 'user in userplaylists routes possibly (left side)'
+$route['userplaylists'] = 'userplaylists/search';
 
 $route['default_controller'] = 'home';
 $route['404_override'] = '';
@@ -84,3 +87,9 @@ $route['restaurants/(:num)/review/(:num)/delete'] = 'reviews/delete/$1/$2';
 $route['restaurants/(:num)/review/put'] = 'reviews/put/$1';
 
 $route['reviews/edit/(:num)'] = 'reviews/edit/$1';
+// $route['restaurants/(:num)/reviews/thumbs_up'] = 'reviews/thumbs_up/$1';
+// $route['restaurants/(:num)/reviews/thumbs_down'] = 'reviews/thumbs_down/$1';
+$route['restaurants/(:num)/reviews/thumbs_up']['PUT'] = 'reviews/thumbs_up/$1';
+$route['restaurants/(:num)/reviews/thumbs_down']['PUT'] = 'reviews/thumbs_down/$1';
+$route['restaurants/(:num)/upvote']['PUT'] = 'restaurants/upvote/$1';
+$route['restaurants/(:num)/downvote']['PUT'] = 'restaurants/downvote/$1';

@@ -7,6 +7,7 @@ class Restaurants extends CI_Controller {
 		$this->load->model('tags_model');
 		$this->load->model('reviews_model');
 		$this->load->helper('url_helper');
+		$this->load->helper('form');
 	}
 
 
@@ -32,15 +33,15 @@ class Restaurants extends CI_Controller {
 		$this->load->helper('form');
 
 		if (!isset($id)) {
-			redirect('restaurants');
+			redirect('/restaurants');
 			return; // Ensure the rest of the function doesn't run when redirecting
 		}
 		// Control will only reach this block if $id exists
 
-		$data['restaurant'] = $this->restaurants_model->get_restaurant($id)[0];
+		$data['restaurant'] = $this->security->xss_clean($this->restaurants_model->get_restaurant($id)[0]);
 
 		if (!isset($data['restaurant'])) {
-			redirect('restaurants');
+			redirect('/restaurants');
 			return; // Don't continue if there was no data
 		}
 
@@ -50,12 +51,14 @@ class Restaurants extends CI_Controller {
 
 		$data['restaurant_id']	= $id;
 
-		$data['reviews'] = $this->reviews_model->get_reviews(
+		$data['reviews'] = $this->security->xss_clean($this->reviews_model->get_reviews(
 			[
 				'restaurant_id' => $id
 			],
 			TRUE
-		);
+		));
+		$data['user_review'] = $this->reviews_model->get_reviews(['author_id' => $this->session->id, 'restaurant_id'=>$id],FALSE);
+		$data['photos'] = $this->restaurants_model->get_restaurant_photos($id);
 
 		$data['user_left_review'] = $this->reviews_model->count_reviews(
 			[
@@ -63,21 +66,43 @@ class Restaurants extends CI_Controller {
 				'author_id'		=>	$this->session->id
 			]
 		);
-
 		$data['user_id'] = $this->session->id;
-
+		$data['admin'] = $this->users_model->is_admin();
 		$data['title'] = $data['restaurant']['name'];
-		$data['javascript'] = ['/script/restaurant_view'];
+
+
+		if (isset($data['user_id'])) {
+			// Get current user's playlists, so restaurant can be added to them.
+			$this->load->model('userplaylists_model');
+			$data['playlists'] = $this->security->xss_clean($this->userplaylists_model->get_by_author($data['user_id']));
+		}
+
+		$data['javascript'] = [
+			'/script/chosen.min',
+			'/script/add_to_playlist',
+			'/script/init_chosen',
+			'/script/restaurant_view'
+		];
+
+		$data['css'] = [
+			'/css/component-chosen.min'
+		];
+
+		// Get current user's playlists, so restaurant can be added to them.
+		$this->load->model('userplaylists_model');
+		$data['playlists'] = $this->userplaylists_model->get_by_author($data['user_id']);
 
 		$this->load->view('partials/header', $data);
 		$this->load->view('restaurants/view', $data);
-		$this->load->view('partials/footer');
+		$this->load->view('partials/footer', $data);
 	}
+
 
 	public function search() {
 		$this->load->helper('form');
 
 		$data['title'] = "Restaurants";
+		$data['css'] = ['/css/restaurants'];
 
 		if (!isset($_GET['terms'])) {
 			$data['restaurants'] = $this->restaurants_model->get_restaurant();
@@ -99,8 +124,20 @@ class Restaurants extends CI_Controller {
 
 		$data['title'] = 'Add New Restaurant';
 
-		$this->form_validation->set_rules('name', 'Restaurant Name', 'required');
-		$this->form_validation->set_rules('city', 'City', 'required');
+		$this->form_validation->set_rules('name', 'Restaurant Name', 'required|max_length[100]');
+		$this->form_validation->set_rules('city', 'City', 'required|max_length[100]');
+		$this->form_validation->set_rules('addr_1', 'Address', 'max_length[100]');
+		$this->form_validation->set_rules('state_prov_code', 'State/Province', 'required|max_length[100]');
+		$this->form_validation->set_rules('country', 'Country', 'required|max_length[100]');
+
+		$data['javascript'] = [
+			'/script/chosen.min', 
+			'/script/init_chosen'
+		];
+
+		$data['css'] = [
+			'/css/component-chosen.min'
+		];
 
 		if ($this->form_validation->run() === FALSE) {
 			$result = $this->tags_model->get_tags();
@@ -128,16 +165,33 @@ class Restaurants extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 
+		if($this->users_model->is_admin() === FALSE) {
+			redirect('/restaurants');
+			return;
+		}
+
 		$data['restaurant'] = $this->restaurants_model->get_restaurant($id)[0];
 
 		if (empty($data['restaurant'])) {
-			redirect('/restaurants');
+			redirect('/restaurants/search');
 		}
 
 		$data['title'] = 'Edit Restaurant';
 
-		$this->form_validation->set_rules('name', 'Restaurant Name', 'required');
-		$this->form_validation->set_rules('city', 'City', 'required');
+		$data['javascript'] = [
+			'/script/chosen.min', 
+			'/script/init_chosen'
+		];
+
+		$data['css'] = [
+			'/css/component-chosen.min'
+		];
+
+		$this->form_validation->set_rules('name', 'Restaurant Name', 'required|max_length[100]');
+		$this->form_validation->set_rules('city', 'City', 'required|max_length[100]');
+		$this->form_validation->set_rules('addr_1', 'Address', 'max_length[100]');
+		$this->form_validation->set_rules('state_prov_code', 'State/Province', 'required|max_length[100]');
+		$this->form_validation->set_rules('country', 'Country', 'required|max_length[100]');
 
 		if ($this->form_validation->run() === FALSE) {
 			$result = $this->tags_model->get_tags();
@@ -162,11 +216,14 @@ class Restaurants extends CI_Controller {
 
 	public function delete($id = NULL) {
 		if (empty($id)) {
-			show_404();
+			redirect('/restaurants');
+			return;
 		}
 
 		# Check for proper authentication first
-		$this->restaurants_model->delete_restaurant($id);
+		if ($this->users_model->is_admin()) {
+			$this->restaurants_model->delete_restaurant($id);
+		}
 		redirect(base_url());
 	}
 

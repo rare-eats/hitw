@@ -1,7 +1,7 @@
 <?php
 
 class Restaurants_model extends CI_Model {
-	
+
 	public function __construct() {
 		$this->load->database();
 	}
@@ -119,6 +119,19 @@ class Restaurants_model extends CI_Model {
         }
     }
 
+    public function get_restaurant_photos($restaurant_id, $limit = 5, $order = 'ASC'){
+    	$this->db->where('restaurant_id', $restaurant_id);
+    	$this->db->limit($limit);
+    	$this->db->order_by('id', $order);
+    	$query = $this->db->get('photos');
+
+    	if (empty($query)) {
+    		return FALSE;
+    	}
+
+    	return $query->result_array();
+    }
+
     private function preload_reviews($fourSearch, $restaurant_table_id){
         #Parse through the resulting JSON and load it into the database.
         $parsedJson = json_decode($fourSearch);
@@ -146,7 +159,7 @@ class Restaurants_model extends CI_Model {
             }
         }
     }
-	
+
 	#do a load of restaurants from the API (this data is static for demonstration purposes).
 	private function preload_restaurants($srJson){
 		$parsedJson = json_decode($srJson);
@@ -378,13 +391,12 @@ class Restaurants_model extends CI_Model {
 		$search_amount = 100;
 		$term = strtolower($terms);
 
-		// echo var_dump($term);
 		if ($column == 'all') {
 			$this->db->like('LOWER(name)', $term);
 			$this->db->or_like('LOWER(restaurant_type)', $term);
 			$this->db->or_like('LOWER(city)', $term);
 		}
-		else 
+		else
 		{
 			$this->db->like('LOWER('.$column.')', $term, 'both');
 		}
@@ -394,16 +406,11 @@ class Restaurants_model extends CI_Model {
 		return $query->result_array();
 	}
 
-	# Get a list of [amt] restaurants by list of [terms]
-	public function get_restaurant_by_search($terms, $ord_col, $ord_val) {
-		$query = search_restaurant('all', $terms, $ord_col, $ord_val);
-		return $query;
-	}
-
 	# Delete a restaurant
 	public function delete_restaurant($id = FALSE) {
-		if ($id === FALSE) {
+		if ($id === FALSE || !$this->users_model->isadmin()) {
 			show_404();
+			return;
 		}
 
 		$this->clear_tags_from_restaurant($id);
@@ -411,16 +418,65 @@ class Restaurants_model extends CI_Model {
 		$this->db->where('id', $id);
 		return $this->db->delete('restaurants');
 	}
+	# Returns the name of a single restaurant (for playlists)
+	public function get_name($id = NULL) {
 
-    public function check_response_code($meta){
-        if (is_numeric($meta->code)){
-            if ((int)$meta->code == 200){
-                return TRUE;
-            }else{
-                #var_dump($meta->code);
-                #var_dump($meta->errorDetail);
-                return FALSE;
-            }
-        }
-    }
+		if (!isset($id)){
+			return FALSE;
+		}
+
+		$this->db->where('restaurants.id', $id);
+		$result = $this->db->get('restaurants')->row()->name;
+
+		return $result;
+	}
+  public function check_response_code($meta){
+      if (is_numeric($meta->code)){
+          if ((int)$meta->code == 200){
+              return TRUE;
+          }else{
+              var_dump($meta->code);
+              var_dump($meta->errorDetail);
+              return FALSE;
+          }
+      }
+  }
+
+  public function get_restaurants_by_ids($ids) {
+      if (isset($ids)) {
+          $this->db->where_in('id', $ids);
+          $query = $this->db->get('restaurants');
+          return $query->result_array();
+      }
+  }
+
+	public function update_rating($restaurant_id, $mode, $sign){
+		if (!isset($restaurant_id)) {
+			return ['message'=>"no restaurant"];
+		}
+
+		if($mode == 'upvote'){
+			if($sign == TRUE){
+				$this->db->set('upvotes','upvotes+1', FALSE);
+			}
+			else{
+				$this->db->set('upvotes', 'upvotes-1', FALSE);
+			}
+		}
+		else{
+			if($sign == TRUE){
+				$this->db->set('downvotes', 'downvotes+1', FALSE);
+			}
+			else{
+				$this->db->set('downvotes', 'downvotes-1', FALSE);
+			}
+		}
+		$this->db->where('id', $restaurant_id);
+		$this->db->update('restaurants');
+		//get the upvotes and the downvotes from restaurants
+		$query = $this->db->select('upvotes, downvotes')->get_where('restaurants',['id'=>$restaurant_id])->result_array();
+		$result = $query[0];
+		return $result;
+	}
+
 }
