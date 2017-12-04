@@ -14,6 +14,15 @@
 					echo $playlist['desc'];
 					?>
 				</p>
+			<?php if ($user_id === $author_id || $admin): ?>
+				<a href="<?php echo site_url('/userplaylists/edit/'.$playlist['id']); ?>" class="btn btn-secondary">Edit</a>
+			<?php elseif ($this->session->has_userdata('id')): ?>
+				<?php if ($subscribed): ?>
+					<a href="<?php echo site_url('/userplaylists/unsubscribe/'.$playlist['id']); ?>" class="btn btn-primary">Unsubscribe</a>
+				<?php else: ?>
+					<a href="<?php echo site_url('/userplaylists/subscribe/'.$playlist['id']); ?>" class="btn btn-primary">Subscribe</a>
+				<?php endif ?>
+			<?php endif ?>
 				<?php if (empty($restaurants)): ?>
 					<p class="text-muted">This playlist is empty.</p>
 				<?php else: ?>
@@ -26,19 +35,9 @@
 					<?php endforeach; ?>
 				</table>
 				<?php endif; ?>
-			<?php if ($this->session->has_userdata('id')): ?>
-				<?php if ($subscribed): ?>
-					<a href="<?php echo site_url('/userplaylists/unsubscribe/'.$playlist['id']); ?>" class="btn btn-primary">unsubscribe</a>
-				<?php else: ?>
-					<a href="<?php echo site_url('/userplaylists/subscribe/'.$playlist['id']); ?>" class="btn btn-primary">Subscribe</a>
-				<?php endif ?>
-			<?php endif ?>
-			<?php if ($user_id === $author_id || $admin): ?>
-				<a href="<?php echo site_url('/userplaylists/edit/'.$playlist['id']); ?>" class="btn btn-secondary">Edit</a>
-			<?php endif; ?>
 		<?php else: ?>
 			<h2 class="text-muted">You do not have permission to view this private playlist, please <a href="<?php echo site_url('users/login'); ?>">log in</a>.</h2>
-		<?php endif;  ?>
+		<?php endif; ?>
 		</div>
 	</div>
 </div>
