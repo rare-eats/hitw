@@ -67,7 +67,9 @@
 				<div class="card-block">
 				<a style="text-decoration: none;" href="/userplaylists/view/<?php echo $playlist['id'] ?>">
 					<div class="card-body">
-						<h4 class="text-dark"><?php echo $playlist['title']; ?></h4>
+						<h4 class="text-dark"><?php if ($playlist['private']): ?>
+						<span class="text-muted"><i class="fa fa-lock" aria-label="private"></i> (Private)</span>
+					<?php endif; ?> <?php echo $playlist['title']; ?></h4>
 						<p class="card-text text-dark"><?php echo $playlist['desc']; ?></p>
 					</div>
 				</a>

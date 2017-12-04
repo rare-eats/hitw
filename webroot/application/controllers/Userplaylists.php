@@ -53,15 +53,18 @@ class Userplaylists extends CI_Controller {
 		$this->load->helper('form');
 
 		$data['title'] = "User Playlists";
+		$data['user_id'] = $this->session->id;
 		
 		if (!isset($_GET['terms'])) {
-			$data['playlists'] = $this->userplaylists_model->get_playlist();
+			$data['playlists'] = $this->security->xss_clean($this->userplaylists_model->search_playlists());
 		}
 		else
 		{
 			$data['terms'] = $this->input->get('terms');
 			$data['playlists'] = $this->security->xss_clean($this->userplaylists_model->search_playlists($data['terms']));
 		}
+
+		// var_dump($data['playlists']);
 
 		foreach ($data['playlists'] as $key => $playlist) {
 			$author = $this->security->xss_clean(($this->users_model->get_user($playlist['author_id']))[0]);

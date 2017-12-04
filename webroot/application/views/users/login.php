@@ -9,7 +9,7 @@
             echo '<p class="text-danger">'.$error_msg.'</p>';
         }
     ?>
-    <?php echo form_open('users/login'); ?>
+    <?php echo form_open('/users/login'); ?>
         <div class="form-group has-feedback">
                 <input type="email" class="form-control" name="email" placeholder="Email" required="" value="">
                 <?php echo form_error('email','<span class="help-block">','</span>'); ?>
@@ -22,7 +22,7 @@
                 <input type="submit" name="loginSubmit" class="btn btn-primary" value="Login"/>
             </div>
         </form>
-        <p class="footInfo">Don't have an account? <a href="create/">Register here</a></p>
+        <p class="footInfo">Don't have an account? <a href="/users/create/">Register here</a></p>
         </div>
     </div>
 </div>

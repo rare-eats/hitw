@@ -76,7 +76,10 @@
 		<a href="/userplaylists/view/<?php echo $playlist['id']; ?>" style="text-decoration: none;">
 			<div class="card">
 				<div class="card-body">
-					<h3 class="card-title"><?php echo $playlist['title']; ?></h3>
+					<h3 class="card-title"><?php if ($playlist['private']): ?>
+						<span class="text-dark"><i class="fa fa-lock" aria-label="private"></i> (Private)</span>
+					<?php endif; ?>
+					<?php echo $playlist['title']; ?></h3>
 					<p class="card-text text-dark"><?php echo $playlist['desc']; ?></p>
 				</div>
 			</div>
