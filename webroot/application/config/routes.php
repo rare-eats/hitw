@@ -93,3 +93,5 @@ $route['restaurants/(:num)/reviews/thumbs_up']['PUT'] = 'reviews/thumbs_up/$1';
 $route['restaurants/(:num)/reviews/thumbs_down']['PUT'] = 'reviews/thumbs_down/$1';
 $route['restaurants/(:num)/upvote']['PUT'] = 'restaurants/upvote/$1';
 $route['restaurants/(:num)/downvote']['PUT'] = 'restaurants/downvote/$1';
+
+$route['users/login/(.+)'] = 'users/login/$1';
