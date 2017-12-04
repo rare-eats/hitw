@@ -41,18 +41,42 @@ class Userplaylists_model extends CI_Model {
 	public function search_playlists($terms = FALSE) {
 			
 		$user_id = $this->session->id;
+		$admin = $this->users_model->is_admin();
 
 		// if ($terms === FALSE) 
-		$term = strtolower($terms);
-		$this->db->like('LOWER(title)', $term);
-		$this->db->or_like('desc', $term);
+		// if (!$admin) {
+		// 	$this->db->where('private', FALSE);
+			
+		// 	if (!empty($user_id)) { 
+		// 		$this->db->or_where('author_id', $user_id);	
+		// 	}
+		// }
 		
-		if (!$this->users_model->is_admin()) {
-			$this->db->where('private', FALSE);
+		$term = strtolower($terms);
+
+		if(!($admin)) {	
+			$query = $this->db->select('*')->from('user_playlists')
+				->group_start()
+					->where('private', FALSE)
+					->or_where('author_id', $user_id)
+				->group_end()
+				->group_start()
+					->like('LOWER(title)', $term)
+					->or_like('desc', $term)
+				->group_end()
+				->limit(64)
+			->get();
 		}
-		$this->db->where('author_id', $user_id);	
-		$this->db->limit(64);
-		$query = $this->db->get('user_playlists');
+		else 
+		{
+			$query = $this->db->select('*')->from('user_playlists')->get();
+		}
+
+		// $this->db->like('LOWER(title)', $term);
+		// $this->db->or_like('desc', $term);
+		
+		// $this->db->limit(64);
+		// $query = $this->db->get('user_playlists');
 		
 		return $query->result_array();
 	}
