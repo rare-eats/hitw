@@ -55,8 +55,6 @@
 				<p>No tags.</p>
 			<?php endif; ?>
 			</p>
-			<a href="<?php echo site_url('/restaurants/edit/'.$restaurant['id']); ?>" class="btn btn-secondary">Edit</a>
-
 			<hr />
 
 		<?php if(empty($photos)): ?>

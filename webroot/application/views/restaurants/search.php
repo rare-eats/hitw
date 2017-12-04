@@ -2,7 +2,7 @@
 
 <div class="card">
 	<div class="card-body">
-		<h2 class="text-center">Restaurants Search</h2>
+		<h2 class="text-center">Restaurant Search</h2>
 <?php $attr = [ 'class' => 'form-inline', 'method' => 'get'];
 	echo form_open('restaurants/search', $attr); 
 ?>

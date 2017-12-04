@@ -17,8 +17,8 @@
 		<div class="card-header" role="tab" id="headingOne">
 			<a style="text-decoration: none;" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 				<div class="clearfix">
-					<span class="float-right text-muted">&#9660;</span>
-					<h4 class="mb-0 text-center">Account Details</h4>
+					<span class="float-right text-muted"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
+					<h4 class="mb-0 text-center"><i class="fa fa-id-card" aria-hidden="true"></i> Account Details</h4>
 				</div>
 			</a>
 		</div>
@@ -39,8 +39,8 @@
 						<td><?php echo $user['email'];?></td>
 					</tr>
 				</table>
-			<a href="edit/<?php echo $user['id'];?>" class="btn btn-primary">Edit</a>
-			<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete_modal">Delete Account</button>
+			<a href="edit/<?php echo $user['id'];?>" class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
+			<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete_modal"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete Account</button>
 			</div>
 		</div>
 	</div>
@@ -67,7 +67,7 @@
 		<div class="row">
 			<div class="col">
 				<h2 class="text-center">Lists By Me
-					<small><a href="/userplaylists/create" aria-label="Create a playlist">&plus;</a></small>
+					<a href="/userplaylists/create" aria-label="Create a playlist">&plus;</a>
 				</h2>
 			</div>
 		</div>
