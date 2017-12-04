@@ -44,7 +44,7 @@ class Users extends CI_Controller {
 
         $user = $this->users_model->get_user($id);
         $data['playlists_by'] = $this->security->xss_clean($this->userplaylists_model->get_by_author($id));
-		
+
 		$subscribed_ids = $this->userplaylists_model->get_subscribed($id);
 		foreach ($subscribed_ids as $playlist_id){
 			$data['playlists_subscribed'][] = $this->security->xss_clean($this->userplaylists_model->get_playlist($playlist_id));
@@ -208,10 +208,10 @@ class Users extends CI_Controller {
     }
 
     public function login(){
-
+        $redirect_url=func_get_args();
         $title['title'] = 'Login';
-
         $data = [];
+        $data['redirect_url'] = $redirect_url;
 
         if($this->session->userdata('success_msg')){
             $data['success_msg'] = $this->session->userdata('success_msg');
@@ -237,7 +237,7 @@ class Users extends CI_Controller {
                         $this->session->set_userdata('isUserLoggedIn',TRUE);
                         $this->session->set_userdata('id', $checkLogin['id']);
                         $this->session->set_userdata('permissions', $checkLogin['permissions']);
-                        redirect();
+                        redirect($redirect_url);
                     } else {
                          $data['error_msg'] = 'Wrong email or password, please try again.';
                     }

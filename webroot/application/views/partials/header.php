@@ -6,7 +6,7 @@
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	
+
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 
@@ -60,8 +60,8 @@
 					<a class="nav-link" href="/users/logout"> <i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
 				</li>
 			</ul>
-			<?php else: ?>
-				<a class="nav-link" href="/users/login"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>
+    <?php else:?>
+				<a class="nav-link" href="/users/login<?php echo $_SERVER['REQUEST_URI'];?>"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>
 			<?php endif ?>
 		</div>
 	</nav>

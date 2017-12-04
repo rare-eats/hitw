@@ -9,7 +9,7 @@
             echo '<p class="text-danger">'.$error_msg.'</p>';
         }
     ?>
-    <?php echo form_open('/users/login'); ?>
+    <?php echo form_open('users/login/'.implode('/',$redirect_url));?>
         <div class="form-group has-feedback">
                 <input type="email" class="form-control" name="email" placeholder="Email" required="" value="">
                 <?php echo form_error('email','<span class="help-block">','</span>'); ?>
