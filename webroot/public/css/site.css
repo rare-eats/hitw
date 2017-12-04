@@ -4,6 +4,15 @@ body, html {
 	background-color: #A0A0A0;
 }
 
+
+
+.front-page-img {
+    background-image: linear-gradient(rgba(255,255,255,0.7),rgba(255,255,255,0.7)),url(/front-page.jpg);
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+
+
 .navbar-brand img {
 	width: 42px;
 }
@@ -76,26 +85,26 @@ input:focus, .btn:focus, .btn:active {
 	font-size: 1.2rem;
 }
 
-@media (min-width: 576px) { 
+@media (min-width: 576px) {
 	.carousel-item {
 		height: 200px;
 	}
 
 }
 
-@media (min-width: 768px) { 
+@media (min-width: 768px) {
 	.carousel-item {
 		height: 300px;
 	}
 }
 
-@media (min-width: 992px) { 
+@media (min-width: 992px) {
 	.carousel-item {
 		height: 400px;
 	}
 }
 
-@media (min-width: 1200px) { 
+@media (min-width: 1200px) {
 	.carousel-item {
 		height: 600px;
 	}
