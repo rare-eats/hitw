@@ -33,11 +33,7 @@ h1, h2, h3, h4, card-title, text-primary, h2 a {
 	font-weight: 500;
 }
 
-input:focus {
-	border-color: #cd775a !important;
-}
-
-input:focus, .btn:focus, .btn:active {
+.btn:focus, .btn:active {
 	box-shadow: 0 0 0.5rem rgba(205, 119, 90,.5) !important;
 }
 

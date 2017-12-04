@@ -11,7 +11,7 @@
 		</div>
 		<div class="form-group">
 			<label>Tags</label>
-			<select multiple class="form-control" name="tags[]" id="tag-select">
+			<select multiple class="form-control form-control-chosen" name="tags[]" id="tag-select" multiple>
 				<?php foreach($tags as $tag): ?>
 					<option value="<?php echo $tag['id']; ?>"><?php echo $tag['name']; ?></option>
 				<?php endforeach; ?>
