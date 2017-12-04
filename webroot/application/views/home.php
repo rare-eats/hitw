@@ -2,7 +2,7 @@
 <?php if (isset($author_id)): ?>
 	   	<div class="row heading">
 			<div class="col text-center">
-				<h2 class="display-2">Explore</h2>
+				<h2 class="display-3">Explore</h2>
 			</div>
 		</div>
 		<div class="row d-flex flex-row">
@@ -41,7 +41,7 @@
 	    </div>
 	<div class="row heading">
 		<div class="col text-center">
-			<h2 class="display-2"><a style="text-decoration: none; color: #ec1046" href="/users/view">My Lists</a> <a href="/userplaylists/create">&plus;</a></h2>
+			<h2 class="display-3"><a style="text-decoration: none; color: #ec1046" href="/users/view">My Lists</a> <a href="/userplaylists/create">&plus;</a></h2>
 		</div>
 	</div>
 	<div class="row d-flex flex-row">
@@ -69,10 +69,33 @@
 		<?php endif; ?>
 		</div>
 	</div>
+<?php else: ?>
+	<div class="jumbotron jumbotron-fluid front-page-img">
+		<div class="container text-center">
+			<h1 class="display-2">Rare Eats</h1>
+			<p class="lead"><strong>Find and Discover Restaurants You Love</strong></p>
+			<hr class="my-4">
+			<div class="font-weight-bold" style="display: inline-block; text-align: left;">
+				<p>
+					<i class="fa fa-check" aria-hidden="true"></i>&nbsp; Create lists of your favorite restaurants
+				</p>
+				<p>
+					<i class="fa fa-check" aria-hidden="true"></i>&nbsp; Receive recommendations based on your favorite eats
+				</p>
+			</div>
+			<p class="lead">
+			<a class="btn btn-primary btn-lg" href="/users/create" role="button">Sign Up</a>
+			</p>
+			<p class="font-weight-bold">Already Have an Account?</p>
+			<p class="lead">
+			<a class="btn btn-primary btn-sm" href="/users/login" role="button">Login</a>
+			</p>
+		</div>
+	</div>
 <?php endif ?>
 	<div class="row heading">
 		<div class="col text-center">
-			<h2 class="display-2">Quick Bites</h2>
+			<h2 class="display-3">Featured Eats</h2>
 		</div>
 	</div>
 	<div class="row d-flex flex-row">
