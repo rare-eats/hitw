@@ -15,13 +15,15 @@
 					?>
 				</p>
 			<?php if ($user_id === $author_id || $admin): ?>
-				<a href="<?php echo site_url('/userplaylists/edit/'.$playlist['id']); ?>" class="btn btn-secondary">Edit</a>
+			<div class="mb-2">
+				<a href="<?php echo site_url('/userplaylists/edit/'.$playlist['id']); ?>" class="btn btn-secondary mb-2">Edit</a>
 			<?php elseif ($this->session->has_userdata('id')): ?>
 				<?php if ($subscribed): ?>
 					<a href="<?php echo site_url('/userplaylists/unsubscribe/'.$playlist['id']); ?>" class="btn btn-primary">Unsubscribe</a>
 				<?php else: ?>
 					<a href="<?php echo site_url('/userplaylists/subscribe/'.$playlist['id']); ?>" class="btn btn-primary">Subscribe</a>
 				<?php endif ?>
+			</div>
 			<?php endif ?>
 				<?php if (empty($restaurants)): ?>
 					<p class="text-muted">This playlist is empty.</p>

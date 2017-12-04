@@ -39,19 +39,21 @@ class Userplaylists_model extends CI_Model {
 
 	# Returns all if no terms specified
 	public function search_playlists($terms = FALSE) {
-		if ($terms === FALSE) {
-			return get_playlist();
-		}
+			
 		$user_id = $this->session->id;
 
+		// if ($terms === FALSE) 
 		$term = strtolower($terms);
-
 		$this->db->like('LOWER(title)', $term);
 		$this->db->or_like('desc', $term);
-		$this->db->where('author_id', $user_id);	
-		$this->db->or_where('private', 'FALSE');
+		
+		// if (!$this->users_model->is_admin()) {
+			$this->db->where('private', FALSE);
+		// }
+		// $this->db->where('author_id', $user_id);	
 		$this->db->limit(64);
 		$query = $this->db->get('user_playlists');
+		
 		return $query->result_array();
 	}
 
