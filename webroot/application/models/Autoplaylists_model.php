@@ -182,6 +182,7 @@ sql
                 }
                 if ($recommended) {
                     $this->autoplaylists_model->create_recommendation_list($author_id, $recommended);
+                    return $this->autoplaylists_model->get_recommended_playlist($author_id);
                 }
             }
         } else {
@@ -222,6 +223,7 @@ sql
                 $tag_name = ['American', 'Chinese'];
             }
             $this->autoplaylists_model->create_playlist_by_data($data, $tag_name);
+            return $this->autoplaylists_model->get_playlist_by_time($user_id);
         }
     }
 
@@ -299,6 +301,7 @@ sql
                 $tag_name = ['Cafe', 'Dessert'];
             }
             $this->autoplaylists_model->create_playlist_by_data($data, $tag_name);
+            return  $this->autoplaylists_model->get_playlist_by_season($user_id);
         }
     }
 
