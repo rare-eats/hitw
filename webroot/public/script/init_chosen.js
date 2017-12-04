@@ -1,1 +1,1 @@
-$(".chosen-select").chosen();
+$(".form-control-chosen").chosen();

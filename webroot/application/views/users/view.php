@@ -45,15 +45,34 @@
 		</div>
 	</div>
 	<div class="my-sm-3 mx-sm-3">
+		<div class="col">
+			<h2 class="text-center">My Subscribed Lists</h2>
+		</div>
+<?php if(!empty($playlists_subscribed)):?>
+	<?php foreach ($playlists_subscribed as $key => $playlist): ?>
+		<a href="/userplaylists/view/<?php echo $playlist['id']; ?>" style="text-decoration: none;">     
+			<div class="card">
+				<div class="card-body">
+					<h3 class="card-title"><?php echo $playlist['title']; ?></h3>
+					<p class="card-text text-dark"><?php echo $playlist['desc']; ?></p>
+				</div>
+			</div>
+		</a>
+	<?php endforeach; ?>
+<?php else: ?>
+	<p class="text-muted">You are currently not subscribed to any lists.</p>
+<?php endif; ?>
+	</div>
+	<div class="my-sm-3 mx-sm-3">
 		<div class="row">
 			<div class="col">
-				<h2 class="text-center">My Lists 
+				<h2 class="text-center">Lists By Me 
 					<small><a href="/userplaylists/create" aria-label="Create a playlist">&plus;</a></small>
 				</h2>
 			</div>
 		</div>
-<?php if(!empty($playlists)):?>
-	<?php foreach ($playlists as $key => $playlist): ?>
+<?php if(!empty($playlists_by)):?>
+	<?php foreach ($playlists_by as $key => $playlist): ?>
 		<a href="/userplaylists/view/<?php echo $playlist['id']; ?>" style="text-decoration: none;">     
 			<div class="card">
 				<div class="card-body">
