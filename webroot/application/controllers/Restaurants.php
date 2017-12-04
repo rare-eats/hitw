@@ -10,6 +10,25 @@ class Restaurants extends CI_Controller {
 		$this->load->helper('form');
 	}
 
+
+	#https://api.foursquare.com/v2/venues/4aa7f646f964a5203d4e20e3?v=20171125&client_id=WCJXKICZZ3FVGLCCQNJQ3XL3WXDCX5GVFRF5E1PYLQ5MUEMI&client_secret=WQU20OQPUUCLSTZUFNL5C3DH52JZ3AHFT1XQ1WYIRZM3QTMH&group=venue&limit=5
+	public function getLatLng($api_id){
+	    $id_secret = $this->restaurants_model->get_id_and_secret();
+        $url = "https://api.foursquare.com/v2/venues/" . $api_id . "?v=20171125&client_id=" . $id_secret[0] . "&client_secret=" .
+            $id_secret[1] . "&group=venue&limit=5";
+
+        $fourSearch = file_get_contents($url);
+        if (!is_null($fourSearch)){
+            #Parse
+            $parsedJson = json_decode($fourSearch);
+            $lat = $parsedJson->response->venue->location->lat;
+            $lng = $parsedJson->response->venue->location->lng;
+            return array($lat, $lng);
+        }
+
+        return null;
+    }
+
 	public function view($id = NULL) {
 		$this->load->helper('form');
 
@@ -25,6 +44,12 @@ class Restaurants extends CI_Controller {
 			redirect('/restaurants');
 			return; // Don't continue if there was no data
 		}
+
+		#https://www.google.com/maps/search/?api=1&query=47.5951518,-122.3316393
+        if (!empty($data['restaurant']['restaurant_type'])) {	
+        	$latlng = $this->getLatLng($data['restaurant']['api_id']);
+			$data['restaurant']['latlng'] = $latlng;
+        }
 
 		$data['restaurant_id']	= $id;
 

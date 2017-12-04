@@ -157,7 +157,7 @@ sql
             #we now have all IDs and all category shortNames, and these can be written to the database.
             #The only other relevant data here is an icon url which feels not relevant enough for our purposes.
 
-            var_dump($catNames);
+            #var_dump($catNames);
 
         }catch(Exception $e){
         }

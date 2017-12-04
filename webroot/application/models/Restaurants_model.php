@@ -6,7 +6,7 @@ class Restaurants_model extends CI_Model {
 		$this->load->database();
 	}
 
-    private function get_id_and_secret(){
+    public function get_id_and_secret(){
         #backup client id: IREJNTZAUVFPPDAEJ2EY0L4AHKFGYMPUB4RKEHJG5QK20AXS
         #backup secret: WVP24YF0O504XZ4QMOQ3TPKZ3DZI3KYYO3ODP3DR0SKHZ2FX
         $client_id = "WCJXKICZZ3FVGLCCQNJQ3XL3WXDCX5GVFRF5E1PYLQ5MUEMI";
@@ -172,7 +172,8 @@ class Restaurants_model extends CI_Model {
 		{
 		    $loadable_venue = TRUE;
 			try{
-			    if ($v != null && $v->categories != null){
+			    #If there is a venue, and it has categories, and it has nothing in the venuechains JSON, it passes muster.
+			    if ($v != null && $v->categories != null && empty($v->venueChains)){
 			        $venue_categories = array();
 			        foreach ($v->categories as $cat){
 			            #Look for this category, associate it with that category in the joining table if it exists.  If it doesn't exist, it's not a restaurant we want.

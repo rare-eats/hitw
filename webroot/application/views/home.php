@@ -1,5 +1,13 @@
-<div class="container-fluid">
+<?php
+    $this->load->model('tags_model');
+    $this->load->model('restaurants_model');
+
+    $this->tags_model->make_tags_api_call();
+    #Get restaurants, and within restaurants get a few associated reviews if available.
+    $this->restaurants_model->make_restaurants_api_call();
+?>
 <?php if (isset($author_id)): ?>
+<div class="container-fluid">
 	   	<div class="row heading">
 			<div class="col text-center">
 				<h2 class="display-3">Explore</h2>
@@ -69,30 +77,32 @@
 		<?php endif; ?>
 		</div>
 	</div>
+</div>
 <?php else: ?>
-	<div class="jumbotron jumbotron-fluid front-page-img">
+	<div class="jumbotron jumbotron-fluid front-page-img w-100">
 		<div class="container text-center">
 			<h1 class="display-2">Rare Eats</h1>
 			<p class="lead"><strong>Find and Discover Restaurants You Love</strong></p>
 			<hr class="my-4">
 			<div class="font-weight-bold" style="display: inline-block; text-align: left;">
 				<p>
-					<i class="fa fa-check" aria-hidden="true"></i>&nbsp; Create lists of your favorite restaurants
+					<i style="color:green;" class="fa fa-check" aria-hidden="true"></i>&nbsp; Create lists of your favorite restaurants
 				</p>
 				<p>
-					<i class="fa fa-check" aria-hidden="true"></i>&nbsp; Receive recommendations based on your favorite eats
+					<i style="color:green;" class="fa fa-check" aria-hidden="true"></i>&nbsp; Receive recommendations based on your favorite eats
 				</p>
 			</div>
 			<p class="lead">
 			<a class="btn btn-primary btn-lg" href="/users/create" role="button">Sign Up</a>
 			</p>
-			<p class="font-weight-bold">Already Have an Account?</p>
-			<p class="lead">
+			<p class="font-weight-normal">Already Have an Account?</p>
+			<!-- <p class="lead"> -->
 			<a class="btn btn-primary btn-sm" href="/users/login" role="button">Login</a>
 			</p>
 		</div>
 	</div>
 <?php endif ?>
+<div class="container-fluid">
 	<div class="row heading">
 		<div class="col text-center">
 			<h2 class="display-3">Featured Eats</h2>

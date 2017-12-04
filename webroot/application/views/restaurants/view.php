@@ -21,6 +21,9 @@
 			</h2>
 			</div>
 			<p class="card-text">
+				<?php if (!empty($restaurant['latlng'])): ?>
+					<a class="btn btn-xs btn-link align-right" href="<?php echo "https://www.google.com/maps/search/?api=1&query=" . $restaurant['latlng'][0] . "," . $restaurant['latlng'][1];?>"><i class="fa fa-map-marker" aria-hidden="true"></i></a>
+				<?php endif; ?>
 				<?php
 				if (empty($restaurant['addr_1']))
 				{
@@ -52,13 +55,12 @@
 				<p>No tags.</p>
 			<?php endif; ?>
 			</p>
-		<?php if(!empty($admin)): ?>
-			<a href="<?php echo site_url('/restaurants/edit/'.$restaurant['id']); ?>" class="btn btn-primary">Edit</a>
-		<?php endif; ?>
-		</div>
+			<a href="<?php echo site_url('/restaurants/edit/'.$restaurant['id']); ?>" class="btn btn-secondary">Edit</a>
+
+			<hr />
 
 		<?php if(empty($photos)): ?>
-			<img src="http://via.placeholder.com/800x300" alt="Placeholder">
+			<img class="w-100" src="http://via.placeholder.com/800x300" alt="Placeholder">
 		<?php else: ?>
 		<div id="image_carousel" class="carousel slide" data-ride="carousel">
 			<ol class="carousel-indicators">

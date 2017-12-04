@@ -29,17 +29,11 @@
 		<div class="card">
 			<div class="card-body">
 			<h3><?php echo $restaurant['name']; ?>
-			<small class="text-muted">(<?php 
-				if (empty($restaurant['rating'])) 
-				{
-					echo 'No ratings yet';
-				}
-				else
-				{
-					echo $restaurant['rating'];
-					echo '/5'; 
-				}
-			?>)</small></h3>
+			<small class="text-muted">(
+				<i class="fa fa-thumbs-o-up" aria-label="Thumbs up"></i> <?php echo $restaurant['upvotes']; ?> &nbsp;|&nbsp;
+				<i class="fa fa-thumbs-o-down" aria-label="Thumbs down"></i>
+				<?php echo $restaurant['downvotes']; ?>
+			)</small></h3>
 		</div>
 	</div>
 	</a>
