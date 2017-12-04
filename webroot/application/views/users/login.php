@@ -22,7 +22,7 @@
                 <input type="submit" name="loginSubmit" class="btn btn-primary" value="Login"/>
             </div>
         </form>
-        <p class="footInfo">Don't have an account? <a href="create/">Register here</a></p>
+        <p class="footInfo">Don't have an account? <a href="/users/create/">Register here</a></p>
         </div>
     </div>
 </div>

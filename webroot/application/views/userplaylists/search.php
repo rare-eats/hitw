@@ -28,10 +28,13 @@
 	<a style="text-decoration: none;" href="<?php echo site_url('userplaylists/'.$playlist['id']); ?>">
 		<div class="card">
 			<div class="card-body">
-				<h3><?php echo $playlist['title']; ?> 
+				<h3><?php if ($playlist['private']): ?>
+						<span class="text-dark"><i class="fa fa-lock" aria-label="private"></i> (Private)</span>
+					<?php endif; ?> <?php echo $playlist['title']; ?> 
 					<small class="text-muted">
-						by <?php echo $playlist['author_name'][0]; ?>
-					</small></h3>
+						by <span class="text-dark"><?php if ($this->session->id !== $playlist['author_id']) { echo $playlist['author_name'][0]; }
+						else { echo 'you'; } ?>
+					</span></small></h3>
 				<p class="card-text text-dark"><?php echo $playlist['desc']; ?></p>
 			</div>
 		</div>

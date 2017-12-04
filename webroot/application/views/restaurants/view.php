@@ -99,7 +99,7 @@
 								<div class="form-control-lg input-group">
 									<select data-placeholder="Add to Playlist" class="form-control form-control-chosen" id="playlist-select" name="playlist">
 									<?php foreach($playlists as $row): ?>
-										<option value="<?php echo $row['id'] ?>"><?php echo $row['title'] ?></option>
+										<option value="<?php echo $row['id'] ?>"><?php if ($row['private']) { echo '(Private)'; } ?> <?php echo $row['title'] ?></option>
 									<?php endforeach; ?>
 									</select>
 									<span class="input-group-btn">
