@@ -6,14 +6,14 @@
 			<h2><?php echo $restaurant['name']; ?>
 				<small class="text-muted">
 					<div class='btn-group col-md-2 col-sm-12'>
-					<button id = "thumbs_up" type="submit" class="btn btn-primary btn-xs" data-restaurant_id="<?php echo $restaurant['id']; ?>" style="margin-right:5px" 
+					<button id = "thumbs_up" type="submit" class="btn btn-primary btn-xs" data-restaurant_id="<?php echo $restaurant['id']; ?>" style="margin-right:5px"
 						<?php if(empty($user_id)){ echo 'disabled';} if(!empty($user_review) && isset($user_review['rating']) && $user_review['rating']==TRUE){ echo 'active'; }?>>
 			        		<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
 			        		<?php if (($restaurant['upvotes'])==1){ echo '1 like ';} else{ echo $restaurant['upvotes'], ' likes ';}?>
 			     	</button>
 						<button id = "thumbs_down" type="submit" class="btn btn-primary btn-xs" data-restaurant_id="<?php echo $restaurant['id']; ?>"
 							<?php if(empty($user_id)){ echo 'disabled'; } if(!empty($user_review) && isset($user_review['rating']) && $user_review['rating']==FALSE){ echo 'active'; }?>>
-							<i class="fa fa-thumbs-o-down" aria-hidden="true"></i> 
+							<i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
 							<?php if (($restaurant['downvotes'])==1){ echo '1 dislike ';} else{ echo $restaurant['downvotes'], ' dislikes ';}?>
 						</button>
 					</div>
@@ -90,7 +90,7 @@
 			<div class="text-center">
 				<h3 class="card-title text-center">Add to Playlist</h3>
 				<?php if(empty($playlists)): ?>
-					<p class="text-center text-muted">You don't have any playlists yet.</p> 
+					<p class="text-center text-muted">You don't have any playlists yet.</p>
 					<a class="btn btn-primary" href="<?php echo site_url('/userplaylists/create'); ?>">Create a playlist</a>
 				<?php else: ?>
 					<div class="text-success"><span id="added-message"></span></div>
@@ -155,7 +155,7 @@
 			<?php endif; ?>
 
 			<?php if(empty($user_id)): ?>
-				<p class="text-center"><a href="/users/login">Log in to leave a review.</a></p>
+				<p class="text-center"><a href="/users/login<?php echo $_SERVER['REQUEST_URI'];?>">Log in to leave a review.</a></p>
 			<?php elseif(empty($user_review) || !isset($user_review[0]['body'])): ?>
 				<p class="text-center">Let your voice be heard, leave a review now!</p>
 					<form action="/restaurants/<?php echo $restaurant_id; ?>/review/put" method="post" accept-charset="utf-8">
