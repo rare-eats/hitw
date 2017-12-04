@@ -7,7 +7,7 @@
 	<div>
 		<?php echo form_open('users/search', ['class' => 'form-inline']); ?>
 		<div class="form-group my-sm-3 mx-sm-3">
-			<input class="form-control" type="text" name="search" placeholder="Find Friends"/>
+			<input class="form-control" type="text" name="search" placeholder="Find Friends by Email"/>
 		</div>
 			<button type="submit" class="btn btn-primary">Search</button>
 		</form>
@@ -50,7 +50,7 @@
 		</div>
 <?php if(!empty($playlists_subscribed)):?>
 	<?php foreach ($playlists_subscribed as $key => $playlist): ?>
-		<a href="/userplaylists/view/<?php echo $playlist['id']; ?>" style="text-decoration: none;">     
+		<a href="/userplaylists/view/<?php echo $playlist['id']; ?>" style="text-decoration: none;">
 			<div class="card">
 				<div class="card-body">
 					<h3 class="card-title"><?php echo $playlist['title']; ?></h3>
@@ -66,14 +66,14 @@
 	<div class="my-sm-3 mx-sm-3">
 		<div class="row">
 			<div class="col">
-				<h2 class="text-center">Lists By Me 
+				<h2 class="text-center">Lists By Me
 					<small><a href="/userplaylists/create" aria-label="Create a playlist">&plus;</a></small>
 				</h2>
 			</div>
 		</div>
 <?php if(!empty($playlists_by)):?>
 	<?php foreach ($playlists_by as $key => $playlist): ?>
-		<a href="/userplaylists/view/<?php echo $playlist['id']; ?>" style="text-decoration: none;">     
+		<a href="/userplaylists/view/<?php echo $playlist['id']; ?>" style="text-decoration: none;">
 			<div class="card">
 				<div class="card-body">
 					<h3 class="card-title"><?php echo $playlist['title']; ?></h3>
