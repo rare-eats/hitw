@@ -118,5 +118,10 @@ By _WebsiteDispenser_
     - Knowledge of CodeIgniter
     - Vagrant (and webserver) setup
 
+## Known Bugs:
 
+(QA Testing By Andy Sun)
+- Subscription to a public list that is later turned private still shows up on the list of subscribed lists but the subscribed user cannot access it because its been made private
+- min-length for password is only implemented on the front end and can easily be deleted through "inspect element"
+- email validation does not have a server side validation
 

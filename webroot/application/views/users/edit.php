@@ -16,7 +16,7 @@
                 <?php echo form_input($email); ?>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
-        <a href="/" class="btn btn-link">Cancel</a>
+        <a href="/users/view" class="btn btn-link">Cancel</a>
     </form>
         </div>
     </div>

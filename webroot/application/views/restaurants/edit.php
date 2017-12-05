@@ -7,7 +7,7 @@
 		<p class="text-center">Fields marked with an asterisk (*) are mandatory.</p>
 		<div class="form-group">
 			<label for="name">Restaurant Name*</label>
-			<input type="text" id="name" name="name" class="form-control" value="<?php echo $restaurant['name']; ?>" required>	
+			<input type="text" id="name" name="name" class="form-control" value="<?php echo $restaurant['name']; ?>" required>
 		</div>
 		<div class="form-group">
 			<label>Tags</label>
@@ -35,8 +35,8 @@
 		</div>
 		<div class="row">
 			<div class="col text-center">
-				<button type="submit" class="btn btn-primary">Edit</button>
-				<a class="btn btn-secondary" href="<?php echo site_url('restaurants/view/'.$restaurant['id']); ?>">Cancel</a>
+				<button type="submit" class="btn btn-primary">Save</button>
+				<a class="btn btn-secondary" href="/restaurants/view/<?php echo $restaurant['id']; ?>">Cancel</a>
 				<!-- Button trigger modal -->
 				<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteRestaurantModal">Delete</button>
 			</div>

@@ -55,6 +55,7 @@ class Tags_model extends CI_Model {
 		{
 			$this->db->where('restaurant_id', $restaurant_id);
 		}
+        $this->db->order_by('name','ASC');
 		$query = $this->db->get('tags');
 		return [
 			'success'=>TRUE,
