@@ -44,7 +44,7 @@ By _WebsiteDispenser_
             - The second is that Foursquare was the most familiar tool of the three to our team, letting us start development faster.
             - The third was that the functionality on the 'free' tier was more flexible for Foursquare than it was for Places or Zomato, despite having inferior data available and requiring more navigation.
     - "What data did you scalp?"
-        -Since this is not a live website, and is merely a demonstration, we chose a specific set of data to load.  This included restaurants from some cherrypicked categories, targeted to help us create recommendation lists based on time of day.
+        - Since this is not a live website, and is merely a demonstration, we chose a specific set of data to load.  This included restaurants from some cherrypicked categories, targeted to help us create recommendation lists based on time of day.
             - the general 'Food' category, which encompasses all restaurants
             - Breakfast
             - Cafes
