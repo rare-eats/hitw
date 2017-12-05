@@ -92,16 +92,26 @@ class Users extends CI_Controller {
             'placeholder'   => 'Password'
         ];
 
+        $password_confirm = [
+            'name'          => 'password',
+            'type'          => 'password',
+            'minlength'     => '10',
+            'class'         => 'form-control',
+            'placeholder'   => 'Confirm Password'
+        ];
+
         $data = [
             'first_name' => $first_name,
             'last_name'  => $last_name,
             'email'      => $email,
-            'password'   => $password
+            'password'   => $password,
+            'password_confirm' => $password_confirm
         ];
 
         $this->form_validation->set_rules('first_name', 'First Name', 'required');
         $this->form_validation->set_rules('last_name', 'Last Name', 'required');
         $this->form_validation->set_rules('password', 'Password', ['required', 'min_length[10]']);
+        $this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]');
         $this->form_validation->set_rules('email', 'Email', ['required', 'valid_email']);
 
         if ($this->form_validation->run() == FALSE) {

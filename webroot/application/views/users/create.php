@@ -18,6 +18,9 @@
             <div class="form-group">
                 <?php echo form_password($password); ?>
             </div>
+            <div class="form-group">
+                <?php echo form_password($password_confirm); ?>
+            </div>
             <button type="submit" class="btn btn-primary">Submit</button>
             <a href="/" class="btn btn-secondary">Cancel</a>
         </form>
