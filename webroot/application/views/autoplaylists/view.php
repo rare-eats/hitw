@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-body">
             <div class="clearfix">
-                <a class="btn btn-secondary float-right" aria-label="Return to Playlist Search" href="/">&times;</a>
+                <a class="btn btn-secondary float-right" href="/"><i class="fa fa-level-up" aria-label="return to list"></i></a>
                 <h2><?php echo $playlist['title']; ?>
                     <br><small class="text-muted">
                 </small></h2>

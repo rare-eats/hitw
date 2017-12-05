@@ -42,15 +42,6 @@ class Userplaylists_model extends CI_Model {
 			
 		$user_id = $this->session->id;
 		$admin = $this->users_model->is_admin();
-
-		// if ($terms === FALSE) 
-		// if (!$admin) {
-		// 	$this->db->where('private', FALSE);
-			
-		// 	if (!empty($user_id)) { 
-		// 		$this->db->or_where('author_id', $user_id);	
-		// 	}
-		// }
 		
 		$term = strtolower($terms);
 
@@ -71,12 +62,6 @@ class Userplaylists_model extends CI_Model {
 		{
 			$query = $this->db->select('*')->from('user_playlists')->get();
 		}
-
-		// $this->db->like('LOWER(title)', $term);
-		// $this->db->or_like('desc', $term);
-		
-		// $this->db->limit(64);
-		// $query = $this->db->get('user_playlists');
 		
 		return $query->result_array();
 	}

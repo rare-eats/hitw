@@ -2,7 +2,7 @@
 	<div class="card">
 		<div class="card-body">
 			<div class="clearfix">
-				<a class="btn btn-secondary float-right" aria-label="Return to Restaurant List" href="/restaurants">&times;</a>
+				<a class="btn btn-secondary float-right" aria-label="Return to Restaurant List" href="/restaurants"><i class="fa fa-level-up" aria-label="return to list"></i></a>
 			<h2><?php echo $restaurant['name']; ?>
 				<small class="text-muted">
 					<div class='btn-group col-md-2 col-sm-12'>
