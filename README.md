@@ -70,6 +70,7 @@ By _WebsiteDispenser_
     - overlord@example.com
     - pwd: admin
     - can edit/delete restaurants
+    - can create/edit/delete tags
     - can delete user playlists
 
 ## Contributions
@@ -118,8 +119,9 @@ By _WebsiteDispenser_
     - Knowledge of CodeIgniter
     - Vagrant (and webserver) setup
 
-## Known Bugs:
+## Known Bugs/Issues/TODOs:
 
 (QA Testing By Andy Sun)
 - Subscription to a public list that is later turned private still shows up on the list of subscribed lists but the subscribed user cannot access it because its been made private
-
+- Password cannot be reset
+- No proper admin panel. Admin cannot edit user information or view individual user profiles
