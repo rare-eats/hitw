@@ -55,6 +55,10 @@
 				<p>No tags.</p>
 			<?php endif; ?>
 			</p>
+
+			<?php if ($admin): ?>
+				<a href="/restaurants/edit/<?php echo $restaurant['id']; ?>" class="btn btn-secondary">Edit</a>
+			<?php endif; ?>
 			<hr />
 
 		<?php if(empty($photos)): ?>

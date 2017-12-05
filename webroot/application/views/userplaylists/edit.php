@@ -1,7 +1,7 @@
 <div class="container">
 	<div class="card">
 		<div class="card-body">
-		<?php if($this->session->id !== $playlist['author_id']): ?>
+		<?php if($this->session->id !== $playlist['author_id'] && (!$this->users_model->is_admin())): ?>
 			<h3 class="text-danger text-center">You do not have permission to edit this playlist!</h3>
 		<?php else: ?>
 			<h3 class="text-center"><?php echo $title; ?></h3>
