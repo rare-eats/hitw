@@ -4,7 +4,7 @@ By _WebsiteDispenser_
 
 ## What does it do?
 
-- Facilities finding food
+- Facilitates finding food
 - Gives you recommendations based on your preferences in restaurants
 - Ensures enjoyable experiences
 - Displays dependable discussions
