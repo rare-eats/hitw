@@ -3,7 +3,7 @@
 		<div class="card-body">
 		<?php if ($user_id === $author_id || $admin || $playlist['private'] == False): ?>
 				<div class="clearfix">
-					<a class="btn btn-secondary float-right" aria-label="Return to Playlist Search" href="/userplaylists">&times;</a>
+					<a class="btn btn-secondary float-right" aria-label="Return to Playlist Search" href="/userplaylists"><i class="fa fa-level-up" aria-label="return to list"></i></a>
 					<h2><?php echo $playlist['title']; ?>
 						<br><small class="text-muted">
 						author: <a href="<?php echo site_url('userplaylists/user/'.$author_id); ?>"><?php echo $author_name?></a>

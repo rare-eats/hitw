@@ -2,7 +2,10 @@
 
 <div class="card">
 	<div class="card-body">
-		<h2 class="text-center"><?php echo $title; ?></h2>
+		<div class="clearfix">
+            <a class="btn btn-secondary float-right" href="/"><i class="fa fa-level-up" aria-label="return to list"></i></a>
+			<h2 class="text-center"><?php echo $title; ?></h2>
+		</div>
 
 <?php if(empty($playlists)): ?>
 	<h3 class="text-center text-muted">No playlists available.</h3>

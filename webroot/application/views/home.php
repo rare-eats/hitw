@@ -14,9 +14,9 @@
 			</div>
 		</div>
 		<div class="row d-flex flex-row">
-	        <div class="col d-lg-flex justify-content-sm-center">
+	        <div class="col d-lg-flex justify-content-center">
 			<?php if (isset($recommended)): ?>
-		        <div class="card" style="width: 20rem; display: inline-block; margin: 1rem;">
+		        <div class="card">
 		            <a style="text-decoration: none;" href="/autoplaylists/view/<?php echo $recommended['id'] ?>">
 		            <div class="card-body">
 		            	<h4 class="card-title text-dark"><?php echo $recommended['title']; ?></h4>
@@ -26,7 +26,7 @@
 		        </div>
 		    <?php endif ?>
 		   	<?php if (isset($time_list)): ?>
-		        <div class="card" style="width: 20rem; display: inline-block; margin: 1rem;">
+		        <div class="card">
 	        		<a style="text-decoration: none;" href="/autoplaylists/view/<?php echo $time_list['id'] ?>">
 		        	<div class="card-body">
 		            	<h4 class="card-title text-dark"><?php echo $time_list['title']; ?></h4>
@@ -36,7 +36,7 @@
 		        </div>
 		    <?php endif ?>
 		   	<?php if (isset($time_list)): ?>
-		   		<div class="card" style="width: 20rem; display: inline-block; margin: 1rem;">
+		   		<div class="card">
 	        		<a style="text-decoration: none;" href="/autoplaylists/view/<?php echo $season_list['id'] ?>">
 		        	<div class="card-body">
 		            	<h4 class="card-title text-dark"><?php echo $season_list['title']; ?></h4>
@@ -81,7 +81,7 @@
 	</div>
 </div>
 <?php else: ?>
-	<div class="jumbotron jumbotron-fluid front-page-img w-100">
+	<div class="jumbotron jumbotron-fluid front-page-img h-100">
 		<div class="container text-center">
 			<h1 class="display-2">Rare Eats</h1>
 			<p class="lead"><strong>Find and Discover Restaurants You Love</strong></p>
@@ -129,8 +129,8 @@
 				</div>
 				<div class="card-body">
 					<h4 class="card-title"><?php echo $restaurant['name']; ?></h4>
-					</a>
 				</div>
+				</a>
 			</div>
 		<?php endforeach; ?>
 <?php else: ?>
