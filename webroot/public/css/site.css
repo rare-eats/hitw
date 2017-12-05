@@ -1,14 +1,13 @@
 body, html {
 	margin: 0;
 	padding: 0;
-	background-color: #A0A0A0;
+	background-color: #C0C0C0;
 }
-
-
 
 .front-page-img {
     background: linear-gradient(rgba(255,255,255,0.7),rgba(255,255,255,0.7)),url(/front-page.jpg);
-	background-size: 100%;
+	background-size: cover;
+	background-repeat: no-repeat;
 }
 
 .jumbotron {
@@ -30,6 +29,14 @@ a:hover, .btn-link:hover {
 
 h1, h2, h3, h4, card-title, text-primary, h2 a {
 	color: #ec1046;
+}
+
+h1, h2 {
+	text-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+}
+
+h3, h4 {
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
 }
 
 .display-2 {
