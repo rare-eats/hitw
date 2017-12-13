@@ -443,7 +443,7 @@ class Restaurants_model extends CI_Model {
   }
 
   public function get_restaurants_by_ids($ids) {
-      if (isset($ids)) {
+      if (isset($ids) && !empty($ids)) {
           $this->db->where_in('id', $ids);
           $query = $this->db->get('restaurants');
           return $query->result_array();

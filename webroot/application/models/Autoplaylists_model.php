@@ -206,7 +206,7 @@ sql
                     'title'     => 'Good Morning!',
                     'desc'      => 'What do you want for breakfast?'
                 ];
-                $tag_names = ['Breakfast', 'Bakery'];
+                $tag_name = ['Breakfast', 'Bakery'];
             } elseif ($now > 11 && $now <= 15) {
                 $data = [
                     'user_id'   => $user_id,
