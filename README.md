@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Rare Eats
 
 _Discover Restaurants You Love_
@@ -125,3 +126,6 @@ By _WebsiteDispenser_
 - Subscription to a public list that is later turned private still shows up on the list of subscribed lists but the subscribed user cannot access it because its been made private
 - Password cannot be reset
 - No proper admin panel. Admin cannot edit user information or view individual user profiles
+=======
+# hitw
+>>>>>>> 93c30bb9ada070650dd1e12b9db886343eb1c67b
